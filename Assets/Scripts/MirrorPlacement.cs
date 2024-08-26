@@ -7,11 +7,11 @@ public class MirrorPlacement : MonoBehaviour
     public LayerMask placementLayer; // Layer on which mirrors can be placed
     private GameObject currentMirror; // Currently selected mirror to place
     private int mirrorsPlaced = 0;   // Current count of placed mirrors
-    public float rotationSpeed = 1000f; // Speed at which the mirror rotates
+    public float rotationSpeed = 10f; // Speed at which the mirror rotates
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1) && mirrorsPlaced < maxMirrors && currentMirror == null) // Right-click to start placing a mirror
+        if (Input.GetMouseButtonDown(0) && mirrorsPlaced < maxMirrors && currentMirror == null) // Left-click to start placing a mirror
         {
             StartPlacingMirror();
         }
@@ -21,7 +21,7 @@ public class MirrorPlacement : MonoBehaviour
             MoveMirrorToMousePosition();
             RotateMirror();
 
-            if (Input.GetMouseButtonDown(0)) // Left-click to place the mirror
+            if (Input.GetMouseButtonDown(1)) // Right-click to place the mirror
             {
                 PlaceMirror();
             }

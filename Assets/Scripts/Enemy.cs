@@ -8,11 +8,17 @@ public class Enemy : MonoBehaviour
 
     private int currentHealth;
     private Renderer enemyRenderer;
+    private GameManager gameManager;
 
     void Start()
     {
         currentHealth = maxHealth;
         enemyRenderer = GetComponent<Renderer>();
+        gameManager = FindObjectOfType<GameManager>(); // Find GameManager automatically
+        if (gameManager == null)
+        {
+            Debug.LogError("GameManager not found in the scene!");
+        }
         UpdateColor();
     }
 
@@ -38,7 +44,7 @@ public class Enemy : MonoBehaviour
     // Handle the enemy's death
     void Die()
     {
-        // You can add death effects here (e.g., particle effects, sound)
+        gameManager.EnemyKilled(); // Notify GameManager
         Destroy(gameObject);
     }
 }
