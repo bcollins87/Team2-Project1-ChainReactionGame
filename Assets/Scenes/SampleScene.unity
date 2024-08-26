@@ -2610,6 +2610,7 @@ MonoBehaviour:
   placementLayer:
     serializedVersion: 2
     m_Bits: 4294967295
+  rotationSpeed: 50
 --- !u!1 &1924014627
 GameObject:
   m_ObjectHideFlags: 0
