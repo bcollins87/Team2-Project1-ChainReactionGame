@@ -30,12 +30,18 @@ public class Laser : MonoBehaviour
 
     void Update()
     {
+        // Cooldown timer
         if (cooldownRemaining > 0)
         {
             cooldownRemaining -= Time.deltaTime;
+            if (cooldownRemaining <= 0)
+            {
+                isLaserActive = false; // Allow laser to be active again after cooldown
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && cooldownRemaining <= 0 && !isLaserActive)
+        // Start firing only if not currently active and cooldown is finished
+        if (Input.GetKeyDown(KeyCode.Space) && cooldownRemaining <= 0 && !isFiring)
         {
             StartFiring();
         }
@@ -45,7 +51,8 @@ public class Laser : MonoBehaviour
             ExtendLaser();
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        // Stop firing when the space bar is released
+        if (Input.GetKeyUp(KeyCode.Space) && isFiring)
         {
             StopFiring();
         }
@@ -96,26 +103,19 @@ public class Laser : MonoBehaviour
     void StopFiring()
     {
         isFiring = false;
-        isLaserActive = false; // Mark the laser as inactive
-        cooldownRemaining = cooldownTime;
         lineRenderer.positionCount = 0; // Clear the laser line
+
+        // Start cooldown only after firing stops
+        if (isLaserActive)
+        {
+            cooldownRemaining = cooldownTime;
+            isLaserActive = false; // Laser is now inactive, cooldown is in effect
+        }
 
         // Check the game state only after the laser stops firing
         gameManager.CheckGameState();
     }
-/*
-    Vector3 GetMouseDirection()
-    {
-        Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(mouseRay, out RaycastHit mouseHit, Mathf.Infinity, LayerMask.GetMask("Floor", "Default")))
-        {
-            Vector3 targetPoint = mouseHit.point;
-            targetPoint.y = laserStartPoint.position.y; // Keep the laser at the same y-level as the start point
-            return (targetPoint - laserStartPoint.position).normalized;
-        }
-        return Vector3.zero;
-    }
-*/
+
     void HandleHit(RaycastHit hit)
     {
         if (hit.collider.CompareTag("Mirror") && bouncesLeft > 0)
