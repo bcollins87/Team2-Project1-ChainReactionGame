@@ -58,7 +58,7 @@ public class Laser : MonoBehaviour
         currentLaserLength = 0f;
         bouncesLeft = maxBounces;
         currentStartPosition = laserStartPoint.position;
-        fireDirection = GetMouseDirection();
+        fireDirection = Vector3.back;
         lineRenderer.positionCount = 2; // Start with two points for the line
         lineRenderer.SetPosition(0, currentStartPosition); // Set start point
         lineRenderer.SetPosition(1, currentStartPosition); // Initialize end point
@@ -103,7 +103,7 @@ public class Laser : MonoBehaviour
         // Check the game state only after the laser stops firing
         gameManager.CheckGameState();
     }
-
+/*
     Vector3 GetMouseDirection()
     {
         Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -115,7 +115,7 @@ public class Laser : MonoBehaviour
         }
         return Vector3.zero;
     }
-
+*/
     void HandleHit(RaycastHit hit)
     {
         if (hit.collider.CompareTag("Mirror") && bouncesLeft > 0)
