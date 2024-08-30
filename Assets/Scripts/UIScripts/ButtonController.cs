@@ -15,7 +15,7 @@ public class ButtonController : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        Cursor.visible = false;
+        //Cursor.visible = false;
     }
 
     // Update is called once per frame

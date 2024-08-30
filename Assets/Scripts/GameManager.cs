@@ -17,6 +17,22 @@ public class GameManager : MonoBehaviour
     public TMP_Text shotNumber;
     public GameObject restartButton;
 
+    public AudioSource audioSource;
+    public static GameManager instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            audioSource = GetComponent<AudioSource>();
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         enemiesRemaining = totalEnemies;

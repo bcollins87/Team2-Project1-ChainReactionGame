@@ -9,6 +9,10 @@ TagManager:
   - Glass
   - Floor
   - Tutorial
+  - MMTut
+  - MPTut
+  - LSTut
+  - MSTut
   layers:
   - Default
   - TransparentFX
