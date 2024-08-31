@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6109874162769150847}
   - component: {fileID: 7162264616540458202}
   - component: {fileID: 4936383833826048016}
+  - component: {fileID: 6274702561317322395}
   m_Layer: 0
   m_Name: toon_office_desk
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6274702561317322395
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6881907605795576261}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0935777, y: 0.4002737, z: 0.72467756}
+  m_Center: {x: 0, y: 0.21295233, z: -0.0000064074993}

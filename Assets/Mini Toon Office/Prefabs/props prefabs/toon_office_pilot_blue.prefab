@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5429286806504428770}
   - component: {fileID: 9004780333377674055}
   - component: {fileID: 6562764218183364493}
+  - component: {fileID: -4266617851698359969}
   m_Layer: 0
   m_Name: toon_office_pilot_blue
   m_TagString: Untagged
@@ -83,3 +84,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &-4266617851698359969
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4617143140117712472}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.13650514
+  m_Height: 0.087293625
+  m_Direction: 1
+  m_Center: {x: -0.0028692335, y: 0, z: -0.0000000037252903}

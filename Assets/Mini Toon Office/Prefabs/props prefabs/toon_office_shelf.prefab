@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8782294939265448039}
   - component: {fileID: 5642765288864724930}
   - component: {fileID: 7614415353736545032}
+  - component: {fileID: 4205682418750819126}
   m_Layer: 0
   m_Name: toon_office_shelf
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4205682418750819126
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8262744240771097309}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.946684, y: 0.06375879, z: 0.41232422}
+  m_Center: {x: -0.000000029802322, y: 0.000021452084, z: -0.0000015944242}

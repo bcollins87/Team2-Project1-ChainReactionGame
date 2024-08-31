@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2671504821341944913}
   - component: {fileID: 1350179312319034356}
   - component: {fileID: 3843887873624082238}
+  - component: {fileID: 9102344995537797220}
   m_Layer: 0
   m_Name: toon_office_trashbin
   m_TagString: Untagged
@@ -83,3 +84,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &9102344995537797220
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3339638852232161003}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.14379397
+  m_Height: 0.25720164
+  m_Direction: 1
+  m_Center: {x: -0.000000007450581, y: 0.12988584, z: -0.000000007450581}

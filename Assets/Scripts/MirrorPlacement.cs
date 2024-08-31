@@ -58,7 +58,7 @@ public class MirrorPlacement : MonoBehaviour
 
     void RotateMirror()
     {
-        float rotationStep = 15;
+        float rotationStep = 45;
         if (Input.GetKeyDown(KeyCode.Q))
         {
             currentMirror.transform.Rotate(Vector3.up, -rotationStep); // Rotate counterclockwise

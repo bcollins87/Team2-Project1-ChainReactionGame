@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8126367398313867778}
   - component: {fileID: 5145771054330754471}
   - component: {fileID: 6957363007958532461}
+  - component: {fileID: -3730753186972339077}
   m_Layer: 0
   m_Name: toon_office_board
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &-3730753186972339077
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8902904784820920504}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.89698756, y: 0.5966281, z: 0.24310473}
+  m_Center: {x: 0, y: 0, z: 0.049788777}

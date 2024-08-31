@@ -15,7 +15,7 @@ public class Laser : MonoBehaviour
     private Vector3 currentStartPosition;
     private float currentLaserLength = 0f;
     private int bouncesLeft;
-    public int maxBounces = 5; // Maximum number of bounces
+    public int maxBounces = 10; // Maximum number of bounces
 
     private GameManager gameManager;
 
