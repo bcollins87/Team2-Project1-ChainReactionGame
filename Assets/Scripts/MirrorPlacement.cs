@@ -22,6 +22,8 @@ public class MirrorPlacement : MonoBehaviour
 
     private GameObject player;               // Reference to the player object
 
+    public bool IsPlacingMirror { get; private set; } // Public property to check if a mirror is being placed
+
     void Start()
     {
         // Cache the player reference at the start
@@ -30,6 +32,8 @@ public class MirrorPlacement : MonoBehaviour
         {
             Debug.LogError("Player object with tag 'Player' not found in the scene.");
         }
+
+        IsPlacingMirror = false; // Initially, no mirror is being placed
     }
 
     void Update()
@@ -58,7 +62,10 @@ public class MirrorPlacement : MonoBehaviour
         }
 
         // Check player proximity to mirrors and mouse over to change color
-        CheckProximityAndMouseOverMirrors();
+        if (!IsPlacingMirror) // Only check proximity if not placing a mirror
+        {
+            CheckProximityAndMouseOverMirrors();
+        }
     }
 
     void StartPlacingMirror()
@@ -71,6 +78,7 @@ public class MirrorPlacement : MonoBehaviour
             if (hit.collider.CompareTag("Floor"))
             {
                 currentMirror = Instantiate(mirrorPrefab, hit.point + new Vector3(0, 0.1f, 0), Quaternion.identity);
+                IsPlacingMirror = true; // Set flag to true when starting to place a mirror
                 Debug.Log("Started placing a new mirror.");
             }
         }
@@ -115,6 +123,7 @@ public class MirrorPlacement : MonoBehaviour
         {
             currentMirror = null; // Deselect mirror after placing
             mirrorsPlaced++;      // Increment the number of mirrors placed
+            IsPlacingMirror = false; // Set flag to false after placing a mirror
             Debug.Log("Mirror placed. Total mirrors placed: " + mirrorsPlaced);
         }
     }

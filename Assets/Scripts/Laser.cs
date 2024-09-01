@@ -18,18 +18,32 @@ public class Laser : MonoBehaviour
     public int maxBounces = 10; // Maximum number of bounces
 
     private GameManager gameManager;
+    private MirrorPlacement mirrorPlacement;
 
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        mirrorPlacement = FindObjectOfType<MirrorPlacement>();
+
         if (gameManager == null)
         {
             Debug.LogError("GameManager not found in the scene!");
+        }
+        if (mirrorPlacement == null)
+        {
+            Debug.LogError("MirrorPlacement script not found in the scene!");
         }
     }
 
     void Update()
     {
+        // Check the global game state
+        if (GameStateManager.Instance != null && GameStateManager.Instance.IsPanning)
+        {
+            // Disable laser firing while the game is panning
+            return;
+        }
+
         // Cooldown timer
         if (cooldownRemaining > 0)
         {
@@ -40,8 +54,8 @@ public class Laser : MonoBehaviour
             }
         }
 
-        // Start firing only if not currently active and cooldown is finished
-        if (Input.GetKeyDown(KeyCode.Space) && cooldownRemaining <= 0 && !isFiring)
+        // Start firing only if not currently active, cooldown is finished, and not placing a mirror
+        if (Input.GetKeyDown(KeyCode.Space) && cooldownRemaining <= 0 && !isFiring && (mirrorPlacement == null || !mirrorPlacement.IsPlacingMirror))
         {
             StartFiring();
         }
