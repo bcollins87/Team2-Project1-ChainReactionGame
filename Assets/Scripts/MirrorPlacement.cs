@@ -3,19 +3,34 @@ using System.Collections.Generic;
 
 public class MirrorPlacement : MonoBehaviour
 {
-    public GameObject mirrorPrefab;  // The mirror prefab to place
-    public int maxMirrors = 3;       // Maximum number of mirrors that can be placed
-    public LayerMask placementLayer; // Layer on which mirrors can be placed
-    public float rotationSpeed = 10f; // Speed at which the mirror rotates
-    public float pickupRange = 3f;   // Range within which a player can pick up a mirror
+    public GameObject mirrorPrefab;          // The mirror prefab to place
+    public int maxMirrors = 3;               // Maximum number of mirrors that can be placed
+    public LayerMask placementLayer;         // Layer on which mirrors can be placed
+    public float rotationSpeed = 10f;        // Speed at which the mirror rotates
+    public float pickupRange = 3f;           // Range within which a player can pick up a mirror
+    public float colorChangeRange = 2.5f;    // Range for changing mirror color
+    public Color pickupColor = Color.green;  // Color to change when player is in range and mouse is over mirror
+    public Color defaultColor = Color.white; // Default color of the mirror
 
-    private GameObject currentMirror; // Currently selected mirror to place
-    private int mirrorsPlaced = 0;    // Current count of placed mirrors
+    private GameObject currentMirror;        // Currently selected mirror to place
+    private int mirrorsPlaced = 0;           // Current count of placed mirrors
     private List<GameObject> pickedUpMirrors = new List<GameObject>(); // List to track picked-up mirrors
 
-    private float rotationStep = 5f;  // Rotate by 5 degrees each step
-    private float rotationInterval = 0.1f; // Time between each rotation step in seconds
-    private float rotationTimer = 0f; // Timer to control rotation frequency
+    private float rotationStep = 5f;         // Rotate by 5 degrees each step
+    private float rotationInterval = 0.1f;   // Time between each rotation step in seconds
+    private float rotationTimer = 0f;        // Timer to control rotation frequency
+
+    private GameObject player;               // Reference to the player object
+
+    void Start()
+    {
+        // Cache the player reference at the start
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+        {
+            Debug.LogError("Player object with tag 'Player' not found in the scene.");
+        }
+    }
 
     void Update()
     {
@@ -41,6 +56,9 @@ public class MirrorPlacement : MonoBehaviour
         {
             PickupMirror();
         }
+
+        // Check player proximity to mirrors and mouse over to change color
+        CheckProximityAndMouseOverMirrors();
     }
 
     void StartPlacingMirror()
@@ -81,13 +99,11 @@ public class MirrorPlacement : MonoBehaviour
             if (Input.GetKey(KeyCode.Q)) // Rotate counterclockwise
             {
                 currentMirror.transform.Rotate(Vector3.up, -rotationStep);
-                Debug.Log("Mirror rotated counterclockwise by 5 degrees.");
                 rotationTimer = rotationInterval; // Reset the timer
             }
             else if (Input.GetKey(KeyCode.E)) // Rotate clockwise
             {
                 currentMirror.transform.Rotate(Vector3.up, rotationStep);
-                Debug.Log("Mirror rotated clockwise by 5 degrees.");
                 rotationTimer = rotationInterval; // Reset the timer
             }
         }
@@ -108,7 +124,10 @@ public class MirrorPlacement : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, pickupRange))
+        // Draw the ray in the scene view for debugging
+        Debug.DrawRay(ray.origin, ray.direction * pickupRange, Color.red, 1.0f);
+
+        if (Physics.Raycast(ray, out hit, pickupRange, placementLayer))
         {
             if (hit.collider.CompareTag("Mirror"))
             {
@@ -125,7 +144,64 @@ public class MirrorPlacement : MonoBehaviour
                 mirrorToPickup.SetActive(false);
                 pickedUpMirrors.Add(mirrorToPickup);
                 mirrorsPlaced--; // Decrement mirror count
-                Debug.Log("Mirror picked up. Total mirrors placed: " + mirrorsPlaced);
+                Debug.Log("Mirror picked up: " + mirrorToPickup.name);
+            }
+            else
+            {
+                Debug.Log("Hit object is not a mirror: " + hit.collider.name);
+            }
+        }
+        else
+        {
+            Debug.Log("Raycast did not hit any object within pickup range.");
+        }
+    }
+
+    void CheckProximityAndMouseOverMirrors()
+    {
+        // If player reference is null, exit the method
+        if (player == null)
+        {
+            Debug.LogError("Player reference is null. Cannot check proximity.");
+            return;
+        }
+
+        Vector3 playerPosition = player.transform.position;
+
+        // Check each mirror's distance to the player and if the mouse is over the mirror
+        foreach (GameObject mirror in GameObject.FindGameObjectsWithTag("Mirror"))
+        {
+            float distance = Vector3.Distance(playerPosition, mirror.transform.position);
+            Renderer mirrorRenderer = mirror.GetComponent<Renderer>();
+
+            if (mirrorRenderer == null)
+            {
+                Debug.Log("No Renderer found on mirror: " + mirror.name);
+                continue;
+            }
+
+            if (distance <= colorChangeRange)
+            {
+                // Perform a raycast from the camera to the mirror
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, placementLayer))
+                {
+                    if (hit.collider.gameObject == mirror)
+                    {
+                        mirrorRenderer.material.color = pickupColor; // Change color if in range and mouse over mirror
+                        Debug.Log("Mirror in range and mouse over: " + mirror.name);
+                    }
+                    else
+                    {
+                        mirrorRenderer.material.color = defaultColor; // Revert to default color
+                    }
+                }
+            }
+            else
+            {
+                mirrorRenderer.material.color = defaultColor; // Revert to default color
             }
         }
     }
