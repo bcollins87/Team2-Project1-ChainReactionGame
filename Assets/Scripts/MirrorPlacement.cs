@@ -6,11 +6,15 @@ public class MirrorPlacement : MonoBehaviour
     public GameObject mirrorPrefab;          // The mirror prefab to place
     public int maxMirrors = 3;               // Maximum number of mirrors that can be placed
     public LayerMask placementLayer;         // Layer on which mirrors can be placed
+    public LayerMask obstacleLayer;          // Layer to check for obstacles (e.g., walls, other objects)
     public float rotationSpeed = 10f;        // Speed at which the mirror rotates
     public float pickupRange = 3f;           // Range within which a player can pick up a mirror
     public float colorChangeRange = 2.5f;    // Range for changing mirror color
     public Color pickupColor = Color.green;  // Color to change when player is in range and mouse is over mirror
     public Color defaultColor = Color.white; // Default color of the mirror
+    public Color invalidPlacementColor = Color.red; // Color to indicate invalid placement
+    public float placementCheckRadius = 0.5f; // Radius for checking valid placement
+    public float mirrorHeightOffset = 0.5f;   // Offset to ensure the mirror spawns above the ground
 
     private GameObject currentMirror;        // Currently selected mirror to place
     private int mirrorsPlaced = 0;           // Current count of placed mirrors
@@ -49,7 +53,16 @@ public class MirrorPlacement : MonoBehaviour
             MoveMirrorToMousePosition();
             HandleMirrorRotation(); // Updated method for rotating mirrors
 
-            if (Input.GetMouseButtonDown(1)) // Right-click to place the mirror
+            if (IsPlacementValid())
+            {
+                currentMirror.GetComponent<Renderer>().material.color = defaultColor;
+            }
+            else
+            {
+                currentMirror.GetComponent<Renderer>().material.color = invalidPlacementColor;
+            }
+
+            if (Input.GetMouseButtonDown(1) && IsPlacementValid()) // Right-click to place the mirror if the position is valid
             {
                 PlaceMirror();
             }
@@ -77,7 +90,8 @@ public class MirrorPlacement : MonoBehaviour
         {
             if (hit.collider.CompareTag("Floor"))
             {
-                currentMirror = Instantiate(mirrorPrefab, hit.point + new Vector3(0, 0.1f, 0), Quaternion.identity);
+                Vector3 spawnPosition = hit.point + new Vector3(0, mirrorHeightOffset, 0); // Add offset above the ground
+                currentMirror = Instantiate(mirrorPrefab, spawnPosition, Quaternion.identity);
                 IsPlacingMirror = true; // Set flag to true when starting to place a mirror
                 Debug.Log("Started placing a new mirror.");
             }
@@ -93,7 +107,8 @@ public class MirrorPlacement : MonoBehaviour
         {
             if (hit.collider.CompareTag("Floor"))
             {
-                currentMirror.transform.position = hit.point + new Vector3(0, 0.1f, 0);
+                Vector3 newPosition = hit.point + new Vector3(0, mirrorHeightOffset, 0); // Add offset above the ground
+                currentMirror.transform.position = newPosition;
             }
         }
     }
@@ -121,6 +136,7 @@ public class MirrorPlacement : MonoBehaviour
     {
         if (currentMirror != null)
         {
+            currentMirror.GetComponent<Renderer>().material.color = defaultColor; // Reset to default color
             currentMirror = null; // Deselect mirror after placing
             mirrorsPlaced++;      // Increment the number of mirrors placed
             IsPlacingMirror = false; // Set flag to false after placing a mirror
@@ -164,6 +180,22 @@ public class MirrorPlacement : MonoBehaviour
         {
             Debug.Log("Raycast did not hit any object within pickup range.");
         }
+    }
+
+    // Check if the current mirror placement is valid
+    bool IsPlacementValid()
+    {
+        // Check for collisions only with objects in the obstacle layer
+        Collider[] colliders = Physics.OverlapSphere(currentMirror.transform.position, placementCheckRadius, obstacleLayer);
+        foreach (Collider collider in colliders)
+        {
+            if (collider.gameObject != currentMirror)
+            {
+                Debug.Log("Mirror placement invalid due to collision with: " + collider.gameObject.name);
+                return false; // Invalid if colliding with any obstacles
+            }
+        }
+        return true; // Valid if not colliding with walls or other objects
     }
 
     void CheckProximityAndMouseOverMirrors()
@@ -221,7 +253,7 @@ public class MirrorPlacement : MonoBehaviour
         if (pickedUpMirrors.Count > 0 && mirrorsPlaced < maxMirrors)
         {
             GameObject mirrorToReplace = pickedUpMirrors[0]; // Replace the first picked-up mirror
-            mirrorToReplace.transform.position = position + new Vector3(0, 0.1f, 0);
+            mirrorToReplace.transform.position = position + new Vector3(0, mirrorHeightOffset, 0);
             mirrorToReplace.SetActive(true); // Re-enable the mirror in the scene
             pickedUpMirrors.RemoveAt(0); // Remove it from the list
             mirrorsPlaced++;

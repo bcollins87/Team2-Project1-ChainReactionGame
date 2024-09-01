@@ -9,16 +9,24 @@ public class Enemy : MonoBehaviour
     private int currentHealth;
     private Renderer enemyRenderer;
     private GameManager gameManager;
+    private Laser laserScript; // Reference to the Laser script to grant extra shots
 
     void Start()
     {
         currentHealth = maxHealth;
         enemyRenderer = GetComponent<Renderer>();
         gameManager = FindObjectOfType<GameManager>(); // Find GameManager automatically
+        laserScript = FindObjectOfType<Laser>();       // Find the Laser script in the scene
+
         if (gameManager == null)
         {
             Debug.LogError("GameManager not found in the scene!");
         }
+        if (laserScript == null)
+        {
+            Debug.LogError("Laser script not found in the scene!");
+        }
+
         UpdateColor();
     }
 
@@ -45,6 +53,12 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         gameManager.EnemyKilled(); // Notify GameManager
+
+        if (laserScript != null)
+        {
+            laserScript.GainExtraShot(); // Add an extra shot to the Laser script
+        }
+
         Destroy(gameObject);
     }
 }

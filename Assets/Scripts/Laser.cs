@@ -7,6 +7,7 @@ public class Laser : MonoBehaviour
     public float laserSpeed = 10f;     // Speed at which the laser extends
     public float maxLaserLength = 100f; // Maximum length of the laser
     public float cooldownTime = 2.0f;  // Cooldown time before the laser can be fired again
+    public int maxBounces = 10;        // Maximum number of bounces
 
     private float cooldownRemaining = 0f;
     private bool isFiring = false;
@@ -15,7 +16,7 @@ public class Laser : MonoBehaviour
     private Vector3 currentStartPosition;
     private float currentLaserLength = 0f;
     private int bouncesLeft;
-    public int maxBounces = 10; // Maximum number of bounces
+    private int availableShots = 3;     // Initial number of available shots
 
     private GameManager gameManager;
     private MirrorPlacement mirrorPlacement;
@@ -54,8 +55,8 @@ public class Laser : MonoBehaviour
             }
         }
 
-        // Start firing only if not currently active, cooldown is finished, and not placing a mirror
-        if (Input.GetKeyDown(KeyCode.Space) && cooldownRemaining <= 0 && !isFiring && (mirrorPlacement == null || !mirrorPlacement.IsPlacingMirror))
+        // Start firing only if not currently active, cooldown is finished, not placing a mirror, and shots are available
+        if (Input.GetKeyDown(KeyCode.Space) && cooldownRemaining <= 0 && !isFiring && availableShots > 0 && (mirrorPlacement == null || !mirrorPlacement.IsPlacingMirror))
         {
             StartFiring();
         }
@@ -84,6 +85,7 @@ public class Laser : MonoBehaviour
         lineRenderer.SetPosition(0, currentStartPosition); // Set start point
         lineRenderer.SetPosition(1, currentStartPosition); // Initialize end point
         gameManager.FireLaser(); // Notify GameManager that the laser has been fired
+        availableShots--; // Decrease the number of available shots
     }
 
     void ExtendLaser()
@@ -147,6 +149,7 @@ public class Laser : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage();
+                GainExtraShot(); // Add one shot when an enemy is killed
                 // Notify GameManager to check win condition after hitting an enemy
                 gameManager.EnemyKilled(); // Update to check win condition
             }
@@ -162,5 +165,12 @@ public class Laser : MonoBehaviour
         {
             StopFiring(); // Stop firing if it hits any other object
         }
+    }
+
+    // Method to gain an extra shot - changed to public
+    public void GainExtraShot()
+    {
+        availableShots++;
+        Debug.Log("Gained an extra shot! Total available shots: " + availableShots);
     }
 }
