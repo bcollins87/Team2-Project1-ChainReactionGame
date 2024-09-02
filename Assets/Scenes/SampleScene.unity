@@ -3147,7 +3147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winMenu: {fileID: 1413017326}
   loseMenu: {fileID: 1338938808}
-  totalEnemies: 1
+  totalEnemies: 2
   maxShots: 3
   enemyNumber: {fileID: 0}
   shotNumber: {fileID: 0}

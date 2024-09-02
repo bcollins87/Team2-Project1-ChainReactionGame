@@ -108,21 +108,8 @@ public class MirrorPlacement : MonoBehaviour
                 float mirrorHeightOffset = mirrorPrefab.transform.localScale.y * 0.5f; // Half of the mirror's height
                 Vector3 spawnPosition = hit.point + new Vector3(0, mirrorHeightOffset, 0); // Add offset above the ground
                 currentMirror = Instantiate(mirrorPrefab, spawnPosition, Quaternion.identity);
-                if (currentMirror == null)
-                {
-                    Debug.LogError("Failed to instantiate the mirror prefab.");
-                }
                 IsPlacingMirror = true; // Set flag to true when starting to place a mirror
-                Debug.Log("Started placing a new mirror.");
             }
-            else
-            {
-                Debug.Log("Raycast did not hit a floor, cannot place mirror.");
-            }
-        }
-        else
-        {
-            Debug.Log("Raycast did not hit any valid placement surface.");
         }
     }
 
@@ -178,11 +165,6 @@ public class MirrorPlacement : MonoBehaviour
             currentMirror = null; // Deselect mirror after placing
             mirrorsPlaced++;      // Increment the number of mirrors placed
             IsPlacingMirror = false; // Set flag to false after placing a mirror
-            Debug.Log("Mirror placed. Total mirrors placed: " + mirrorsPlaced);
-        }
-        else
-        {
-            Debug.LogError("Attempted to place a mirror, but no current mirror exists.");
         }
     }
 
@@ -190,9 +172,6 @@ public class MirrorPlacement : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-
-        // Draw the ray in the scene view for debugging
-        Debug.DrawRay(ray.origin, ray.direction * pickupRange, Color.red, 1.0f);
 
         if (Physics.Raycast(ray, out hit, pickupRange, placementLayer))
         {
@@ -203,7 +182,6 @@ public class MirrorPlacement : MonoBehaviour
                 // Check if this mirror is already picked up
                 if (pickedUpMirrors.Contains(mirrorToPickup))
                 {
-                    Debug.Log("This mirror is already picked up.");
                     return;
                 }
 
@@ -211,19 +189,10 @@ public class MirrorPlacement : MonoBehaviour
                 mirrorToPickup.SetActive(false); // Temporarily disable the mirror in the scene
                 pickedUpMirrors.Add(mirrorToPickup); // Add to the list of picked up mirrors
                 mirrorsPlaced--; // Decrement mirror count
-                Debug.Log("Mirror picked up: " + mirrorToPickup.name);
 
                 // Play mirror pickup sound
                 AudioManager.Instance.PlaySound(AudioManager.Instance.mirrorPickupClip);
             }
-            else
-            {
-                Debug.Log("Hit object is not a mirror: " + hit.collider.name);
-            }
-        }
-        else
-        {
-            Debug.Log("Raycast did not hit any object within pickup range.");
         }
     }
 
@@ -236,7 +205,6 @@ public class MirrorPlacement : MonoBehaviour
         {
             if (collider.gameObject != currentMirror)
             {
-                Debug.Log("Mirror placement invalid due to collision with: " + collider.gameObject.name);
                 return false; // Invalid if colliding with any obstacles
             }
         }
@@ -248,7 +216,6 @@ public class MirrorPlacement : MonoBehaviour
         // If player reference is null, exit the method
         if (player == null)
         {
-            Debug.LogError("Player reference is null. Cannot check proximity.");
             return;
         }
 
@@ -262,7 +229,6 @@ public class MirrorPlacement : MonoBehaviour
 
             if (mirrorRenderer == null)
             {
-                Debug.Log("No Renderer found on mirror: " + mirror.name);
                 continue;
             }
 
@@ -277,7 +243,6 @@ public class MirrorPlacement : MonoBehaviour
                     if (hit.collider.gameObject == mirror)
                     {
                         mirrorRenderer.material.color = pickupColor; // Change color if in range and mouse over mirror
-                        Debug.Log("Mirror in range and mouse over: " + mirror.name);
                     }
                     else
                     {
