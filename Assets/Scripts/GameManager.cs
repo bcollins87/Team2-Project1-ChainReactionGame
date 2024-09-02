@@ -38,60 +38,60 @@ public class GameManager : MonoBehaviour
         winMenu.SetActive(false);
         loseMenu.SetActive(false);
         restartButton.SetActive(false);
+
+        // Update the UI with initial values
+        enemyNumber.text = enemiesRemaining.ToString();
+        shotNumber.text = shotsRemaining.ToString();
     }
 
     public void EnemyKilled()
     {
+        enemiesRemaining--;
+
         if (enemyNumber != null)
         {
-            enemiesRemaining--;
             enemyNumber.text = "" + enemiesRemaining;
-            Debug.Log("Enemy killed. Remaining: " + enemiesRemaining);
-            
-            // Play enemy death sound
-            if (AudioManager.Instance != null && AudioManager.Instance.enemyDeathClip != null)
-            {
-                AudioManager.Instance.PlaySound(AudioManager.Instance.enemyDeathClip);
-            }
-            else
-            {
-                Debug.LogError("AudioManager instance or enemyDeathClip is null. Cannot play death sound.");
-            }
-            
-            CheckGameState(); // Check if the game should end
         }
         else
         {
             Debug.LogError("Enemy number text reference is null.");
         }
-    }
 
+        Debug.Log("Enemy killed. Remaining: " + enemiesRemaining);
+
+        // Play enemy death sound
+        if (AudioManager.Instance != null && AudioManager.Instance.enemyDeathClip != null)
+        {
+            AudioManager.Instance.PlaySound(AudioManager.Instance.enemyDeathClip);
+        }
+        else
+        {
+            Debug.LogError("AudioManager instance or enemyDeathClip is null. Cannot play death sound.");
+        }
+
+        CheckGameState(); // Check if the game should end
+    }
 
     public void FireLaser()
     {
         shotsFired++;
         shotsRemaining--;
+
         if (shotNumber != null)
         {
             shotNumber.text = "" + shotsRemaining;
         }
         else
         {
-            Debug.LogError("Shot Number TMP_Text is not assigned.");
+            Debug.LogError("Shot number text reference is null.");
         }
+
         Debug.Log("Laser fired. Shots fired: " + shotsFired);
 
         // Play laser firing sound
         if (AudioManager.Instance != null)
         {
-            if (AudioManager.Instance.laserShotClip != null)
-            {
-                AudioManager.Instance.PlaySound(AudioManager.Instance.laserShotClip);
-            }
-            else
-            {
-                Debug.LogError("Laser shot clip is not assigned in AudioManager.");
-            }
+            AudioManager.Instance.PlaySound(AudioManager.Instance.laserShotClip);
         }
         else
         {
@@ -99,29 +99,59 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     public void CheckGameState()
     {
         Debug.Log("Checking game state. Shots fired: " + shotsFired + ", Enemies remaining: " + enemiesRemaining);
+
+        // Win condition: No enemies left
         if (enemiesRemaining <= 0)
         {
-            // Player wins if no enemies are left
-            winMenu.SetActive(true);
-            restartButton.SetActive(true);
-            Debug.Log("Win condition met");
+            if (winMenu != null && loseMenu != null)
+            {
+                winMenu.SetActive(true);
+                loseMenu.SetActive(false);  // Ensure the lose menu is not active
+                restartButton.SetActive(true);
+                Debug.Log("Win condition met");
 
-            // Play win sound
-            AudioManager.Instance.PlaySound(AudioManager.Instance.winClip);
+                // Play win sound
+                if (AudioManager.Instance != null && AudioManager.Instance.winClip != null)
+                {
+                    AudioManager.Instance.PlaySound(AudioManager.Instance.winClip);
+                }
+                else
+                {
+                    Debug.LogError("AudioManager instance or winClip is null. Cannot play win sound.");
+                }
+            }
+            else
+            {
+                Debug.LogError("Win or Lose menu references are null.");
+            }
         }
-        else if (shotsFired >= maxShots)
+        // Lose condition: No shots left, but enemies still remain
+        else if (shotsFired >= maxShots && enemiesRemaining > 0)
         {
-            // Player loses if they run out of shots
-            loseMenu.SetActive(true);
-            restartButton.SetActive(true);
-            Debug.Log("Lose condition met");
+            if (winMenu != null && loseMenu != null)
+            {
+                loseMenu.SetActive(true);
+                winMenu.SetActive(false);  // Ensure the win menu is not active
+                restartButton.SetActive(true);
+                Debug.Log("Lose condition met");
 
-            // Play lose sound
-            AudioManager.Instance.PlaySound(AudioManager.Instance.loseClip);
+                // Play lose sound
+                if (AudioManager.Instance != null && AudioManager.Instance.loseClip != null)
+                {
+                    AudioManager.Instance.PlaySound(AudioManager.Instance.loseClip);
+                }
+                else
+                {
+                    Debug.LogError("AudioManager instance or loseClip is null. Cannot play lose sound.");
+                }
+            }
+            else
+            {
+                Debug.LogError("Win or Lose menu references are null.");
+            }
         }
     }
 

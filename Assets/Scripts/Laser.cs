@@ -178,6 +178,11 @@ public class Laser : MonoBehaviour
             currentLaserLength = 0f; // Reset length to continue extending
             lineRenderer.SetPosition(0, currentStartPosition); // Update the line renderer start position
         }
+        else if (hit.collider.CompareTag("Player"))
+        {
+            // Ignore player collisions with laser
+            return; // Do nothing if it hits the player
+        }
         else
         {
             StopFiring(); // Stop firing if it hits any other object
