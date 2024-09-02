@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     public TMP_Text shotNumber;
     public GameObject restartButton;
 
-    public AudioSource audioSource;
     public static GameManager instance;
 
     private void Awake()
@@ -25,7 +24,6 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            audioSource = GetComponent<AudioSource>();
             DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
@@ -33,6 +31,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     void Start()
     {
         enemiesRemaining = totalEnemies;
@@ -43,20 +42,63 @@ public class GameManager : MonoBehaviour
 
     public void EnemyKilled()
     {
-        enemiesRemaining--;
-        enemyNumber.text = "" + enemiesRemaining;
-        Debug.Log("Enemy killed. Remaining: " + enemiesRemaining);
-        // CheckGameState(); // Now called from Laser script after it stops firing
+        if (enemyNumber != null)
+        {
+            enemiesRemaining--;
+            enemyNumber.text = "" + enemiesRemaining;
+            Debug.Log("Enemy killed. Remaining: " + enemiesRemaining);
+            
+            // Play enemy death sound
+            if (AudioManager.Instance != null && AudioManager.Instance.enemyDeathClip != null)
+            {
+                AudioManager.Instance.PlaySound(AudioManager.Instance.enemyDeathClip);
+            }
+            else
+            {
+                Debug.LogError("AudioManager instance or enemyDeathClip is null. Cannot play death sound.");
+            }
+            
+            CheckGameState(); // Check if the game should end
+        }
+        else
+        {
+            Debug.LogError("Enemy number text reference is null.");
+        }
     }
+
 
     public void FireLaser()
     {
         shotsFired++;
         shotsRemaining--;
-        shotNumber.text = "" + shotsRemaining;
+        if (shotNumber != null)
+        {
+            shotNumber.text = "" + shotsRemaining;
+        }
+        else
+        {
+            Debug.LogError("Shot Number TMP_Text is not assigned.");
+        }
         Debug.Log("Laser fired. Shots fired: " + shotsFired);
-        // CheckGameState(); // Now called from Laser script after it stops firing
+
+        // Play laser firing sound
+        if (AudioManager.Instance != null)
+        {
+            if (AudioManager.Instance.laserShotClip != null)
+            {
+                AudioManager.Instance.PlaySound(AudioManager.Instance.laserShotClip);
+            }
+            else
+            {
+                Debug.LogError("Laser shot clip is not assigned in AudioManager.");
+            }
+        }
+        else
+        {
+            Debug.LogError("AudioManager instance is null. Cannot play laser shot sound.");
+        }
     }
+
 
     public void CheckGameState()
     {
@@ -67,6 +109,9 @@ public class GameManager : MonoBehaviour
             winMenu.SetActive(true);
             restartButton.SetActive(true);
             Debug.Log("Win condition met");
+
+            // Play win sound
+            AudioManager.Instance.PlaySound(AudioManager.Instance.winClip);
         }
         else if (shotsFired >= maxShots)
         {
@@ -74,6 +119,9 @@ public class GameManager : MonoBehaviour
             loseMenu.SetActive(true);
             restartButton.SetActive(true);
             Debug.Log("Lose condition met");
+
+            // Play lose sound
+            AudioManager.Instance.PlaySound(AudioManager.Instance.loseClip);
         }
     }
 

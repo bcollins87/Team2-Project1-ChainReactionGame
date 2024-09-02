@@ -14,7 +14,6 @@ public class MirrorPlacement : MonoBehaviour
     public Color defaultColor = Color.white; // Default color of the mirror
     public Color invalidPlacementColor = Color.red; // Color to indicate invalid placement
     public float placementCheckRadius = 0.5f; // Radius for checking valid placement
-    public float mirrorHeightOffset = 0.5f;   // Offset to ensure the mirror spawns above the ground
 
     private GameObject currentMirror;        // Currently selected mirror to place
     private int mirrorsPlaced = 0;           // Current count of placed mirrors
@@ -25,6 +24,7 @@ public class MirrorPlacement : MonoBehaviour
     private float rotationTimer = 0f;        // Timer to control rotation frequency
 
     private GameObject player;               // Reference to the player object
+    private GameStateManager gameStateManager; // Reference to the GameStateManager
 
     public bool IsPlacingMirror { get; private set; } // Public property to check if a mirror is being placed
 
@@ -37,11 +37,25 @@ public class MirrorPlacement : MonoBehaviour
             Debug.LogError("Player object with tag 'Player' not found in the scene.");
         }
 
+        // Find the GameStateManager in the scene
+        gameStateManager = FindObjectOfType<GameStateManager>();
+        if (gameStateManager == null)
+        {
+            Debug.LogError("GameStateManager not found in the scene.");
+        }
+
         IsPlacingMirror = false; // Initially, no mirror is being placed
     }
 
     void Update()
     {
+        // Check if the game is in a panning state
+        if (gameStateManager != null && gameStateManager.IsPanning)
+        {
+            // If the camera is panning, prevent mirror placement and pickup
+            return;
+        }
+
         // Check for mirror placement
         if (Input.GetMouseButtonDown(0) && mirrorsPlaced < maxMirrors && currentMirror == null)
         {
@@ -90,11 +104,25 @@ public class MirrorPlacement : MonoBehaviour
         {
             if (hit.collider.CompareTag("Floor"))
             {
+                // Calculate the correct spawn position above the floor based on the mirror's height
+                float mirrorHeightOffset = mirrorPrefab.transform.localScale.y * 0.5f; // Half of the mirror's height
                 Vector3 spawnPosition = hit.point + new Vector3(0, mirrorHeightOffset, 0); // Add offset above the ground
                 currentMirror = Instantiate(mirrorPrefab, spawnPosition, Quaternion.identity);
+                if (currentMirror == null)
+                {
+                    Debug.LogError("Failed to instantiate the mirror prefab.");
+                }
                 IsPlacingMirror = true; // Set flag to true when starting to place a mirror
                 Debug.Log("Started placing a new mirror.");
             }
+            else
+            {
+                Debug.Log("Raycast did not hit a floor, cannot place mirror.");
+            }
+        }
+        else
+        {
+            Debug.Log("Raycast did not hit any valid placement surface.");
         }
     }
 
@@ -107,6 +135,8 @@ public class MirrorPlacement : MonoBehaviour
         {
             if (hit.collider.CompareTag("Floor"))
             {
+                // Calculate the correct position above the floor based on the mirror's height
+                float mirrorHeightOffset = currentMirror.transform.localScale.y * 0.5f; // Half of the mirror's height
                 Vector3 newPosition = hit.point + new Vector3(0, mirrorHeightOffset, 0); // Add offset above the ground
                 currentMirror.transform.position = newPosition;
             }
@@ -136,11 +166,23 @@ public class MirrorPlacement : MonoBehaviour
     {
         if (currentMirror != null)
         {
-            currentMirror.GetComponent<Renderer>().material.color = defaultColor; // Reset to default color
+            // Ensure the current mirror is a valid object and its renderer is accessible
+            Renderer renderer = currentMirror.GetComponent<Renderer>();
+            if (renderer == null)
+            {
+                Debug.LogError("The mirror does not have a Renderer component. Cannot place mirror.");
+                return;
+            }
+
+            renderer.material.color = defaultColor; // Reset to default color
             currentMirror = null; // Deselect mirror after placing
             mirrorsPlaced++;      // Increment the number of mirrors placed
             IsPlacingMirror = false; // Set flag to false after placing a mirror
             Debug.Log("Mirror placed. Total mirrors placed: " + mirrorsPlaced);
+        }
+        else
+        {
+            Debug.LogError("Attempted to place a mirror, but no current mirror exists.");
         }
     }
 
@@ -166,10 +208,13 @@ public class MirrorPlacement : MonoBehaviour
                 }
 
                 // Pickup the mirror
-                mirrorToPickup.SetActive(false);
-                pickedUpMirrors.Add(mirrorToPickup);
+                mirrorToPickup.SetActive(false); // Temporarily disable the mirror in the scene
+                pickedUpMirrors.Add(mirrorToPickup); // Add to the list of picked up mirrors
                 mirrorsPlaced--; // Decrement mirror count
                 Debug.Log("Mirror picked up: " + mirrorToPickup.name);
+
+                // Play mirror pickup sound
+                AudioManager.Instance.PlaySound(AudioManager.Instance.mirrorPickupClip);
             }
             else
             {
@@ -253,6 +298,7 @@ public class MirrorPlacement : MonoBehaviour
         if (pickedUpMirrors.Count > 0 && mirrorsPlaced < maxMirrors)
         {
             GameObject mirrorToReplace = pickedUpMirrors[0]; // Replace the first picked-up mirror
+            float mirrorHeightOffset = mirrorToReplace.transform.localScale.y * 0.5f; // Half of the mirror's height
             mirrorToReplace.transform.position = position + new Vector3(0, mirrorHeightOffset, 0);
             mirrorToReplace.SetActive(true); // Re-enable the mirror in the scene
             pickedUpMirrors.RemoveAt(0); // Remove it from the list
