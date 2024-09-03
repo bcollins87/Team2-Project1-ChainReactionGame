@@ -2,25 +2,45 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 5.0f;  // Speed of the player
+    public float moveSpeed = 5f;  // Speed at which the player moves
+    private CharacterController characterController;
+    private GameStateManager gameStateManager;
+
+    void Start()
+    {
+        // Get the CharacterController component
+        characterController = GetComponent<CharacterController>();
+        if (characterController == null)
+        {
+            Debug.LogError("CharacterController component not found on the player.");
+        }
+
+        // Find the GameStateManager in the scene
+        gameStateManager = FindObjectOfType<GameStateManager>();
+        if (gameStateManager == null)
+        {
+            Debug.LogError("GameStateManager not found in the scene.");
+        }
+    }
 
     void Update()
     {
-        // Check if the game is in a panning state
-        if (GameStateManager.Instance != null && GameStateManager.Instance.IsPanning)
+        // Check if the game is currently panning
+        if (gameStateManager != null && gameStateManager.IsPanning)
         {
-            // If the camera is panning, prevent player movement
+            // If panning, prevent player movement
             return;
         }
 
-        // Get input for horizontal and vertical movement
-        float moveHorizontal = Input.GetAxis("Horizontal");  // Get horizontal input (A/D, Left/Right Arrow)
-        float moveVertical = Input.GetAxis("Vertical");      // Get vertical input (W/S, Up/Down Arrow)
+        // Get input axes
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
-        // Calculate movement vector
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        // Create movement vector
+        Vector3 move = new Vector3(horizontal, 0, vertical);
+        move = transform.TransformDirection(move);
 
-        // Apply movement to the player
-        transform.position += movement * speed * Time.deltaTime;
+        // Apply movement
+        characterController.Move(move * moveSpeed * Time.deltaTime);
     }
 }

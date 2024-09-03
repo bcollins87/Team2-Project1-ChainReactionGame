@@ -101,7 +101,10 @@ public class Laser : MonoBehaviour
         availableShots--; // Decrease the number of available shots
 
         // Play laser firing sound
-        AudioManager.Instance.PlaySound(AudioManager.Instance.laserShotClip);
+        if (AudioManager.Instance != null && AudioManager.Instance.laserShotClip != null)
+        {
+            AudioManager.Instance.PlaySound(AudioManager.Instance.laserShotClip);
+        }
     }
 
     void ExtendLaser()
@@ -160,7 +163,10 @@ public class Laser : MonoBehaviour
             lineRenderer.SetPosition(0, currentStartPosition); // Update the line renderer start position
 
             // Play laser bounce sound
-            AudioManager.Instance.PlaySound(AudioManager.Instance.laserBounceClip);
+            if (AudioManager.Instance != null && AudioManager.Instance.laserBounceClip != null)
+            {
+                AudioManager.Instance.PlaySound(AudioManager.Instance.laserBounceClip);
+            }
         }
         else if (hit.collider.CompareTag("Enemy"))
         {
@@ -175,6 +181,7 @@ public class Laser : MonoBehaviour
         }
         else if (hit.collider.CompareTag("Glass"))
         {
+            // Continue through the glass without altering the laser path
             currentStartPosition = hit.point + fireDirection * 0.01f; // Continue laser slightly past the glass
             currentLaserLength = 0f; // Reset length to continue extending
             lineRenderer.SetPosition(0, currentStartPosition); // Update the line renderer start position
@@ -184,7 +191,6 @@ public class Laser : MonoBehaviour
             StopFiring(); // Stop firing if it hits any other object
         }
     }
-
 
     void ToggleLaserVisibility()
     {
@@ -224,9 +230,15 @@ public class Laser : MonoBehaviour
                     currentStartPosition = hit.point + fireDirection * 0.01f; // Slightly offset to prevent multiple detections
                     bouncesLeft--;
                 }
+                else if (hit.collider.CompareTag("Glass"))
+                {
+                    // Continue the laser through the glass without altering its path
+                    currentLaserLength += Vector3.Distance(currentStartPosition, hit.point);
+                    currentStartPosition = hit.point + fireDirection * 0.01f; // Move the start point slightly forward
+                }
                 else
                 {
-                    break;  // Stop if it hits something other than a mirror
+                    break;  // Stop if it hits something other than a mirror or glass
                 }
             }
             else
