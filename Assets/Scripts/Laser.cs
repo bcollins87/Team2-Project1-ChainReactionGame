@@ -1,5 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
+//using UnityEditor.SearchService;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class Laser : MonoBehaviour
 {
     public Transform laserStartPoint;  // The start point of the laser
@@ -22,6 +25,8 @@ public class Laser : MonoBehaviour
     private GameManager gameManager;
     private MirrorPlacement mirrorPlacement;
 
+
+
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -35,6 +40,7 @@ public class Laser : MonoBehaviour
         {
             Debug.LogError("MirrorPlacement script not found in the scene!");
         }
+
     }
 
     void Update()
@@ -99,6 +105,7 @@ public class Laser : MonoBehaviour
         lineRenderer.SetPosition(1, currentStartPosition); // Initialize end point
         gameManager.FireLaser(); // Notify GameManager that the laser has been fired
         availableShots--; // Decrease the number of available shots
+        
 
         // Play laser firing sound
         if (AudioManager.Instance != null && AudioManager.Instance.laserShotClip != null)

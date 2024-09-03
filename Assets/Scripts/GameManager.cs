@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,6 +21,8 @@ public class GameManager : MonoBehaviour
     public GameObject restartButton;
 
     public static GameManager instance;
+    public ShotBar shotBar;
+    private Scene scene;
 
     private void Awake()
     {
@@ -42,6 +47,7 @@ public class GameManager : MonoBehaviour
         // Update the UI with initial values
         enemyNumber.text = enemiesRemaining.ToString();
         shotNumber.text = shotsRemaining.ToString();
+        shotBar.SetMaxShots(maxShots);
     }
 
     public void EnemyKilled()
@@ -76,6 +82,7 @@ public class GameManager : MonoBehaviour
     {
         shotsFired++;
         shotsRemaining--;
+        shotBar.SetShots(shotsRemaining);
 
         if (shotNumber != null)
         {
@@ -112,6 +119,7 @@ public class GameManager : MonoBehaviour
                 loseMenu.SetActive(false);  // Ensure the lose menu is not active
                 restartButton.SetActive(true);
                 Debug.Log("Win condition met");
+               
 
                 // Play win sound
                 if (AudioManager.Instance != null && AudioManager.Instance.winClip != null)
@@ -154,6 +162,8 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+
 
     public void RestartGame()
     {

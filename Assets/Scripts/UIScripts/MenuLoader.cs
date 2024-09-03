@@ -73,9 +73,18 @@ public class MenuLoader : MonoBehaviour
             mainMenuUI.SetActive(false);
             optionsMenuUI.SetActive(false);
             creditsMenuUI.SetActive(false);
-            playerUI.SetActive(false);
+            playerUI.SetActive(true);
         }
         else if (scene.name == "LevelOne")
+        {
+            playerUI.gameObject.SetActive(true);
+            mainMenuUI.SetActive(false);
+            optionsMenuUI.SetActive(false);
+            creditsMenuUI.SetActive(false);
+            helpMenuUI.SetActive(false);
+
+        }
+        else if (scene.name == "LevelTwo")
         {
             playerUI.gameObject.SetActive(true);
             mainMenuUI.SetActive(false);

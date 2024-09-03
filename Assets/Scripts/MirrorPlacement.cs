@@ -28,6 +28,10 @@ public class MirrorPlacement : MonoBehaviour
 
     public bool IsPlacingMirror { get; private set; } // Public property to check if a mirror is being placed
 
+    public GameObject mirrorUIWhite;
+    public GameObject mirrorUIGreen;
+
+
     void Start()
     {
         // Cache the player reference at the start
@@ -45,6 +49,7 @@ public class MirrorPlacement : MonoBehaviour
         }
 
         IsPlacingMirror = false; // Initially, no mirror is being placed
+        mirrorUIGreen.SetActive(false);
     }
 
     void Update()
@@ -243,6 +248,8 @@ public class MirrorPlacement : MonoBehaviour
                     if (hit.collider.gameObject == mirror)
                     {
                         mirrorRenderer.material.color = pickupColor; // Change color if in range and mouse over mirror
+                        mirrorUIWhite.SetActive(false);
+                        mirrorUIGreen.SetActive(true);
                     }
                     else
                     {
