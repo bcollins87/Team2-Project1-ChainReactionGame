@@ -13,6 +13,8 @@ public class MenuLoader : MonoBehaviour
     public GameObject playerUI;
     private Scene scene;
 
+    public GameManager gameManager;
+
     private bool isMenuActive = false;
     // Start is called before the first frame update
     void Start()
