@@ -11358,6 +11358,7 @@ MonoBehaviour:
   maxLaserLength: 50
   cooldownTime: 2
   maxBounces: 5
+  animator: {fileID: 0}
 --- !u!65 &924018175
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18812,6 +18813,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3165934654137674518, guid: 88b4c6a656a61473e927d368466869f0, type: 3}
   m_PrefabInstance: {fileID: 42016641}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1561976535 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6051705825341761312, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
+  m_PrefabInstance: {fileID: 266406463}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc97960e4c845642a0492901875d06d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1567593929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24723,6 +24735,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3015027996528331589, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
+      propertyPath: mirrorPlacement
+      value: 
+      objectReference: {fileID: 1561976535}
     - target: {fileID: 3489182645875914655, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_Mesh
       value: 

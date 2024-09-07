@@ -2,20 +2,31 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    private GameManager gameManager;
+
+    void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>(); // Find GameManager automatically
+
+        if (gameManager == null)
+        {
+            Debug.LogError("GameManager not found in the scene!");
+        }
+    }
+
+    // This method will be called by the laser when it hits the enemy
     public void TakeDamage()
     {
         Die();
     }
 
-    private void Die()
+    // Handle the enemy's death
+    void Die()
     {
-        // Notify the GameManager that this enemy has been killed
-        GameManager.instance.EnemyKilled();
+        gameManager.EnemyKilled(); // Notify GameManager
+        Destroy(gameObject); // Destroy the enemy object
 
-        // Disable or destroy the enemy object
-        // If you want to reuse the object (e.g., with object pooling), use SetActive(false)
-        // Otherwise, you can destroy it completely
-        Destroy(gameObject);
-        // Alternatively, use gameObject.SetActive(false);
+        // Play enemy death sound
+        AudioManager.Instance.PlaySound(AudioManager.Instance.enemyDeathClip);
     }
 }
