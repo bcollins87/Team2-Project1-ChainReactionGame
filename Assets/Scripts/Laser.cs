@@ -25,6 +25,8 @@ public class Laser : MonoBehaviour
     private GameManager gameManager;
     private MirrorPlacement mirrorPlacement;
 
+    public Animator animator;
+
 
 
     void Start()
@@ -72,6 +74,7 @@ public class Laser : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && cooldownRemaining <= 0 && !isFiring && availableShots > 0 && (mirrorPlacement == null || !mirrorPlacement.IsPlacingMirror))
         {
             StartFiring();
+            animator.SetTrigger("signalStrike");
         }
 
         if (isFiring)

@@ -23,7 +23,7 @@ public class MirrorPlacement : MonoBehaviour
     private float rotationInterval = 0.1f;   // Time between each rotation step in seconds
     private float rotationTimer = 0f;        // Timer to control rotation frequency
 
-    private GameObject player;               // Reference to the player object
+    public GameObject player;               // Reference to the player object
     private GameStateManager gameStateManager; // Reference to the GameStateManager
 
     public bool IsPlacingMirror { get; private set; } // Public property to check if a mirror is being placed
@@ -32,10 +32,10 @@ public class MirrorPlacement : MonoBehaviour
     public GameObject mirrorUIGreen;
 
 
+
     void Start()
     {
         // Cache the player reference at the start
-        player = GameObject.FindGameObjectWithTag("Player");
         if (player == null)
         {
             Debug.LogError("Player object with tag 'Player' not found in the scene.");
@@ -97,6 +97,15 @@ public class MirrorPlacement : MonoBehaviour
         if (!IsPlacingMirror) // Only check proximity if not placing a mirror
         {
             CheckProximityAndMouseOverMirrors();
+        }
+
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+        else
+        {
+
         }
     }
 
@@ -166,6 +175,7 @@ public class MirrorPlacement : MonoBehaviour
                 return;
             }
 
+            player.GetComponent<PlayerMovement>().animator.SetTrigger("placeMirror");
             renderer.material.color = defaultColor; // Reset to default color
             currentMirror = null; // Deselect mirror after placing
             mirrorsPlaced++;      // Increment the number of mirrors placed

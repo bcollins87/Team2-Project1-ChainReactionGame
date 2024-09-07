@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public ShotBar shotBar;
     private Scene scene;
 
+    public GameObject player;
     private void Awake()
     {
         if (instance == null)
@@ -50,8 +51,22 @@ public class GameManager : MonoBehaviour
         shotBar.SetMaxShots(maxShots);
     }
 
+
+    private void Update()
+    {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+        else
+        {
+
+        }
+    }
+
     public void EnemyKilled()
     {
+        player.GetComponent<PlayerMovement>().animator.SetTrigger("celebrate");
         enemiesRemaining--;
 
         if (enemyNumber != null)
