@@ -4,6 +4,7 @@ using TMPro;
 using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,13 +12,14 @@ public class GameManager : MonoBehaviour
     public GameObject loseMenu;
     public int totalEnemies;
 
-    private int enemiesRemaining;
+    public int enemiesRemaining;
     private int shotsFired = 0;
-    private int shotsRemaining = 3;
+    public int shotsRemaining = 3;
     public int maxShots = 3;  // Maximum shots allowed
 
     public TMP_Text enemyNumber;
     public TMP_Text shotNumber;
+    public TMP_Text mirrorNumber;
     public GameObject restartButton;
 
     public static GameManager instance;
@@ -25,6 +27,16 @@ public class GameManager : MonoBehaviour
     private Scene scene;
 
     public GameObject player;
+
+    //UI Update Vars
+    public GameObject mirrorPlacement;
+    private int mirrorsLeft;
+    public MenuLoader menuLoader;
+    public GameObject mirrorPlacementTut;
+    public GameObject playerTut;
+    public GameObject tutorialBoxes;
+
+
     private void Awake()
     {
         if (instance == null)
@@ -49,6 +61,14 @@ public class GameManager : MonoBehaviour
         enemyNumber.text = enemiesRemaining.ToString();
         shotNumber.text = shotsRemaining.ToString();
         shotBar.SetMaxShots(maxShots);
+        menuLoader.CheckActiveScene();
+        menuLoader.UpdateSceneMenu();
+
+
+        //Set tutorial controls to inactive
+        mirrorPlacementTut.SetActive(false);
+        playerTut.SetActive(false);
+        tutorialBoxes.SetActive(false);
     }
 
 
@@ -177,8 +197,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
-
 
     public void RestartGame()
     {

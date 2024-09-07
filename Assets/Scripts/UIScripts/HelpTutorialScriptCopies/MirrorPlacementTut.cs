@@ -1,7 +1,11 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class MirrorPlacement : MonoBehaviour
+public class MirrorPlacementTut : MonoBehaviour
+
 {
     public GameObject mirrorPrefab;          // The mirror prefab to place
     public int maxMirrors = 3;               // Maximum number of mirrors that can be placed
@@ -23,19 +27,20 @@ public class MirrorPlacement : MonoBehaviour
     private float rotationInterval = 0.1f;   // Time between each rotation step in seconds
     private float rotationTimer = 0f;        // Timer to control rotation frequency
 
-    public GameObject player;               // Reference to the player object
+    private GameObject player;               // Reference to the player object
     private GameStateManager gameStateManager; // Reference to the GameStateManager
 
     public bool IsPlacingMirror { get; private set; } // Public property to check if a mirror is being placed
 
     public GameObject mirrorUIWhite;
     public GameObject mirrorUIGreen;
-
-
+    public PlayerCollisionsHELPSCREEN playerCollisionsHELPSCREEN;
+    private Scene scene;
 
     void Start()
     {
         // Cache the player reference at the start
+        player = GameObject.FindGameObjectWithTag("Player");
         if (player == null)
         {
             Debug.LogError("Player object with tag 'Player' not found in the scene.");
@@ -54,58 +59,70 @@ public class MirrorPlacement : MonoBehaviour
 
     void Update()
     {
-        // Check if the game is in a panning state
-        if (gameStateManager != null && gameStateManager.IsPanning)
+        scene = SceneManager.GetActiveScene();
+        Debug.Log(scene);
+        if (scene.name == "Help Scene")
         {
-            // If the camera is panning, prevent mirror placement and pickup
-            return;
-        }
-
-        // Check for mirror placement
-        if (Input.GetMouseButtonDown(0) && mirrorsPlaced < maxMirrors && currentMirror == null)
-        {
-            StartPlacingMirror();
-        }
-
-        if (currentMirror != null)
-        {
-            MoveMirrorToMousePosition();
-            HandleMirrorRotation(); // Updated method for rotating mirrors
-
-            if (IsPlacementValid())
+            Debug.Log("Help Controls Active");
+            // Check if the game is in a panning state
+            if (gameStateManager != null && gameStateManager.IsPanning)
             {
-                currentMirror.GetComponent<Renderer>().material.color = defaultColor;
-            }
-            else
-            {
-                currentMirror.GetComponent<Renderer>().material.color = invalidPlacementColor;
+                // If the camera is panning, prevent mirror placement and pickup
+                return;
             }
 
-            if (Input.GetMouseButtonDown(1) && IsPlacementValid()) // Right-click to place the mirror if the position is valid
+            // Check for mirror placement
+            if (playerCollisionsHELPSCREEN.mirrorActive) //active if player has done the player movement tutorial
             {
-                PlaceMirror();
+                Debug.Log("Mirror Active is true");
+                if (Input.GetMouseButtonDown(0) && mirrorsPlaced < maxMirrors && currentMirror == null)
+                {
+                    StartPlacingMirror();
+                    Debug.Log("Placing Mirror");
+                }
+
+
+                if (currentMirror != null)
+                {
+                    MoveMirrorToMousePosition();
+                    if (playerCollisionsHELPSCREEN.rotateMirror == true) //active if player activates mirror
+                    {
+                        HandleMirrorRotation(); // Updated method for rotating mirrors
+                    }
+
+                    if (IsPlacementValid())
+                    {
+                        currentMirror.GetComponent<Renderer>().material.color = defaultColor;
+                    }
+                    else
+                    {
+                        currentMirror.GetComponent<Renderer>().material.color = invalidPlacementColor;
+                    }
+
+                    if (playerCollisionsHELPSCREEN.placeMirror == true) //active if player rotates mirror
+                    {
+                        if (Input.GetMouseButtonDown(1) && IsPlacementValid()) // Right-click to place the mirror if the position is valid
+                        {
+                            PlaceMirror();
+                        }
+                    }
+                }
             }
-        }
 
-        // Check for mirror pickup
-        if (Input.GetKeyDown(KeyCode.F)) // Change to 'F' key for picking up mirrors
-        {
-            PickupMirror();
-        }
+            // Check for mirror pickup
+            if (playerCollisionsHELPSCREEN.mirrorPickUp == true) //active if player places mirror
+            {
+                if (Input.GetKeyDown(KeyCode.F)) // Change to 'F' key for picking up mirrors
+                {
+                    PickupMirror();
+                }
+            }
 
-        // Check player proximity to mirrors and mouse over to change color
-        if (!IsPlacingMirror) // Only check proximity if not placing a mirror
-        {
-            CheckProximityAndMouseOverMirrors();
-        }
-
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
-        else
-        {
-
+            // Check player proximity to mirrors and mouse over to change color
+            if (!IsPlacingMirror) // Only check proximity if not placing a mirror
+            {
+                CheckProximityAndMouseOverMirrors();
+            }
         }
     }
 
@@ -175,7 +192,6 @@ public class MirrorPlacement : MonoBehaviour
                 return;
             }
 
-            player.GetComponent<PlayerMovement>().animator.SetTrigger("placeMirror");
             renderer.material.color = defaultColor; // Reset to default color
             currentMirror = null; // Deselect mirror after placing
             mirrorsPlaced++;      // Increment the number of mirrors placed

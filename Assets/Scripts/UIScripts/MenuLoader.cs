@@ -33,16 +33,16 @@ public class MenuLoader : MonoBehaviour
         UpdateSceneMenu();
     }
 
-    void CheckActiveScene()
+    public void CheckActiveScene()
     {
         scene = SceneManager.GetActiveScene();
         Debug.Log("Active Scene is '" + scene.name + "'.");
     }
 
-    void UpdateSceneMenu()
+    public void UpdateSceneMenu()
     {
         scene = SceneManager.GetActiveScene();
-        Debug.Log("Active Scene is '" + scene.name + "'.");
+        //Debug.Log("Active Scene is '" + scene.name + "'.");
 
         if (scene.name == "MainMenu")
         {

@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,14 @@ public class PlayerCollisionsHELPSCREEN : MonoBehaviour
     public GameObject mirrorSetPanel;
     //public GameObject winPanel;
 
+    //bools to disable actions
+    public bool mirrorActive;
+    public bool mirrorPickUp;
+    public bool showLaser;
+    public bool shootLaser;
+    public bool rotateMirror;
+    public bool placeMirror;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +32,12 @@ public class PlayerCollisionsHELPSCREEN : MonoBehaviour
         mirrorPlacePanel.SetActive(false);
         laserShootPanel.SetActive(false);
         mirrorSetPanel.SetActive(false);
+        mirrorActive = false;
+        mirrorPickUp = false;
+        shootLaser = false;
+        showLaser = false;
+        rotateMirror = false;
+        placeMirror = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -30,15 +45,23 @@ public class PlayerCollisionsHELPSCREEN : MonoBehaviour
         //This event/function handles trigger events (collsion between a game object with a rigid body)
         if (other.gameObject.tag == "Tutorial")
         {
-            instructionsText.text = "Use the right click to place the mirror";
-            Debug.Log("Collided");
-            helpPanel.SetActive(false);
-            mirrorPlacePanel.SetActive(true);
+            mirrorActive = true;
+            
+            if (mirrorActive)
+            {
+                Debug.Log("Mirrors Active is true");
+                instructionsText.text = "Use the right click to place the mirror";
+                Debug.Log("Collided");
+                helpPanel.SetActive(false);
+                mirrorPlacePanel.SetActive(true);
+                
+            }
         }
 
         if (other.gameObject.tag == "MPTut")
         {
             instructionsText.text = "Use Q and E to rotate the mirror to the right and the left";
+            rotateMirror = true;
             mirrorPlacePanel.SetActive(false);
             mirrorMovePanel.SetActive(true);
         }
@@ -46,10 +69,24 @@ public class PlayerCollisionsHELPSCREEN : MonoBehaviour
         if (other.gameObject.tag == "MMTut")
         {
             instructionsText.text = "Use left click to place the mirror";
+            placeMirror = true;
+            mirrorMovePanel.SetActive(false);
+            laserShootPanel.SetActive(true);
+        }
+        if (other.gameObject.tag == "PickupTut")
+        {
+            instructionsText.text = "Press the F key to pick up the mirror";
+            placeMirror = true;
             mirrorMovePanel.SetActive(false);
             laserShootPanel.SetActive(true);
         }
 
+        if (other.gameObject.tag == "LSTut")
+        {
+            instructionsText.text = "Press the space bar to shoot the laser";
+            mirrorSetPanel.SetActive(false);
+            laserShootPanel.SetActive(false);
+        }
         if (other.gameObject.tag == "LSTut")
         {
             instructionsText.text = "Press the space bar to shoot the laser";
