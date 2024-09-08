@@ -61,6 +61,8 @@ public class MenuButton : MonoBehaviour
             gameManager.playerTut.SetActive(false);
             gameManager.mirrorPlacement.SetActive(true);
             gameManager.tutorialBoxes.SetActive(false);
+            gameManager.playerTut.SetActive(false);
+            gameManager.activePlayer = gameManager.player;
             Cursor.visible = true;
             gameManager.totalEnemies = 2;
             gameManager.enemiesRemaining = gameManager.totalEnemies;
@@ -118,6 +120,8 @@ public class MenuButton : MonoBehaviour
                 playerCollisionsHELPSCREEN.mirrorPlacePanel.SetActive(false);
                 playerCollisionsHELPSCREEN.laserShootPanel.SetActive(false);
                 playerCollisionsHELPSCREEN.mirrorSetPanel.SetActive(false);
+                gameManager.player.SetActive(false);
+                gameManager.activePlayer = gameManager.playerTut;
                 //Cursor.visible = true;
                 gameManager.totalEnemies = 1;
                 gameManager.enemiesRemaining = gameManager.totalEnemies;

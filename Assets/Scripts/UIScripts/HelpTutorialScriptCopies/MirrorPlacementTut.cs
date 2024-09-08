@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,16 +19,17 @@ public class MirrorPlacementTut : MonoBehaviour
     public Color defaultColor = Color.white; // Default color of the mirror
     public Color invalidPlacementColor = Color.red; // Color to indicate invalid placement
     public float placementCheckRadius = 0.5f; // Radius for checking valid placement
+    public TMP_Text pickupText;              // Reference to the TextMeshPro UI Text for pickup prompt
 
     private GameObject currentMirror;        // Currently selected mirror to place
     public int mirrorsPlaced = 0;           // Current count of placed mirrors
     private List<GameObject> pickedUpMirrors = new List<GameObject>(); // List to track picked-up mirrors
 
-    private float rotationStep = 5f;         // Rotate by 5 degrees each step
-    private float rotationInterval = 0.1f;   // Time between each rotation step in seconds
+    public float rotationStep = 5f;         // Rotate by 5 degrees each step
+    public float rotationInterval = 0.1f;   // Time between each rotation step in seconds
     private float rotationTimer = 0f;        // Timer to control rotation frequency
 
-    private GameObject player;               // Reference to the player object
+    public GameObject player;               // Reference to the player object
     private GameStateManager gameStateManager; // Reference to the GameStateManager
 
     public bool IsPlacingMirror { get; private set; } // Public property to check if a mirror is being placed
@@ -36,6 +38,7 @@ public class MirrorPlacementTut : MonoBehaviour
     public GameObject mirrorUIGreen;
     public PlayerCollisionsHELPSCREEN playerCollisionsHELPSCREEN;
     private Scene scene;
+
 
     void Start()
     {
@@ -55,6 +58,15 @@ public class MirrorPlacementTut : MonoBehaviour
 
         IsPlacingMirror = false; // Initially, no mirror is being placed
         mirrorUIGreen.SetActive(false); //Hides the green mirror UI Object at the start of the level
+
+        if (pickupText != null)
+        {
+            pickupText.text = ""; // Clear text at the start
+        }
+        else
+        {
+            Debug.LogError("PickupText UI element not assigned.");
+        }
     }
 
     void Update()
@@ -122,6 +134,11 @@ public class MirrorPlacementTut : MonoBehaviour
             if (!IsPlacingMirror) // Only check proximity if not placing a mirror
             {
                 CheckProximityAndMouseOverMirrors();
+            }
+
+            if (player == null)
+            {
+                player = GameObject.FindGameObjectWithTag("Player");
             }
         }
     }
@@ -191,11 +208,26 @@ public class MirrorPlacementTut : MonoBehaviour
                 Debug.LogError("The mirror does not have a Renderer component. Cannot place mirror.");
                 return;
             }
+            
+            // Check if the player or animator is missing
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            if (playerMovement != null && playerMovement.animator != null)
+            {
+                playerMovement.animator.SetTrigger("placeMirror");
+            }
+            else
+            {
+                Debug.LogWarning("Player or animator is null. Skipping mirror placement animation.");
+            }
 
             renderer.material.color = defaultColor; // Reset to default color
             currentMirror = null; // Deselect mirror after placing
             mirrorsPlaced++;      // Increment the number of mirrors placed
             IsPlacingMirror = false; // Set flag to false after placing a mirror
+        }
+        else
+        {
+            Debug.LogWarning("No mirror is being placed.");
         }
     }
 
@@ -221,8 +253,17 @@ public class MirrorPlacementTut : MonoBehaviour
                 pickedUpMirrors.Add(mirrorToPickup); // Add to the list of picked up mirrors
                 mirrorsPlaced--; // Decrement mirror count
 
+                // Hide the pickup prompt
+                if (pickupText != null)
+                {
+                    pickupText.text = "";
+                }
+
                 // Play mirror pickup sound
-                AudioManager.Instance.PlaySound(AudioManager.Instance.mirrorPickupClip);
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlaySound(AudioManager.Instance.mirrorPickupClip);
+                }
             }
         }
     }
@@ -230,6 +271,11 @@ public class MirrorPlacementTut : MonoBehaviour
     // Check if the current mirror placement is valid
     bool IsPlacementValid()
     {
+        if (currentMirror == null)
+        {
+            return false;
+        }
+
         // Check for collisions only with objects in the obstacle layer
         Collider[] colliders = Physics.OverlapSphere(currentMirror.transform.position, placementCheckRadius, obstacleLayer);
         foreach (Collider collider in colliders)
@@ -244,13 +290,13 @@ public class MirrorPlacementTut : MonoBehaviour
 
     void CheckProximityAndMouseOverMirrors()
     {
-        // If player reference is null, exit the method
         if (player == null)
         {
             return;
         }
 
         Vector3 playerPosition = player.transform.position;
+        bool isNearAnyMirror = false;
 
         // Check each mirror's distance to the player and if the mouse is over the mirror
         foreach (GameObject mirror in GameObject.FindGameObjectsWithTag("Mirror"))
@@ -274,8 +320,10 @@ public class MirrorPlacementTut : MonoBehaviour
                     if (hit.collider.gameObject == mirror)
                     {
                         mirrorRenderer.material.color = pickupColor; // Change color if in range and mouse over mirror
-                        mirrorUIWhite.SetActive(false); //hides regular mirror object
-                        mirrorUIGreen.SetActive(true);//switches to the green mirror object
+
+                        // Show the pickup prompt
+                        pickupText.text = "Press F to Pick Up";
+                        isNearAnyMirror = true;
                     }
                     else
                     {
@@ -287,6 +335,12 @@ public class MirrorPlacementTut : MonoBehaviour
             {
                 mirrorRenderer.material.color = defaultColor; // Revert to default color
             }
+        }
+
+        // If not near any mirror, hide the pickup prompt
+        if (!isNearAnyMirror && pickupText != null)
+        {
+            pickupText.text = "";
         }
     }
 

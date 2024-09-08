@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     private Scene scene;
 
     public GameObject player;
+    
+
+    public GameObject activePlayer;
 
     //UI Update Vars
     public GameObject mirrorPlacement;
