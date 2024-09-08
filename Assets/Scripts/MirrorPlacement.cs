@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;  // Add this for TextMesh Pro
+using TMPro; // TextMesh Pro for UI text
 
 public class MirrorPlacement : MonoBehaviour
 {
-    // Public Variables
     public GameObject mirrorPrefab;          // The mirror prefab to place
     public int maxMirrors = 3;               // Maximum number of mirrors that can be placed
     public LayerMask placementLayer;         // Layer on which mirrors can be placed
@@ -18,7 +17,6 @@ public class MirrorPlacement : MonoBehaviour
     public float placementCheckRadius = 0.5f; // Radius for checking valid placement
     public TMP_Text pickupText;              // Reference to the TextMeshPro UI Text for pickup prompt
 
-    // Private Variables
     private GameObject currentMirror;        // Currently selected mirror to place
     public int mirrorsPlaced = 0;            // Current count of placed mirrors
     private List<GameObject> pickedUpMirrors = new List<GameObject>(); // List to track picked-up mirrors
@@ -26,23 +24,27 @@ public class MirrorPlacement : MonoBehaviour
     public GameObject player;                // Reference to the player object
     private GameStateManager gameStateManager; // Reference to the GameStateManager
 
-    public bool IsPlacingMirror { get; private set; } // Keep it public but with private setter
+    // New variables
+    private bool isPlacingMirror = false;    // Tracks if a mirror is being placed
+    private float rotationTimer = 0f;        // Timer for handling rotation intervals
+    public float rotationStep = 15f;         // Degrees per rotation step
+    public float rotationInterval = 0.1f;    // Time interval between rotations
+    private bool hoverSoundPlayed = false;
 
-    // Variables for Rotation Handling
-    private float rotationTimer = 0f;
-    public float rotationInterval = 0.1f; // Time between rotations
-    public float rotationStep = 15f; // Degrees per rotation step
+    // Updated property
+    public bool IsPlacingMirror
+    {
+        get { return isPlacingMirror; }
+        private set { isPlacingMirror = value; }
+    }
     
+
     void Start()
     {
         // Cache the player reference at the start
         if (player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
-            if (player == null)
-            {
-                Debug.LogError("Player object with tag 'Player' not found in the scene.");
-            }
+            Debug.LogError("Player object with tag 'Player' not found in the scene.");
         }
 
         // Find the GameStateManager in the scene
@@ -83,7 +85,7 @@ public class MirrorPlacement : MonoBehaviour
         if (currentMirror != null)
         {
             MoveMirrorToMousePosition();
-            HandleMirrorRotation(); // Handle rotating mirrors
+            HandleMirrorRotation(); // Updated method for rotating mirrors
 
             if (IsPlacementValid())
             {
@@ -101,7 +103,7 @@ public class MirrorPlacement : MonoBehaviour
         }
 
         // Check for mirror pickup
-        if (Input.GetKeyDown(KeyCode.F)) // 'F' key for picking up mirrors
+        if (Input.GetKeyDown(KeyCode.F)) // Change to 'F' key for picking up mirrors
         {
             PickupMirror();
         }
@@ -199,6 +201,16 @@ public class MirrorPlacement : MonoBehaviour
             currentMirror = null; // Deselect mirror after placing
             mirrorsPlaced++;      // Increment the number of mirrors placed
             IsPlacingMirror = false; // Set flag to false after placing a mirror
+
+            // **Play placement sound here**
+            if (AudioManager.Instance != null && AudioManager.Instance.mirrorPlaceClip != null)
+            {
+                AudioManager.Instance.PlaySound(AudioManager.Instance.mirrorPlaceClip);
+            }
+            else
+            {
+                Debug.LogWarning("Mirror placement sound not set in AudioManager.");
+            }
         }
         else
         {
@@ -206,32 +218,44 @@ public class MirrorPlacement : MonoBehaviour
         }
     }
 
+
+
     void PickupMirror()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
+        // Log the start of the pickup process
+        Debug.Log("Attempting to pick up a mirror...");
+
+        // Check if the raycast hits something within the pickup range
         if (Physics.Raycast(ray, out hit, pickupRange, placementLayer))
         {
+            Debug.Log("Raycast hit detected: " + hit.collider.gameObject.name);
+
+            // Check if the object hit is a mirror
             if (hit.collider.CompareTag("Mirror"))
             {
+                Debug.Log("Mirror detected for pickup.");
+
                 GameObject mirrorToPickup = hit.collider.gameObject;
 
                 // Check if this mirror is already picked up
                 if (pickedUpMirrors.Contains(mirrorToPickup))
                 {
+                    Debug.Log("Mirror has already been picked up.");
                     return;
                 }
 
                 // Pickup the mirror
                 mirrorToPickup.SetActive(false); // Temporarily disable the mirror in the scene
-                pickedUpMirrors.Add(mirrorToPickup); // Add to the list of picked up mirrors
+                pickedUpMirrors.Add(mirrorToPickup); // Add to the list of picked-up mirrors
                 mirrorsPlaced--; // Decrement mirror count
 
-                // Hide the pickup prompt
+                // Update pickup text to reflect mirror pickup
                 if (pickupText != null)
                 {
-                    pickupText.text = "";
+                    pickupText.text = "Mirror picked up! Place it by right-clicking";
                 }
 
                 // Play mirror pickup sound
@@ -239,18 +263,25 @@ public class MirrorPlacement : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySound(AudioManager.Instance.mirrorPickupClip);
                 }
+
+                Debug.Log("Mirror picked up successfully.");
+            }
+            else
+            {
+                Debug.Log("Hit object is not a mirror: " + hit.collider.gameObject.name);
             }
         }
+        else
+        {
+            Debug.Log("Raycast did not hit any objects within the pickup range.");
+        }
     }
+
+
 
     // Check if the current mirror placement is valid
     bool IsPlacementValid()
     {
-        if (currentMirror == null)
-        {
-            return false;
-        }
-
         // Check for collisions only with objects in the obstacle layer
         Collider[] colliders = Physics.OverlapSphere(currentMirror.transform.position, placementCheckRadius, obstacleLayer);
         foreach (Collider collider in colliders)
@@ -273,7 +304,6 @@ public class MirrorPlacement : MonoBehaviour
         Vector3 playerPosition = player.transform.position;
         bool isNearAnyMirror = false;
 
-        // Check each mirror's distance to the player and if the mouse is over the mirror
         foreach (GameObject mirror in GameObject.FindGameObjectsWithTag("Mirror"))
         {
             float distance = Vector3.Distance(playerPosition, mirror.transform.position);
@@ -286,7 +316,6 @@ public class MirrorPlacement : MonoBehaviour
 
             if (distance <= colorChangeRange)
             {
-                // Perform a raycast from the camera to the mirror
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
@@ -294,30 +323,52 @@ public class MirrorPlacement : MonoBehaviour
                 {
                     if (hit.collider.gameObject == mirror)
                     {
-                        mirrorRenderer.material.color = pickupColor; // Change color if in range and mouse over mirror
+                        mirrorRenderer.material.color = pickupColor;
 
-                        // Show the pickup prompt
-                        pickupText.text = "Press F to Pick Up";
+                        // Play hover sound once
+                        if (!hoverSoundPlayed && AudioManager.Instance != null && AudioManager.Instance.mirrorHoverClip != null)
+                        {
+                            AudioManager.Instance.PlaySound(AudioManager.Instance.mirrorHoverClip);
+                            hoverSoundPlayed = true; // Set flag to true so it doesn't replay
+                        }
+
+                        // Show pickup prompt
+                        if (distance <= pickupRange)
+                        {
+                            pickupText.text = "Press F to Pick Up";
+                        }
+                        else
+                        {
+                            pickupText.text = "Move closer to pick up the mirror";
+                        }
+                        
                         isNearAnyMirror = true;
                     }
                     else
                     {
-                        mirrorRenderer.material.color = defaultColor; // Revert to default color
+                        mirrorRenderer.material.color = defaultColor;
                     }
                 }
             }
             else
             {
-                mirrorRenderer.material.color = defaultColor; // Revert to default color
+                mirrorRenderer.material.color = defaultColor;
             }
         }
 
-        // If not near any mirror, hide the pickup prompt
+        // Reset hover sound flag when not hovering
+        if (!isNearAnyMirror)
+        {
+            hoverSoundPlayed = false;
+        }
+
+        // Hide the pickup prompt if no mirror is near
         if (!isNearAnyMirror && pickupText != null)
         {
             pickupText.text = "";
         }
     }
+
 
     public void ReplaceMirror(Vector3 position)
     {

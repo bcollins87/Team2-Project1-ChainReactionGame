@@ -4,6 +4,7 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
+    // Existing Audio Clips
     public AudioClip laserShotClip;
     public AudioClip laserBounceClip;
     public AudioClip enemyHitClip;
@@ -13,6 +14,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip mirrorPickupClip;
     public AudioClip winClip;
     public AudioClip loseClip;
+
+    // New Audio Clip for Mirror Hover
+    public AudioClip mirrorHoverClip; // Add this for the hover sound
 
     private AudioSource audioSource;
 
