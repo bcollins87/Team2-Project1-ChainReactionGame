@@ -73,7 +73,7 @@ public class Laser : MonoBehaviour
         // Start firing only if not currently active, cooldown is finished, not placing a mirror, and shots are available
         if (Input.GetKeyDown(KeyCode.Space) && cooldownRemaining <= 0 && !isFiring && availableShots > 0 && (mirrorPlacement == null || !mirrorPlacement.IsPlacingMirror))
         {
-            StartFiring();
+            Invoke("StartFiring", .75f);
             animator.SetTrigger("signalStrike");
         }
 
