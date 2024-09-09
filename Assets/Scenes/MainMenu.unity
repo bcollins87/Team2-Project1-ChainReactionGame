@@ -2841,7 +2841,7 @@ MonoBehaviour:
   invalidPlacementColor: {r: 1, g: 0, b: 0, a: 1}
   placementCheckRadius: 1
   pickupText: {fileID: 237553203}
-  placementRange: 5
+  placementRange: 1
   mirrorsPlaced: 0
   player: {fileID: 1047362662}
   rotationStep: 5
