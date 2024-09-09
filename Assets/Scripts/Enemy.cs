@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour
 {
     private GameManager gameManager;
     private NavMeshAgent agent;
+    public Animator animator;
     
     // Patrol variables
     public Transform[] waypoints;  // Set waypoints in the Inspector
@@ -137,7 +138,7 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         gameManager.EnemyKilled(); // Notify GameManager
-        Destroy(gameObject); // Destroy the enemy object
+        animator.SetBool("isAlive", false);
 
         // Play enemy death sound
         AudioManager.Instance.PlaySound(AudioManager.Instance.enemyDeathClip);
