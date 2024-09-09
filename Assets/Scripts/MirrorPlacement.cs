@@ -9,13 +9,14 @@ public class MirrorPlacement : MonoBehaviour
     public LayerMask placementLayer;         // Layer on which mirrors can be placed
     public LayerMask obstacleLayer;          // Layer to check for obstacles (e.g., walls, other objects)
     public float rotationSpeed = 10f;        // Speed at which the mirror rotates
-    public float pickupRange = 3f;           // Range within which a player can pick up a mirror
+    public float pickupRange = 20f;           // Range within which a player can pick up a mirror
     public float colorChangeRange = 2.5f;    // Range for changing mirror color
     public Color pickupColor = Color.green;  // Color to change when player is in range and mouse is over mirror
     public Color defaultColor = Color.white; // Default color of the mirror
     public Color invalidPlacementColor = Color.red; // Color to indicate invalid placement
     public float placementCheckRadius = 0.5f; // Radius for checking valid placement
     public TMP_Text pickupText;              // Reference to the TextMeshPro UI Text for pickup prompt
+    public float placementRange = 5f; // Maximum range within which the player can place mirrors
 
     private GameObject currentMirror;        // Currently selected mirror to place
     public int mirrorsPlaced = 0;            // Current count of placed mirrors
@@ -132,8 +133,18 @@ public class MirrorPlacement : MonoBehaviour
                 // Calculate the correct spawn position above the floor based on the mirror's height
                 float mirrorHeightOffset = mirrorPrefab.transform.localScale.y * 0.5f; // Half of the mirror's height
                 Vector3 spawnPosition = hit.point + new Vector3(0, mirrorHeightOffset, 0); // Add offset above the ground
-                currentMirror = Instantiate(mirrorPrefab, spawnPosition, Quaternion.identity);
-                IsPlacingMirror = true; // Set flag to true when starting to place a mirror
+                
+                // Check if the spawn position is within range of the player
+                float distanceToPlayer = Vector3.Distance(player.transform.position, spawnPosition);
+                if (distanceToPlayer <= placementRange)
+                {
+                    currentMirror = Instantiate(mirrorPrefab, spawnPosition, Quaternion.identity);
+                    IsPlacingMirror = true; // Set flag to true when starting to place a mirror
+                }
+                else
+                {
+                    Debug.LogWarning("Mirror placement too far from player.");
+                }
             }
         }
     }
