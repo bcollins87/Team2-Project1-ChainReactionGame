@@ -2426,7 +2426,7 @@ MonoBehaviour:
   mirrorNumber: {fileID: 904832075}
   restartButton: {fileID: 954180731}
   shotBar: {fileID: 1102515707}
-  player: {fileID: 782231737}
+  player: {fileID: 1848875615}
   activePlayer: {fileID: 0}
   mirrorPlacement: {fileID: 744757327}
   menuLoader: {fileID: 1150331077}
@@ -8842,7 +8842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mirrorPrefab: {fileID: 7399476553629557585, guid: f8b926c5547db614c8e13c52e93269c6, type: 3}
-  maxMirrors: 3
+  maxMirrors: 4
   placementLayer:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -8858,7 +8858,7 @@ MonoBehaviour:
   placementCheckRadius: 0.5
   pickupText: {fileID: 1595068968}
   mirrorsPlaced: 0
-  player: {fileID: 21690793}
+  player: {fileID: 1848875615}
   rotationStep: 5
   rotationInterval: 0.1
 --- !u!4 &744757329
@@ -9152,11 +9152,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1455485115}
   m_SourcePrefab: {fileID: 100100000, guid: 11d13692dbe8044e288f982c19e7428a, type: 3}
---- !u!1 &782231737 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1490321348508632165, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
-  m_PrefabInstance: {fileID: 2124532145}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &782231738 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
@@ -9924,7 +9919,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &812326268
 Transform:
   m_ObjectHideFlags: 0
@@ -22418,6 +22413,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonController: {fileID: 470842554}
   disableOnce: 1
+--- !u!1 &1848875615 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3601723898615856607, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
+  m_PrefabInstance: {fileID: 2124532145}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1853086235
 GameObject:
   m_ObjectHideFlags: 0
@@ -25755,7 +25755,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1490321348508632165, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2218803398155049230, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalPosition.y
@@ -25763,15 +25763,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -94.54361
+      value: -94.5
       objectReference: {fileID: 0}
     - target: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -38.013
+      value: -38.02
       objectReference: {fileID: 0}
     - target: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 74.677155
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalRotation.w

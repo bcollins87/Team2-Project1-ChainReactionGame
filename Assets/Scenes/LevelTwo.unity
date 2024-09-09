@@ -11235,7 +11235,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!120 &924018173
 LineRenderer:
   serializedVersion: 2
@@ -24757,15 +24757,15 @@ PrefabInstance:
       objectReference: {fileID: 924018178}
     - target: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 159.94
+      value: -33.28
       objectReference: {fileID: 0}
     - target: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -55.33
+      value: -30.8
       objectReference: {fileID: 0}
     - target: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.6
+      value: 88.89
       objectReference: {fileID: 0}
     - target: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalRotation.w
@@ -24802,10 +24802,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7680678829045619560, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2043792090}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
 --- !u!1001 &2012851557
 PrefabInstance:
@@ -25273,37 +25270,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5715384973331311576, guid: d8e62113aeeee43d183ac5185ed7cb83, type: 3}
   m_PrefabInstance: {fileID: 1120789950}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2043792088 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7680678829045619560, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
-  m_PrefabInstance: {fileID: 2010476063}
-  m_PrefabAsset: {fileID: 0}
---- !u!143 &2043792090
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2043792088}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 1.75
-  m_Radius: 0.25
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0.18, y: 0.84, z: 0.25}
 --- !u!1001 &2046666427
 PrefabInstance:
   m_ObjectHideFlags: 0

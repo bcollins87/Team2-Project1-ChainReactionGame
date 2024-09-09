@@ -10,7 +10,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
         // Get the CharacterController component
         characterController = GetComponent<CharacterController>();
         if (characterController == null)

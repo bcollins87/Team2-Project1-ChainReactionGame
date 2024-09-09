@@ -74,22 +74,9 @@ public class GameManager : MonoBehaviour
         tutorialBoxes.SetActive(false);
     }
 
-
-    private void Update()
-    {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
-        else
-        {
-
-        }
-    }
-
     public void EnemyKilled()
     {
-        player.GetComponent<PlayerMovement>().animator.SetTrigger("celebrate");
+        //player.GetComponent<PlayerMovement>().animator.SetTrigger("celebrate");
         enemiesRemaining--;
 
         if (enemyNumber != null)

@@ -5,7 +5,7 @@ using TMPro; // TextMesh Pro for UI text
 public class MirrorPlacement : MonoBehaviour
 {
     public GameObject mirrorPrefab;          // The mirror prefab to place
-    public int maxMirrors = 3;               // Maximum number of mirrors that can be placed
+    public int maxMirrors = 5;               // Maximum number of mirrors that can be placed
     public LayerMask placementLayer;         // Layer on which mirrors can be placed
     public LayerMask obstacleLayer;          // Layer to check for obstacles (e.g., walls, other objects)
     public float rotationSpeed = 10f;        // Speed at which the mirror rotates
