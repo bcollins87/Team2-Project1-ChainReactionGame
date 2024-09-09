@@ -9,19 +9,21 @@ public class MirrorPlacement : MonoBehaviour
     public LayerMask placementLayer;         // Layer on which mirrors can be placed
     public LayerMask obstacleLayer;          // Layer to check for obstacles (e.g., walls, other objects)
     public float rotationSpeed = 10f;        // Speed at which the mirror rotates
-    public float pickupRange = 3f;           // Range within which a player can pick up a mirror
+    public float pickupRange = 20f;           // Range within which a player can pick up a mirror
     public float colorChangeRange = 2.5f;    // Range for changing mirror color
     public Color pickupColor = Color.green;  // Color to change when player is in range and mouse is over mirror
     public Color defaultColor = Color.white; // Default color of the mirror
     public Color invalidPlacementColor = Color.red; // Color to indicate invalid placement
     public float placementCheckRadius = 0.5f; // Radius for checking valid placement
     public TMP_Text pickupText;              // Reference to the TextMeshPro UI Text for pickup prompt
+    public float placementRange = 5f; // Maximum range within which the player can place mirrors
 
     private GameObject currentMirror;        // Currently selected mirror to place
     public int mirrorsPlaced = 0;            // Current count of placed mirrors
     private List<GameObject> pickedUpMirrors = new List<GameObject>(); // List to track picked-up mirrors
 
     public GameObject player;                // Reference to the player object
+    private CharacterController playerController; // Reference to the player's CharacterController
     private GameStateManager gameStateManager; // Reference to the GameStateManager
 
     // New variables
@@ -30,6 +32,7 @@ public class MirrorPlacement : MonoBehaviour
     public float rotationStep = 15f;         // Degrees per rotation step
     public float rotationInterval = 0.1f;    // Time interval between rotations
     private bool hoverSoundPlayed = false;
+    public LayerMask ignorePlayerLayer;
 
     // Updated property
     public bool IsPlacingMirror
@@ -39,33 +42,48 @@ public class MirrorPlacement : MonoBehaviour
     }
     
 
-    void Start()
-    {
-        // Cache the player reference at the start
-        if (player == null)
+        void Start()
         {
-            Debug.LogError("Player object with tag 'Player' not found in the scene.");
+            // Cache the player reference at the start
+            if (player == null)
+            {
+                player = GameObject.FindGameObjectWithTag("Player");
+                if (player == null)
+                {
+                    Debug.LogError("Player object with tag 'Player' not found in the scene.");
+                }
+            }
+
+            // Cache the player's CharacterController
+            if (player != null)
+            {
+                playerController = player.GetComponent<CharacterController>();
+                if (playerController == null)
+                {
+                    Debug.LogError("Player CharacterController not found.");
+                }
+            }
+
+            // Find the GameStateManager in the scene
+            gameStateManager = FindObjectOfType<GameStateManager>();
+            if (gameStateManager == null)
+            {
+                Debug.LogError("GameStateManager not found in the scene.");
+            }
+
+            IsPlacingMirror = false; // Initially, no mirror is being placed
+
+            // Initially hide the pickup text
+            if (pickupText != null)
+            {
+                pickupText.text = ""; // Clear text at the start
+            }
+            else
+            {
+                Debug.LogError("PickupText UI element not assigned.");
+            }
         }
 
-        // Find the GameStateManager in the scene
-        gameStateManager = FindObjectOfType<GameStateManager>();
-        if (gameStateManager == null)
-        {
-            Debug.LogError("GameStateManager not found in the scene.");
-        }
-
-        IsPlacingMirror = false; // Initially, no mirror is being placed
-
-        // Initially hide the pickup text
-        if (pickupText != null)
-        {
-            pickupText.text = ""; // Clear text at the start
-        }
-        else
-        {
-            Debug.LogError("PickupText UI element not assigned.");
-        }
-    }
 
     void Update()
     {
@@ -122,38 +140,74 @@ public class MirrorPlacement : MonoBehaviour
 
     void StartPlacingMirror()
     {
+        // Disable the player's CharacterController to prevent movement during placement
+        if (playerController != null)
+        {
+            playerController.enabled = false;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, placementLayer))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, placementLayer & ~ignorePlayerLayer))
         {
             if (hit.collider.CompareTag("Floor"))
             {
-                // Calculate the correct spawn position above the floor based on the mirror's height
-                float mirrorHeightOffset = mirrorPrefab.transform.localScale.y * 0.5f; // Half of the mirror's height
-                Vector3 spawnPosition = hit.point + new Vector3(0, mirrorHeightOffset, 0); // Add offset above the ground
-                currentMirror = Instantiate(mirrorPrefab, spawnPosition, Quaternion.identity);
-                IsPlacingMirror = true; // Set flag to true when starting to place a mirror
+                // Check if the mirror position is within the allowed range from the player
+                Vector3 playerPosition = new Vector3(player.transform.position.x, 0, player.transform.position.z);
+                Vector3 hitPosition = new Vector3(hit.point.x, 0, hit.point.z);
+                float distanceToPlayer = Vector3.Distance(playerPosition, hitPosition);
+
+                if (distanceToPlayer <= placementRange)
+                {
+                    float mirrorHeightOffset = mirrorPrefab.transform.localScale.y * 0.5f;
+                    Vector3 spawnPosition = hit.point + new Vector3(0, mirrorHeightOffset, 0);
+
+                    currentMirror = Instantiate(mirrorPrefab, spawnPosition, Quaternion.identity);
+                    IsPlacingMirror = true; // Start placing the mirror
+                }
+                else
+                {
+                    Debug.LogWarning("Mirror placement too far from player.");
+                }
             }
         }
     }
 
-    void MoveMirrorToMousePosition()
+
+
+
+void MoveMirrorToMousePosition()
+{
+    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    RaycastHit hit;
+
+    // Raycast that ignores the player layer using the LayerMask
+    if (Physics.Raycast(ray, out hit, Mathf.Infinity, placementLayer & ~ignorePlayerLayer))
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, placementLayer))
+        if (hit.collider.CompareTag("Floor"))
         {
-            if (hit.collider.CompareTag("Floor"))
+            // Calculate the correct position above the floor based on the mirror's height
+            float mirrorHeightOffset = currentMirror.transform.localScale.y * 0.5f; // Half of the mirror's height
+            Vector3 newPosition = hit.point + new Vector3(0, mirrorHeightOffset, 0); // Add offset above the ground
+
+            // Use only X and Z for distance calculation (top-down game)
+            Vector3 playerPosition = new Vector3(player.transform.position.x, 0, player.transform.position.z);
+            Vector3 mirrorPosition = new Vector3(newPosition.x, 0, newPosition.z);
+            float distanceToPlayer = Vector3.Distance(playerPosition, mirrorPosition);
+
+            // Restrict movement to within placement range
+            if (distanceToPlayer <= placementRange)
             {
-                // Calculate the correct position above the floor based on the mirror's height
-                float mirrorHeightOffset = currentMirror.transform.localScale.y * 0.5f; // Half of the mirror's height
-                Vector3 newPosition = hit.point + new Vector3(0, mirrorHeightOffset, 0); // Add offset above the ground
-                currentMirror.transform.position = newPosition;
+                currentMirror.transform.position = newPosition; // Update the mirror position
+            }
+            else
+            {
+                Debug.LogWarning("Cannot move mirror beyond placement range.");
             }
         }
     }
+}
 
     void HandleMirrorRotation()
     {
@@ -175,48 +229,40 @@ public class MirrorPlacement : MonoBehaviour
     }
 
     void PlaceMirror()
-    {
-        if (currentMirror != null)
         {
-            // Ensure the current mirror is a valid object and its renderer is accessible
-            Renderer renderer = currentMirror.GetComponent<Renderer>();
-            if (renderer == null)
+            if (currentMirror != null)
             {
-                Debug.LogError("The mirror does not have a Renderer component. Cannot place mirror.");
-                return;
-            }
+                Renderer renderer = currentMirror.GetComponent<Renderer>();
+                if (renderer == null)
+                {
+                    Debug.LogError("The mirror does not have a Renderer component. Cannot place mirror.");
+                    return;
+                }
 
-            // Check if the player or animator is missing
-            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-            if (playerMovement != null && playerMovement.animator != null)
-            {
-                playerMovement.animator.SetTrigger("placeMirror");
+                // Re-enable the player's CharacterController after placing the mirror
+                if (playerController != null)
+                {
+                    playerController.enabled = true;
+                }
+
+                currentMirror = null;
+                mirrorsPlaced++;
+                IsPlacingMirror = false;
+
+                if (AudioManager.Instance != null && AudioManager.Instance.mirrorPlaceClip != null)
+                {
+                    AudioManager.Instance.PlaySound(AudioManager.Instance.mirrorPlaceClip);
+                }
+                else
+                {
+                    Debug.LogWarning("Mirror placement sound not set in AudioManager.");
+                }
             }
             else
             {
-                Debug.LogWarning("Player or animator is null. Skipping mirror placement animation.");
-            }
-
-            renderer.material.color = defaultColor; // Reset to default color
-            currentMirror = null; // Deselect mirror after placing
-            mirrorsPlaced++;      // Increment the number of mirrors placed
-            IsPlacingMirror = false; // Set flag to false after placing a mirror
-
-            // **Play placement sound here**
-            if (AudioManager.Instance != null && AudioManager.Instance.mirrorPlaceClip != null)
-            {
-                AudioManager.Instance.PlaySound(AudioManager.Instance.mirrorPlaceClip);
-            }
-            else
-            {
-                Debug.LogWarning("Mirror placement sound not set in AudioManager.");
+                Debug.LogWarning("No mirror is being placed.");
             }
         }
-        else
-        {
-            Debug.LogWarning("No mirror is being placed.");
-        }
-    }
 
 
 

@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     public float fieldOfViewAngle = 90f;
     public LayerMask playerLayer;    // Assign in Inspector (layer for player)
     public LayerMask obstacleLayer;  // Obstacles like walls
+    
     private bool playerDetected = false;
 
     // Alert system
