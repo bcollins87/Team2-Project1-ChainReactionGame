@@ -2846,6 +2846,9 @@ MonoBehaviour:
   player: {fileID: 1047362662}
   rotationStep: 5
   rotationInterval: 0.1
+  ignorePlayerLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &268010258
 GameObject:
   m_ObjectHideFlags: 0
@@ -8999,6 +9002,9 @@ MonoBehaviour:
   player: {fileID: 1848875615}
   rotationStep: 5
   rotationInterval: 0.1
+  ignorePlayerLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!4 &744757329
 Transform:
   m_ObjectHideFlags: 0
@@ -26006,11 +26012,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -38.02
+      value: -35.6
       objectReference: {fileID: 0}
     - target: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 75
+      value: 79.08
       objectReference: {fileID: 0}
     - target: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalRotation.w
@@ -26039,6 +26045,14 @@ PrefabInstance:
     - target: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055967328524588594, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 31.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055967328524588594, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -69.5
       objectReference: {fileID: 0}
     - target: {fileID: 8481082314995898130, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_Range
