@@ -232,6 +232,7 @@ public class GameManager : MonoBehaviour
     {
         if (enemiesRemaining <= 0)  // Ensure all enemies are defeated
         {
+
             // Instead of using the dynamic name, directly load "LevelTwoOLD"
             string nextLevelName = "LevelTwo";  // Explicitly set the next level name
             SceneManager.LoadScene(nextLevelName);  // Load LevelTwoOLD
@@ -240,6 +241,10 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("Cannot enter the elevator until all enemies are defeated.");
+
+            Debug.Log("WinScreen!");
+            winMenu.SetActive(true);
+
         }
     }
 
