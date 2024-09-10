@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
     public GameObject mirrorPlacementTut;
     public GameObject playerTut;
     public GameObject tutorialBoxes;
+    public GameObject tutorialStuff; //Game object that includes all the tutorial objects
+
     public Collider elevatorCollider;  // Add this to the top with other public variables
 
 
