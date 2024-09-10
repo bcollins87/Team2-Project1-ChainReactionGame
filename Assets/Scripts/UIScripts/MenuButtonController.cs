@@ -107,8 +107,10 @@ public class MenuButton : MonoBehaviour
             }
             else 
             {
-                UnityEngine.SceneManagement.SceneManager.LoadScene("Help Scene");
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Help");
 
+
+                /*
                 //Change Variables for Health 
                 gameManager.mirrorPlacementTut.SetActive(true);
                 gameManager.mirrorPlacement.SetActive(false);
@@ -137,6 +139,7 @@ public class MenuButton : MonoBehaviour
                 gameManager.mirrorNumber.text = "" + mirrorsLeft;
                 menuLoader.UpdateSceneMenu();
                 Debug.Log("This is working");
+                */
             }
         }
         else if (indexHere == 3)

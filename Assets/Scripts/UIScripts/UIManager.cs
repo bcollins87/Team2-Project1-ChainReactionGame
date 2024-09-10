@@ -44,7 +44,7 @@ public class UIManager : MonoBehaviour
     }
     public void OnClickHelpScene()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Help Scene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Help");
        // gameManager.SetVariable();
     }
     public void OnClickOptionsScene()
