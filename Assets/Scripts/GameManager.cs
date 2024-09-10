@@ -38,8 +38,8 @@ public class GameManager : MonoBehaviour
     public GameObject mirrorPlacementTut;
     public GameObject playerTut;
     public GameObject tutorialBoxes;
-    public GameObject endLevelCollider;
-   
+    public Collider elevatorCollider;  // Add this to the top with other public variables
+
 
 
     private void Awake()
@@ -54,6 +54,25 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    void Update()
+    {
+        // Debug: Kill all enemies and activate the elevator when pressing the "K" key
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Debug.Log("Debug mode: All enemies killed.");
+            KillAllEnemiesDebug();
+        }
+    }
+
+    private void KillAllEnemiesDebug()
+    {
+        // Set the remaining enemies to 0 and activate the elevator
+        enemiesRemaining = 0;
+        CheckGameState();  // Check and trigger the elevator activation
+    }
+
+    
 
     void Start()
     {
@@ -142,12 +161,20 @@ public class GameManager : MonoBehaviour
         {
             if (winMenu != null && loseMenu != null)
             {
-                //winMenu.SetActive(true);
+                winMenu.SetActive(true);
                 loseMenu.SetActive(false);  // Ensure the lose menu is not active
                 restartButton.SetActive(true);
-                endLevelCollider.SetActive(true); //Collider opens to allow player to move to next level
                 Debug.Log("Win condition met");
-               
+
+                // Activate the elevator collider
+                if (elevatorCollider != null)
+                {
+                    elevatorCollider.enabled = true;
+                }
+                else
+                {
+                    Debug.LogError("Elevator collider is not assigned.");
+                }
 
                 // Play win sound
                 if (AudioManager.Instance != null && AudioManager.Instance.winClip != null)
@@ -191,15 +218,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void PlayerEnteredElevator()
     {
-        //This event/function handles trigger events (collsion between a game object with a rigid body)
-        if (other.gameObject.tag == "EndLevel")
+        if (enemiesRemaining <= 0)  // Ensure all enemies are defeated
         {
-            winMenu.SetActive(true);
+            // Instead of using the dynamic name, directly load "LevelTwoOLD"
+            string nextLevelName = "LevelTwoOLD";  // Explicitly set the next level name
+            SceneManager.LoadScene(nextLevelName);  // Load LevelTwoOLD
+            Debug.Log("Transitioning to next level: " + nextLevelName);
+        }
+        else
+        {
+            Debug.Log("Cannot enter the elevator until all enemies are defeated.");
         }
     }
-        public void RestartGame()
+
+
+    public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
