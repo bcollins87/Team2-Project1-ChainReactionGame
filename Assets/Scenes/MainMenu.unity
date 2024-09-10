@@ -2703,7 +2703,7 @@ MonoBehaviour:
   mirrorPlacementTut: {fileID: 1226759770}
   playerTut: {fileID: 21690793}
   tutorialBoxes: {fileID: 1185303567}
-  endLevelCollider: {fileID: 985376274}
+  elevatorCollider: {fileID: 5691380395025346002, guid: 8b311f747d3dc714ba13fdbe6410ac1d, type: 3}
 --- !u!114 &267960138
 MonoBehaviour:
   m_ObjectHideFlags: 0

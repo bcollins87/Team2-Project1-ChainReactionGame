@@ -152,21 +152,44 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CheckGameState()
+   public void CheckGameState()
     {
         Debug.Log("Checking game state. Shots fired: " + shotsFired + ", Enemies remaining: " + enemiesRemaining);
 
         // Win condition: No enemies left
         if (enemiesRemaining <= 0)
         {
-            if (winMenu != null && loseMenu != null)
+            // Check if you're on the final level (Level 3 in this case)
+            if (SceneManager.GetActiveScene().name == "Level3")
             {
-                winMenu.SetActive(true);
-                loseMenu.SetActive(false);  // Ensure the lose menu is not active
-                restartButton.SetActive(true);
-                Debug.Log("Win condition met");
+                // Show the win screen only on Level 3
+                if (winMenu != null && loseMenu != null)
+                {
+                    winMenu.SetActive(true);
+                    loseMenu.SetActive(false);  // Ensure the lose menu is not active
+                    restartButton.SetActive(true);
+                    Debug.Log("Win condition met - Final Level Completed");
 
-                // Activate the elevator collider
+                    // Play win sound
+                    if (AudioManager.Instance != null && AudioManager.Instance.winClip != null)
+                    {
+                        AudioManager.Instance.PlaySound(AudioManager.Instance.winClip);
+                    }
+                    else
+                    {
+                        Debug.LogError("AudioManager instance or winClip is null. Cannot play win sound.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Win or Lose menu references are null.");
+                }
+            }
+            else
+            {
+                // Just unlock the elevator for non-final levels
+                Debug.Log("Enemies defeated. Unlocking the elevator for the next level.");
+
                 if (elevatorCollider != null)
                 {
                     elevatorCollider.enabled = true;
@@ -175,20 +198,6 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.LogError("Elevator collider is not assigned.");
                 }
-
-                // Play win sound
-                if (AudioManager.Instance != null && AudioManager.Instance.winClip != null)
-                {
-                    AudioManager.Instance.PlaySound(AudioManager.Instance.winClip);
-                }
-                else
-                {
-                    Debug.LogError("AudioManager instance or winClip is null. Cannot play win sound.");
-                }
-            }
-            else
-            {
-                Debug.LogError("Win or Lose menu references are null.");
             }
         }
         // Lose condition: No shots left, but enemies still remain
@@ -218,12 +227,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     public void PlayerEnteredElevator()
     {
         if (enemiesRemaining <= 0)  // Ensure all enemies are defeated
         {
             // Instead of using the dynamic name, directly load "LevelTwoOLD"
-            string nextLevelName = "LevelTwoOLD";  // Explicitly set the next level name
+            string nextLevelName = "LevelTwo";  // Explicitly set the next level name
             SceneManager.LoadScene(nextLevelName);  // Load LevelTwoOLD
             Debug.Log("Transitioning to next level: " + nextLevelName);
         }
