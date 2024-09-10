@@ -227,12 +227,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     public void PlayerEnteredElevator()
     {
         if (enemiesRemaining <= 0)  // Ensure all enemies are defeated
         {
-
             // Instead of using the dynamic name, directly load "LevelTwoOLD"
             string nextLevelName = "LevelTwo";  // Explicitly set the next level name
             SceneManager.LoadScene(nextLevelName);  // Load LevelTwoOLD
@@ -240,11 +238,12 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            // The player is trying to enter the elevator without defeating all enemies
             Debug.Log("Cannot enter the elevator until all enemies are defeated.");
-
-            Debug.Log("WinScreen!");
-            winMenu.SetActive(true);
-
+            
+            // Do NOT activate the win screen here!
+            // Remove the following line that causes the win screen to show prematurely:
+            // winMenu.SetActive(true);
         }
     }
 
