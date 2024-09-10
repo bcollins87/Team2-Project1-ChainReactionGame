@@ -14,6 +14,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip mirrorPickupClip;
     public AudioClip winClip;
     public AudioClip loseClip;
+    public AudioClip enemyAlert;
+    public AudioClip enemyDeath;
+    public AudioClip elevatorBeep;
 
     // New Audio Clip for Mirror Hover
     public AudioClip mirrorHoverClip; // Add this for the hover sound

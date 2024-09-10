@@ -62,6 +62,7 @@ public class MenuButton : MonoBehaviour
             gameManager.mirrorPlacement.SetActive(true);
             gameManager.tutorialBoxes.SetActive(false);
             gameManager.playerTut.SetActive(false);
+            gameManager.endLevelCollider.SetActive(false);
             gameManager.activePlayer = gameManager.player;
             Cursor.visible = true;
             gameManager.totalEnemies = 2;

@@ -34,7 +34,8 @@ public class MirrorPlacement : MonoBehaviour
     private bool hoverSoundPlayed = false;
     public LayerMask ignorePlayerLayer;
 
-    public TMP_Text mirrorNumberText;
+    public TMP_Text mirrorNumberText; //text for mirrors left
+    
 
     // Updated property
     public bool IsPlacingMirror
@@ -85,6 +86,7 @@ public class MirrorPlacement : MonoBehaviour
                 Debug.LogError("PickupText UI element not assigned.");
             }
         mirrorNumberText.text = "" + (maxMirrors-mirrorsPlaced);
+        
         }
 
 

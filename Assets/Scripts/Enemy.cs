@@ -106,6 +106,16 @@ public class Enemy : MonoBehaviour
                         alertTimer = alertDuration;  // Reset the alert timer
                         agent.SetDestination(lastKnownPosition);  // Move towards the last known position
                         Debug.Log("Player detected! Moving to investigate...");
+
+                        // Play win sound
+                        if (AudioManager.Instance != null && AudioManager.Instance.enemyAlert != null)
+                        {
+                            AudioManager.Instance.PlaySound(AudioManager.Instance.enemyAlert);
+                        }
+                        else
+                        {
+                            Debug.LogError("AudioManager instance or enemyAlert is null. Cannot play win sound.");
+                        }
                     }
                     else
                     {

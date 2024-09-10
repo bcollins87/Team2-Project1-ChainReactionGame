@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
     public GameObject mirrorPlacementTut;
     public GameObject playerTut;
     public GameObject tutorialBoxes;
+    public GameObject endLevelCollider;
+   
 
 
     private void Awake()
@@ -140,9 +142,10 @@ public class GameManager : MonoBehaviour
         {
             if (winMenu != null && loseMenu != null)
             {
-                winMenu.SetActive(true);
+                //winMenu.SetActive(true);
                 loseMenu.SetActive(false);  // Ensure the lose menu is not active
                 restartButton.SetActive(true);
+                endLevelCollider.SetActive(true); //Collider opens to allow player to move to next level
                 Debug.Log("Win condition met");
                
 
@@ -188,7 +191,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void RestartGame()
+    private void OnTriggerEnter(Collider other)
+    {
+        //This event/function handles trigger events (collsion between a game object with a rigid body)
+        if (other.gameObject.tag == "EndLevel")
+        {
+            winMenu.SetActive(true);
+        }
+    }
+        public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
