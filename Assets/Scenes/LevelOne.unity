@@ -17356,6 +17356,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goon@T-Pose (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a51dd18d74abe5043ac864cf2372b50a, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 2090885494384197702, guid: a51dd18d74abe5043ac864cf2372b50a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -25855,6 +25859,10 @@ PrefabInstance:
     - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_Name
       value: Goon@T-Pose
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 8889595768011539826, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_LocalPosition.x

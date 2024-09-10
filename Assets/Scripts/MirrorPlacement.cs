@@ -34,6 +34,8 @@ public class MirrorPlacement : MonoBehaviour
     private bool hoverSoundPlayed = false;
     public LayerMask ignorePlayerLayer;
 
+    public TMP_Text mirrorNumberText;
+
     // Updated property
     public bool IsPlacingMirror
     {
@@ -82,6 +84,7 @@ public class MirrorPlacement : MonoBehaviour
             {
                 Debug.LogError("PickupText UI element not assigned.");
             }
+        mirrorNumberText.text = "" + (maxMirrors-mirrorsPlaced);
         }
 
 
@@ -247,6 +250,7 @@ void MoveMirrorToMousePosition()
 
                 currentMirror = null;
                 mirrorsPlaced++;
+                mirrorNumberText.text = "" + (maxMirrors - mirrorsPlaced); //displays number of mirrors left 
                 IsPlacingMirror = false;
 
                 if (AudioManager.Instance != null && AudioManager.Instance.mirrorPlaceClip != null)
@@ -297,6 +301,7 @@ void MoveMirrorToMousePosition()
                 mirrorToPickup.SetActive(false); // Temporarily disable the mirror in the scene
                 pickedUpMirrors.Add(mirrorToPickup); // Add to the list of picked-up mirrors
                 mirrorsPlaced--; // Decrement mirror count
+                mirrorNumberText.text = "" + (maxMirrors - mirrorsPlaced); //displays number of mirrors left 
 
                 // Update pickup text to reflect mirror pickup
                 if (pickupText != null)

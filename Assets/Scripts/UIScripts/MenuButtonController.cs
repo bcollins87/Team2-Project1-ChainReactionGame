@@ -66,7 +66,7 @@ public class MenuButton : MonoBehaviour
             Cursor.visible = true;
             gameManager.totalEnemies = 2;
             gameManager.enemiesRemaining = gameManager.totalEnemies;
-            mirrorPlacement.maxMirrors = 3;
+            mirrorPlacement.maxMirrors = 5;
             mirrorsLeft = mirrorPlacement.maxMirrors - mirrorPlacement.mirrorsPlaced;
             gameManager.shotsRemaining = 3;
             Debug.Log(gameManager.totalEnemies);

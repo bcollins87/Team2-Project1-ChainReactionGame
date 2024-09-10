@@ -37,6 +37,7 @@ public class Enemy : MonoBehaviour
         
         // Start patrolling
         PatrolToNextWaypoint();
+        animator.SetBool("isAlive", true);
     }
 
     void Update()
