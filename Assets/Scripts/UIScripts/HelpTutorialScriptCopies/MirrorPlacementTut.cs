@@ -38,6 +38,8 @@ public class MirrorPlacementTut : MonoBehaviour
     public GameObject mirrorUIGreen;
     public PlayerCollisionsHELPSCREEN playerCollisionsHELPSCREEN;
     private Scene scene;
+    public GameObject helpMenuUI;
+    private bool isMenuActive = false;
 
 
     void Start()
@@ -67,10 +69,21 @@ public class MirrorPlacementTut : MonoBehaviour
         {
             Debug.LogError("PickupText UI element not assigned.");
         }
+        helpMenuUI.SetActive(false);
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.M) && !isMenuActive)
+        {
+            helpMenuUI.SetActive(true);
+            isMenuActive = true;
+        }
+        else if ((Input.GetKeyDown(KeyCode.M) && isMenuActive))
+        {
+            helpMenuUI.SetActive(false);
+            isMenuActive = false;
+        }
         scene = SceneManager.GetActiveScene();
         Debug.Log(scene);
         if (scene.name == "Help Scene")

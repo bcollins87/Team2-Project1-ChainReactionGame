@@ -1064,14 +1064,15 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   invalidPlacementColor: {r: 1, g: 0, b: 0, a: 1}
   placementCheckRadius: 0.5
-  pickupText: {fileID: 0}
+  pickupText: {fileID: 903430926}
   mirrorsPlaced: 0
   rotationStep: 5
   rotationInterval: 0.1
   player: {fileID: 1468487973}
-  mirrorUIWhite: {fileID: 0}
-  mirrorUIGreen: {fileID: 0}
+  mirrorUIWhite: {fileID: 651882462}
+  mirrorUIGreen: {fileID: 157730230}
   playerCollisionsHELPSCREEN: {fileID: 1468487974}
+  helpMenuUI: {fileID: 473456865}
 --- !u!1001 &106837928
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2588,6 +2589,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6276576}
     m_Modifications:
+    - target: {fileID: 36246800530346290, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1490321348508632165, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_Name
       value: PLAYER STUFF
@@ -2615,6 +2620,10 @@ PrefabInstance:
     - target: {fileID: 4497913603448196878, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5893601872260290401, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6726942952886819542, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2778,7 +2787,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &315354102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2806,7 +2815,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   invalidPlacementColor: {r: 1, g: 0, b: 0, a: 1}
   placementCheckRadius: 0.5
-  pickupText: {fileID: 0}
+  pickupText: {fileID: 903430926}
   placementRange: 5
   mirrorsPlaced: 0
   player: {fileID: 306877208}
@@ -2815,7 +2824,7 @@ MonoBehaviour:
   ignorePlayerLayer:
     serializedVersion: 2
     m_Bits: 0
-  mirrorNumberText: {fileID: 0}
+  mirrorNumberText: {fileID: 1870292}
 --- !u!114 &315354103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3900,7 +3909,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &473456866
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3950,9 +3959,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fedba246dc2ebf448b5cdecdc7b944a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
-  mirrorPlacement: {fileID: 0}
-  menuLoader: {fileID: 0}
 --- !u!82 &473456869
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5783,7 +5789,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &646899396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8356,7 +8362,7 @@ PrefabInstance:
       objectReference: {fileID: 885960420}
     - target: {fileID: 3219437057741072404, guid: e0a4e57400f5e88468861ac51149edfd, type: 3}
       propertyPath: indexHere
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3219437057741072404, guid: e0a4e57400f5e88468861ac51149edfd, type: 3}
       propertyPath: transitionAni
@@ -9130,9 +9136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fedba246dc2ebf448b5cdecdc7b944a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
-  mirrorPlacement: {fileID: 0}
-  menuLoader: {fileID: 0}
 --- !u!114 &951682723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12024,9 +12027,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fedba246dc2ebf448b5cdecdc7b944a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
-  mirrorPlacement: {fileID: 0}
-  menuLoader: {fileID: 0}
 --- !u!114 &1250715798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13734,6 +13734,9 @@ PrefabInstance:
     - {fileID: 7644583777822125687, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
     - {fileID: 5455442436442470401, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
     - {fileID: 5663285191953468215, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
+    - {fileID: 6051705825341761312, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
+    - {fileID: 2929123124579448485, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
+    - {fileID: 7773738024576007914, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1196399673127117165, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
@@ -17567,10 +17570,10 @@ MonoBehaviour:
   animatorFunctions: {fileID: 1863476498}
   transitionAni: {fileID: 492112206}
   backgroundGlow: {fileID: 1863476494}
-  gameManager: {fileID: 0}
-  menuLoader: {fileID: 0}
-  mirrorPlacement: {fileID: 0}
-  playerCollisionsHELPSCREEN: {fileID: 0}
+  gameManager: {fileID: 1437774108}
+  menuLoader: {fileID: 646899396}
+  mirrorPlacement: {fileID: 315354103}
+  playerCollisionsHELPSCREEN: {fileID: 306877212}
 --- !u!114 &1863476498
 MonoBehaviour:
   m_ObjectHideFlags: 0

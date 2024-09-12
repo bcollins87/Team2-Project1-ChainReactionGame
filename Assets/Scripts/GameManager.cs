@@ -38,24 +38,11 @@ public class GameManager : MonoBehaviour
     public GameObject mirrorPlacementTut;
     public GameObject playerTut;
     public GameObject tutorialBoxes;
-    public GameObject tutorialStuff; //Game object that includes all the tutorial objects
+    //public GameObject tutorialStuff; //Game object that includes all the tutorial objects
 
     public Collider elevatorCollider;  // Add this to the top with other public variables
 
 
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-    }
 
     void Update()
     {
