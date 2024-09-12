@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
     private GameManager gameManager;
     private NavMeshAgent agent;
     public Animator animator;
+    private Collider collider;
     
     // Patrol variables
     public Transform[] waypoints;  // Set waypoints in the Inspector
@@ -27,6 +28,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        collider = GetComponent<Collider>();
         gameManager = FindObjectOfType<GameManager>(); // Find GameManager automatically
         agent = GetComponent<NavMeshAgent>();  // NavMeshAgent for movement
         
@@ -150,6 +152,8 @@ public class Enemy : MonoBehaviour
     {
         gameManager.EnemyKilled(); // Notify GameManager
         animator.SetBool("isAlive", false);
+        collider.enabled = false;
+
 
         // Play enemy death sound
         AudioManager.Instance.PlaySound(AudioManager.Instance.enemyDeathClip);
