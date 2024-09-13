@@ -18,56 +18,58 @@ public class UIManager : MonoBehaviour
 
         if (scene.name == "MainMenu")
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("LevelOne");
+            SceneManager.LoadScene("LevelOne");
            // gameManager.SetVariable();
         }
         else if (scene.name == "LevelOne")
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("LevelTwo");
+            SceneManager.LoadScene("LevelTwo");
 
         }
         else if(scene.name == "LevelTwo")
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("LevelThree");
+            SceneManager.LoadScene("LevelThree");
            // gameManager.tutorialStuff.SetActive(false);
 
         }
         else if(scene.name == "LevelThree")
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene("MainMenu");
         }
         else
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("LevelOne");
+            SceneManager.LoadScene("LevelOne");
            // gameManager.SetVariable();
         }
     }
     public void OnClickMainMenu()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu");
         //gameManager.SetVariable();
     }
     public void OnClickHelpScene()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Help");
+        SceneManager.LoadScene("Help Scene");
        // gameManager.SetVariable();
     }
     public void OnClickOptionsScene()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Options");
+        SceneManager.LoadScene("Options");
        // gameManager.SetVariable();
     }
     public void OnClickWinScene()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("WinScene");
+        SceneManager.LoadScene("WinScene");
     }
     public void OnClickCreditsScene()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Credits");
+        
+        SceneManager.LoadScene("Credits");
+        Debug.Log("Credits Clicked");
     }
     public void OnClickRestartScene()
     {
         scene = SceneManager.GetActiveScene();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(scene.name);
+        SceneManager.LoadScene(scene.name);
     }
 }
