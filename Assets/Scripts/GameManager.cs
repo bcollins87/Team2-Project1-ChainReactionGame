@@ -66,26 +66,24 @@ public class GameManager : MonoBehaviour
 
     
 
+// Assuming you have something like this in your script
     void Start()
     {
-        enemiesRemaining = totalEnemies;
-        winMenu.SetActive(false);
-        loseMenu.SetActive(false);
-        restartButton.SetActive(false);
-
-        // Update the UI with initial values
-        enemyNumber.text = enemiesRemaining.ToString();
-        shotNumber.text = shotsRemaining.ToString();
-        shotBar.SetMaxShots(maxShots);
-        menuLoader.CheckActiveScene();
-        menuLoader.UpdateSceneMenu();
-
-
-        //Set tutorial controls to inactive
-        mirrorPlacementTut.SetActive(false);
-        playerTut.SetActive(false);
-        tutorialBoxes.SetActive(false);
+        player = GameObject.FindWithTag("Player");
+        if (player != null)
+        {
+            characterController = player.GetComponent<CharacterController>();
+            if (characterController == null)
+            {
+                Debug.LogError("Player CharacterController not found.");
+            }
+        }
+        else
+        {
+            Debug.LogError("Player GameObject not found.");
+        }
     }
+
 
     public void EnemyKilled()
     {
