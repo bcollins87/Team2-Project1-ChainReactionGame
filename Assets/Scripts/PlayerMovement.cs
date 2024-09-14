@@ -8,7 +8,9 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
     private CharacterController characterController;
     private GameStateManager gameStateManager;
+    public GameManager gameManager;
     private float animSpeed;
+    public Animator elevatorAnimator;
 
     void Start()
     {
@@ -56,8 +58,8 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime * 10);
             
             // Move the player
-            Vector3 movement = direction * currentSpeed * Time.deltaTime;
-            characterController.Move(movement);
+          //  Vector3 movement = direction * currentSpeed * Time.deltaTime;
+           // characterController.Move(movement);
 
             // Update animation speed
             animSpeed = isSprinting ? 3 : 2;  // Sprinting has a faster animation speed
@@ -67,6 +69,25 @@ public class PlayerMovement : MonoBehaviour
         {
             animSpeed = 0;
             animator.SetFloat("IdleWalk", Mathf.Lerp(animator.GetFloat("IdleWalk"), animSpeed, Time.deltaTime * 20));
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Elevator"))
+        {
+            Debug.Log("Trigger Entered");
+            elevatorAnimator.SetTrigger("onTriggerEnter");
+            gameManager.PlayerEnteredElevator();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Elevator"))
+        {
+            Debug.Log("Trigger Exited");
+            elevatorAnimator.SetTrigger("onTriggerExit");
         }
     }
 }

@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject winMenu;
     public GameObject loseMenu;
     public int totalEnemies;
+    public string nextLevelName;
 
     public int enemiesRemaining;
     private int shotsFired = 0;
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
     private Scene scene;
 
     public GameObject player;
+    public Animator playerAnimator;
+    public Animator elevatorAnimator;
     
 
     public GameObject activePlayer;
@@ -86,7 +89,7 @@ public class GameManager : MonoBehaviour
 
     public void EnemyKilled()
     {
-        //player.GetComponent<PlayerMovement>().animator.SetTrigger("celebrate");
+        playerAnimator.SetTrigger("celebrate");
         enemiesRemaining--;
 
         if (enemyNumber != null)
@@ -178,6 +181,7 @@ public class GameManager : MonoBehaviour
             {
                 // Just unlock the elevator for non-final levels
                 Debug.Log("Enemies defeated. Unlocking the elevator for the next level.");
+                elevatorAnimator.SetTrigger("levelComplete");
 
                 if (elevatorCollider != null)
                 {
@@ -220,9 +224,8 @@ public class GameManager : MonoBehaviour
     {
         if (enemiesRemaining <= 0)  // Ensure all enemies are defeated
         {
-            // Instead of using the dynamic name, directly load "LevelTwoOLD"
-            string nextLevelName = "LevelTwo";  // Explicitly set the next level name
-            SceneManager.LoadScene(nextLevelName);  // Load LevelTwoOLD
+            // Instead of using the dynamic name, directly load the name of the next level
+            SceneManager.LoadScene(nextLevelName);  // Load next level
             Debug.Log("Transitioning to next level: " + nextLevelName);
         }
         else

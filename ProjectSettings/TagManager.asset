@@ -15,6 +15,7 @@ TagManager:
   - MSTut
   - PlayerTut
   - EndLevel
+  - Elevator
   layers:
   - Default
   - TransparentFX
