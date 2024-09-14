@@ -64,25 +64,6 @@ public class GameManager : MonoBehaviour
         CheckGameState();  // Check and trigger the elevator activation
     }
 
-    
-
-// Assuming you have something like this in your script
-    void Start()
-    {
-        player = GameObject.FindWithTag("Player");
-        if (player != null)
-        {
-            characterController = player.GetComponent<CharacterController>();
-            if (characterController == null)
-            {
-                Debug.LogError("Player CharacterController not found.");
-            }
-        }
-        else
-        {
-            Debug.LogError("Player GameObject not found.");
-        }
-    }
 
 
     public void EnemyKilled()
