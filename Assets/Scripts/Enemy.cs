@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     private GameManager gameManager;
-    private NavMeshAgent agent;
+  //  private NavMeshAgent agent;
     public Animator animator;
     private Collider collider;
     
@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
     {
         collider = GetComponent<Collider>();
         gameManager = FindObjectOfType<GameManager>(); // Find GameManager automatically
-        agent = GetComponent<NavMeshAgent>();  // NavMeshAgent for movement
+       // agent = GetComponent<NavMeshAgent>();  // NavMeshAgent for movement
         
         if (gameManager == null)
         {
@@ -66,7 +66,7 @@ public class Enemy : MonoBehaviour
         }
 
         // Check if enemy has reached the current waypoint
-        if (agent.remainingDistance < 0.5f && !agent.pathPending)
+  //      if (agent.remainingDistance < 0.5f && !agent.pathPending)
         {
             currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length; // Loop back to the start
             Debug.Log("Moving to next waypoint: " + currentWaypointIndex);
@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour
         if (waypoints.Length > 0)
         {
             Debug.Log("Setting destination to waypoint: " + currentWaypointIndex);
-            agent.SetDestination(waypoints[currentWaypointIndex].position); // Set the NavMeshAgent to move towards the waypoint
+           // agent.SetDestination(waypoints[currentWaypointIndex].position); // Set the NavMeshAgent to move towards the waypoint
         }
     }
 
@@ -106,7 +106,7 @@ public class Enemy : MonoBehaviour
                         lastKnownPosition = target.transform.position; // Store the last known position of the detected player
                         isAlerted = true;
                         alertTimer = alertDuration;  // Reset the alert timer
-                        agent.SetDestination(lastKnownPosition);  // Move towards the last known position
+                      //  agent.SetDestination(lastKnownPosition);  // Move towards the last known position
                         Debug.Log("Player detected! Moving to investigate...");
 
                         // Play win sound
