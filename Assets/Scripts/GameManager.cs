@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,29 +22,69 @@ public class GameManager : MonoBehaviour
     public TMP_Text mirrorNumber;
     public GameObject restartButton;
 
-    public static GameManager instance;
     public ShotBar shotBar;
     private Scene scene;
 
     public GameObject player;
     public Animator playerAnimator;
     public Animator elevatorAnimator;
-    
 
     public GameObject activePlayer;
 
-    //UI Update Vars
+    // UI Update Vars
     public GameObject mirrorPlacement;
     private int mirrorsLeft;
     public MenuLoader menuLoader;
     public GameObject mirrorPlacementTut;
     public GameObject playerTut;
     public GameObject tutorialBoxes;
-    //public GameObject tutorialStuff; //Game object that includes all the tutorial objects
 
-    public Collider elevatorCollider;  // Add this to the top with other public variables
+    public Collider elevatorCollider;
+    
 
+    void Start()
+    {
+        // Initialize game variables
+        enemiesRemaining = totalEnemies;
+        shotsRemaining = maxShots;
+        shotsFired = 0;
 
+        // Update the UI with initial values
+        if (enemyNumber != null)
+            enemyNumber.text = enemiesRemaining.ToString();
+
+        if (shotNumber != null)
+            shotNumber.text = shotsRemaining.ToString();
+
+        if (shotBar != null)
+            shotBar.SetMaxShots(maxShots);
+
+        if (menuLoader != null)
+        {
+            menuLoader.CheckActiveScene();
+            menuLoader.UpdateSceneMenu();
+        }
+
+        // Set tutorial controls to inactive
+        if (mirrorPlacementTut != null)
+            mirrorPlacementTut.SetActive(false);
+
+        if (playerTut != null)
+            playerTut.SetActive(false);
+
+        if (tutorialBoxes != null)
+            tutorialBoxes.SetActive(false);
+
+        // Ensure win and lose menus are hidden at start
+        if (winMenu != null)
+            winMenu.SetActive(false);
+
+        if (loseMenu != null)
+            loseMenu.SetActive(false);
+
+        if (restartButton != null)
+            restartButton.SetActive(false);
+    }
 
     void Update()
     {
@@ -64,16 +103,16 @@ public class GameManager : MonoBehaviour
         CheckGameState();  // Check and trigger the elevator activation
     }
 
-
-
     public void EnemyKilled()
     {
-        playerAnimator.SetTrigger("celebrate");
+        if (playerAnimator != null)
+            playerAnimator.SetTrigger("celebrate");
+
         enemiesRemaining--;
 
         if (enemyNumber != null)
         {
-            enemyNumber.text = "" + enemiesRemaining;
+            enemyNumber.text = enemiesRemaining.ToString();
         }
         else
         {
@@ -99,11 +138,12 @@ public class GameManager : MonoBehaviour
     {
         shotsFired++;
         shotsRemaining--;
-        shotBar.SetShots(shotsRemaining);
+        if (shotBar != null)
+            shotBar.SetShots(shotsRemaining);
 
         if (shotNumber != null)
         {
-            shotNumber.text = "" + shotsRemaining;
+            shotNumber.text = shotsRemaining.ToString();
         }
         else
         {
@@ -123,7 +163,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-   public void CheckGameState()
+    public void CheckGameState()
     {
         Debug.Log("Checking game state. Shots fired: " + shotsFired + ", Enemies remaining: " + enemiesRemaining);
 
@@ -160,7 +200,10 @@ public class GameManager : MonoBehaviour
             {
                 // Just unlock the elevator for non-final levels
                 Debug.Log("Enemies defeated. Unlocking the elevator for the next level.");
-                elevatorAnimator.SetTrigger("levelComplete");
+                if (elevatorAnimator != null)
+                    elevatorAnimator.SetTrigger("levelComplete");
+                else
+                    Debug.LogError("Elevator animator is not assigned.");
 
                 if (elevatorCollider != null)
                 {
@@ -203,29 +246,42 @@ public class GameManager : MonoBehaviour
     {
         if (enemiesRemaining <= 0)  // Ensure all enemies are defeated
         {
-            // Instead of using the dynamic name, directly load the name of the next level
-            SceneManager.LoadScene(nextLevelName);  // Load next level
+            string currentLevel = SceneManager.GetActiveScene().name;
+            string nextLevelName = "";
+
+            if (currentLevel == "LevelOne")
+            {
+                nextLevelName = "LevelTwo";  // Define the next level name
+            }
+            else if (currentLevel == "LevelTwo")
+            {
+                nextLevelName = "LevelThree";
+            }
+            else
+            {
+                Debug.LogError("No further levels found.");
+                return;
+            }
+
+            // Transition to the next level
             Debug.Log("Transitioning to next level: " + nextLevelName);
+            SceneManager.LoadScene(nextLevelName);
         }
         else
         {
-            // The player is trying to enter the elevator without defeating all enemies
             Debug.Log("Cannot enter the elevator until all enemies are defeated.");
-            
-            // Do NOT activate the win screen here!
-            // Remove the following line that causes the win screen to show prematurely:
-            // winMenu.SetActive(true);
         }
     }
 
-
     public void RestartGame()
     {
+        // Reload the current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void ExitGame()
     {
+        // Exit the application
         Application.Quit();
     }
 }

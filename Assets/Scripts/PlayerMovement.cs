@@ -7,10 +7,11 @@ public class PlayerMovement : MonoBehaviour
     public float sprintSpeed = 5f;      // Speed when sprinting
     public Animator animator;
     private CharacterController characterController;
-    private GameStateManager gameStateManager;
     public GameManager gameManager;
     private float animSpeed;
     public Animator elevatorAnimator;
+
+    private CameraFollow cameraFollow;  // Reference to the CameraFollow script for panning state
 
     void Start()
     {
@@ -21,18 +22,18 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogError("CharacterController component not found on the player.");
         }
 
-        // Find the GameStateManager in the scene
-        gameStateManager = FindObjectOfType<GameStateManager>();
-        if (gameStateManager == null)
+        // Cache reference to the CameraFollow script to check panning state
+        cameraFollow = FindObjectOfType<CameraFollow>();
+        if (cameraFollow == null)
         {
-            Debug.LogError("GameStateManager not found in the scene.");
+            Debug.LogError("CameraFollow script not found in the scene.");
         }
     }
 
     void Update()
     {
-        // Check if the game is currently panning
-        if (gameStateManager != null && gameStateManager.IsPanning)
+        // Check if the camera is panning
+        if (cameraFollow != null && cameraFollow.IsPanning())
         {
             // If panning, prevent player movement
             return;
@@ -58,8 +59,8 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime * 10);
             
             // Move the player
-          //  Vector3 movement = direction * currentSpeed * Time.deltaTime;
-           // characterController.Move(movement);
+            Vector3 movement = direction * currentSpeed * Time.deltaTime;
+            characterController.Move(movement);
 
             // Update animation speed
             animSpeed = isSprinting ? 3 : 2;  // Sprinting has a faster animation speed

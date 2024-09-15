@@ -23,20 +23,6 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource audioSource;
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // Keep this AudioManager across scenes
-        }
-        else if (Instance != this)
-        {
-            Destroy(gameObject); // There should only be one instance of AudioManager
-        }
-        
-        audioSource = GetComponent<AudioSource>();
-    }
 
     public void PlaySound(AudioClip clip)
     {

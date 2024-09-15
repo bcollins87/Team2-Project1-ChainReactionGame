@@ -25,8 +25,6 @@ public class LaserTut : MonoBehaviour
     private MirrorPlacement mirrorPlacement;
     public PlayerCollisionsHELPSCREEN playerCollisionsHELPSCREEN;
 
-
-
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -40,18 +38,10 @@ public class LaserTut : MonoBehaviour
         {
             Debug.LogError("MirrorPlacement script not found in the scene!");
         }
-
     }
 
     void Update()
     {
-        // Check the global game state
-        if (GameStateManager.Instance != null && GameStateManager.Instance.IsPanning)
-        {
-            // Disable laser firing while the game is panning
-            return;
-        }
-
         // Cooldown timer
         if (cooldownRemaining > 0)
         {
@@ -84,7 +74,6 @@ public class LaserTut : MonoBehaviour
                 ExtendLaser();
             }
 
-
             // Stop firing when the space bar is released
             if (Input.GetKeyUp(KeyCode.Space) && isFiring)
             {
@@ -112,7 +101,6 @@ public class LaserTut : MonoBehaviour
         lineRenderer.SetPosition(1, currentStartPosition); // Initialize end point
         gameManager.FireLaser(); // Notify GameManager that the laser has been fired
         availableShots--; // Decrease the number of available shots
-
 
         // Play laser firing sound
         if (AudioManager.Instance != null && AudioManager.Instance.laserShotClip != null)

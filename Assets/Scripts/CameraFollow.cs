@@ -1,5 +1,5 @@
+using System.Collections;  // Added this for IEnumerator
 using UnityEngine;
-using System.Collections;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -29,9 +29,15 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
+    // Method to check if the camera is panning
+    public bool IsPanning()
+    {
+        return isPanning;
+    }
+
     IEnumerator CameraPanSequence()
     {
-        GameStateManager.Instance.SetPanning(true); // Set game to panning state
+        isPanning = true; // Set panning to true
 
         // Pan to the laser's starting position
         yield return StartCoroutine(PanToPosition(laserStart.position + offset, panDuration));
@@ -42,8 +48,7 @@ public class CameraFollow : MonoBehaviour
         // Pan back to the player
         yield return StartCoroutine(PanToPosition(player.position + offset, panDuration));
 
-        GameStateManager.Instance.SetPanning(false); // Set game back to normal state
-        isPanning = false; // Local flag for camera behavior
+        isPanning = false; // Set panning to false after completing the sequence
     }
 
     IEnumerator PanToPosition(Vector3 targetPosition, float duration)
