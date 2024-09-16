@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public Animator playerAnimator;
     public Animator elevatorAnimator;
+    public Animator transitionAnimator;
 
     public GameObject activePlayer;
 
@@ -247,7 +248,7 @@ public class GameManager : MonoBehaviour
         if (enemiesRemaining <= 0)  // Ensure all enemies are defeated
         {
             string currentLevel = SceneManager.GetActiveScene().name;
-            string nextLevelName = "";
+            nextLevelName = "";
 
             if (currentLevel == "LevelOne")
             {
@@ -263,14 +264,21 @@ public class GameManager : MonoBehaviour
                 return;
             }
 
-            // Transition to the next level
-            Debug.Log("Transitioning to next level: " + nextLevelName);
-            SceneManager.LoadScene(nextLevelName);
+            Invoke("LoadLevel", 1);
+            transitionAnimator.SetTrigger("End");
+
         }
         else
         {
             Debug.Log("Cannot enter the elevator until all enemies are defeated.");
         }
+    }
+
+    public void LoadLevel()
+    {
+        // Transition to the next level
+        Debug.Log("Transitioning to next level: " + nextLevelName);
+        SceneManager.LoadScene(nextLevelName);
     }
 
     public void RestartGame()

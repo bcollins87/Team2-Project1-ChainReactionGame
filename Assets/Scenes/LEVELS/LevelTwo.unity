@@ -2689,6 +2689,10 @@ PrefabInstance:
       propertyPath: mirrorPlacementTut
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5136473725599908846, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
+      propertyPath: transitionAnimator
+      value: 
+      objectReference: {fileID: 1683181684}
     - target: {fileID: 6051705825341761312, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
       propertyPath: player
       value: 
@@ -9039,6 +9043,14 @@ PrefabInstance:
     - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_Name
       value: Goon@T-Pose
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8781414167655861005, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: m_Constraints
+      value: 84
       objectReference: {fileID: 0}
     - target: {fileID: 8889595768011539826, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18934,6 +18946,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
+--- !u!95 &1683181684 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7897734458301788841, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
+  m_PrefabInstance: {fileID: 1683181683}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1683526751 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5266050364502795841, guid: 0ead29c770bf744edb5d1bb35396fd9a, type: 3}
@@ -20944,6 +20961,14 @@ PrefabInstance:
     - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_Name
       value: Goon@T-Pose (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8781414167655861005, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: m_Constraints
+      value: 84
       objectReference: {fileID: 0}
     - target: {fileID: 8889595768011539826, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24216,6 +24241,14 @@ PrefabInstance:
     - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_Name
       value: Goon@T-Pose (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8781414167655861005, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: m_Constraints
+      value: 84
       objectReference: {fileID: 0}
     - target: {fileID: 8889595768011539826, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_LocalPosition.x

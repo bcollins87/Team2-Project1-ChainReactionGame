@@ -1311,8 +1311,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1150331076}
   - {fileID: 1190893594}
+  - {fileID: 1150331076}
   - {fileID: 782231738}
   - {fileID: 985376276}
   m_Father: {fileID: 0}
@@ -15210,6 +15210,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UICanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 954947208308334162, guid: 49c042c4d17ad5c45901ea2de35bf6bf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1101929215827999296, guid: 49c042c4d17ad5c45901ea2de35bf6bf, type: 3}
       propertyPath: menuLoader
       value: 
@@ -15298,6 +15302,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2661486932320265862, guid: 49c042c4d17ad5c45901ea2de35bf6bf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2902321683965100196, guid: 49c042c4d17ad5c45901ea2de35bf6bf, type: 3}
       propertyPath: menuLoader
       value: 
@@ -15306,6 +15314,10 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 267960137}
+    - target: {fileID: 2941985740052255206, guid: 49c042c4d17ad5c45901ea2de35bf6bf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3312069643464157663, guid: 49c042c4d17ad5c45901ea2de35bf6bf, type: 3}
       propertyPath: menuLoader
       value: 
@@ -15322,6 +15334,14 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 267960137}
+    - target: {fileID: 4048941846451561924, guid: 49c042c4d17ad5c45901ea2de35bf6bf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406330249011646998, guid: 49c042c4d17ad5c45901ea2de35bf6bf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6477917414030085451, guid: 49c042c4d17ad5c45901ea2de35bf6bf, type: 3}
       propertyPath: menuLoader
       value: 
