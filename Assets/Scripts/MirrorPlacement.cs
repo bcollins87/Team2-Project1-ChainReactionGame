@@ -4,6 +4,7 @@ using TMPro; // TextMesh Pro for UI text
 
 public class MirrorPlacement : MonoBehaviour
 {
+    public AudioManager audioManager;  // Direct reference to AudioManager
     public GameObject mirrorPrefab;          // The mirror prefab to place
     public int maxMirrors = 5;               // Maximum number of mirrors that can be placed
     public LayerMask placementLayer;         // Layer on which mirrors can be placed
@@ -34,7 +35,6 @@ public class MirrorPlacement : MonoBehaviour
 
     public TMP_Text mirrorNumberText;        // Text for mirrors left
 
-    // Property for mirror placement state
     public bool IsPlacingMirror
     {
         get { return isPlacingMirror; }
@@ -43,6 +43,16 @@ public class MirrorPlacement : MonoBehaviour
 
     void Start()
     {
+        // Initialize AudioManager reference
+        if (audioManager == null)
+        {
+            audioManager = FindObjectOfType<AudioManager>();
+            if (audioManager == null)
+            {
+                Debug.LogError("AudioManager not found in the scene!");
+            }
+        }
+
         // Cache the player reference at the start
         if (player == null)
         {
@@ -63,18 +73,18 @@ public class MirrorPlacement : MonoBehaviour
             }
         }
 
-        IsPlacingMirror = false; // Initially, no mirror is being placed
+        IsPlacingMirror = false;
 
         // Initially hide the pickup text
         if (pickupText != null)
         {
-            pickupText.text = ""; // Clear text at the start
+            pickupText.text = "";
         }
         else
         {
             Debug.LogError("PickupText UI element not assigned.");
         }
-        
+
         mirrorNumberText.text = "" + (maxMirrors - mirrorsPlaced);
     }
 
@@ -100,14 +110,14 @@ public class MirrorPlacement : MonoBehaviour
                 currentMirror.GetComponent<Renderer>().material.color = invalidPlacementColor;
             }
 
-            if (Input.GetMouseButtonDown(1) && IsPlacementValid()) // Right-click to place the mirror if the position is valid
+            if (Input.GetMouseButtonDown(1) && IsPlacementValid())
             {
                 PlaceMirror();
             }
         }
 
         // Check for mirror pickup
-        if (Input.GetKeyDown(KeyCode.F)) // Change to 'F' key for picking up mirrors
+        if (Input.GetKeyDown(KeyCode.F))
         {
             PickupMirror();
         }
@@ -128,7 +138,7 @@ public class MirrorPlacement : MonoBehaviour
     {
         if (playerController != null)
         {
-            playerController.enabled = false; // Disable the player's movement during mirror placement
+            playerController.enabled = false;
         }
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -148,7 +158,7 @@ public class MirrorPlacement : MonoBehaviour
                     Vector3 spawnPosition = hit.point + new Vector3(0, mirrorHeightOffset, 0);
 
                     currentMirror = Instantiate(mirrorPrefab, spawnPosition, Quaternion.identity);
-                    IsPlacingMirror = true; // Start placing the mirror
+                    IsPlacingMirror = true;
                 }
                 else
                 {
@@ -192,12 +202,12 @@ public class MirrorPlacement : MonoBehaviour
 
         if (rotationTimer <= 0f)
         {
-            if (Input.GetKey(KeyCode.Q)) // Rotate counterclockwise
+            if (Input.GetKey(KeyCode.Q))
             {
                 currentMirror.transform.Rotate(Vector3.up, -rotationStep);
                 rotationTimer = rotationInterval;
             }
-            else if (Input.GetKey(KeyCode.E)) // Rotate clockwise
+            else if (Input.GetKey(KeyCode.E))
             {
                 currentMirror.transform.Rotate(Vector3.up, rotationStep);
                 rotationTimer = rotationInterval;
@@ -211,7 +221,7 @@ public class MirrorPlacement : MonoBehaviour
         {
             if (playerController != null)
             {
-                playerController.enabled = true; // Re-enable player movement after placing the mirror
+                playerController.enabled = true;
             }
 
             currentMirror = null;
@@ -219,9 +229,10 @@ public class MirrorPlacement : MonoBehaviour
             mirrorNumberText.text = "" + (maxMirrors - mirrorsPlaced);
             IsPlacingMirror = false;
 
-            if (AudioManager.Instance != null && AudioManager.Instance.mirrorPlaceClip != null)
+            // Play mirror placement sound
+            if (audioManager != null && audioManager.mirrorPlaceClip != null)
             {
-                AudioManager.Instance.PlaySound(AudioManager.Instance.mirrorPlaceClip);
+                audioManager.PlaySound(audioManager.mirrorPlaceClip);
             }
             else
             {
@@ -246,7 +257,7 @@ public class MirrorPlacement : MonoBehaviour
                     return;
                 }
 
-                mirrorToPickup.SetActive(false); // Temporarily disable the mirror
+                mirrorToPickup.SetActive(false);
                 pickedUpMirrors.Add(mirrorToPickup);
                 mirrorsPlaced--;
                 mirrorNumberText.text = "" + (maxMirrors - mirrorsPlaced);
@@ -256,9 +267,9 @@ public class MirrorPlacement : MonoBehaviour
                     pickupText.text = "Mirror picked up! Place it by right-clicking";
                 }
 
-                if (AudioManager.Instance != null)
+                if (audioManager != null && audioManager.mirrorPickupClip != null)
                 {
-                    AudioManager.Instance.PlaySound(AudioManager.Instance.mirrorPickupClip);
+                    audioManager.PlaySound(audioManager.mirrorPickupClip);
                 }
             }
         }
@@ -300,9 +311,9 @@ public class MirrorPlacement : MonoBehaviour
                     {
                         mirrorRenderer.material.color = pickupColor;
 
-                        if (!hoverSoundPlayed && AudioManager.Instance != null && AudioManager.Instance.mirrorHoverClip != null)
+                        if (!hoverSoundPlayed && audioManager != null && audioManager.mirrorHoverClip != null)
                         {
-                            AudioManager.Instance.PlaySound(AudioManager.Instance.mirrorHoverClip);
+                            audioManager.PlaySound(audioManager.mirrorHoverClip);
                             hoverSoundPlayed = true;
                         }
 

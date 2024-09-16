@@ -11464,6 +11464,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1109020241}
     - target: {fileID: 6051705825341761312, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
+      propertyPath: pickupRange
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6051705825341761312, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
       propertyPath: mirrorPrefab
       value: 
       objectReference: {fileID: 7399476553629557585, guid: f8b926c5547db614c8e13c52e93269c6, type: 3}
@@ -19844,10 +19848,10 @@ MonoBehaviour:
   fieldOfViewAngle: 90
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   alertDuration: 3
 --- !u!54 &1426787793
 Rigidbody:
@@ -28823,6 +28827,14 @@ PrefabInstance:
     - target: {fileID: 1930801217311079586, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.46253362
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: obstacleLayer.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2227071676301613828, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_LocalPosition.y

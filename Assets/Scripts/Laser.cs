@@ -24,13 +24,14 @@ public class Laser : MonoBehaviour
 
     private GameManager gameManager;
     private MirrorPlacement mirrorPlacement;
-
+    public AudioManager audioManager;  // Reference to AudioManager
     public Animator animator;
 
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
         mirrorPlacement = FindObjectOfType<MirrorPlacement>();
+        audioManager = FindObjectOfType<AudioManager>();
 
         if (gameManager == null)
         {
@@ -39,6 +40,10 @@ public class Laser : MonoBehaviour
         if (mirrorPlacement == null)
         {
             Debug.LogError("MirrorPlacement script not found in the scene!");
+        }
+        if (audioManager == null)
+        {
+            Debug.LogError("AudioManager not found in the scene!");
         }
     }
 
@@ -100,9 +105,9 @@ public class Laser : MonoBehaviour
         availableShots--; // Decrease the number of available shots
 
         // Play laser firing sound
-        if (AudioManager.Instance != null && AudioManager.Instance.laserShotClip != null)
+        if (audioManager != null && audioManager.laserShotClip != null)
         {
-            AudioManager.Instance.PlaySound(AudioManager.Instance.laserShotClip);
+            audioManager.PlaySound(audioManager.laserShotClip);
         }
     }
 
@@ -137,7 +142,10 @@ public class Laser : MonoBehaviour
     void StopFiring()
     {
         isFiring = false;
-        lineRenderer.positionCount = 0; // Clear the laser line
+        if (lineRenderer != null)
+        {
+            lineRenderer.positionCount = 0; // Clear the laser line properly
+        }
 
         // Start cooldown only after firing stops
         if (isLaserActive)
@@ -162,9 +170,9 @@ public class Laser : MonoBehaviour
             lineRenderer.SetPosition(0, currentStartPosition); // Update the line renderer start position
 
             // Play laser bounce sound
-            if (AudioManager.Instance != null && AudioManager.Instance.laserBounceClip != null)
+            if (audioManager != null && audioManager.laserBounceClip != null)
             {
-                AudioManager.Instance.PlaySound(AudioManager.Instance.laserBounceClip);
+                audioManager.PlaySound(audioManager.laserBounceClip);
             }
         }
         else if (hit.collider.CompareTag("Enemy"))
@@ -202,51 +210,61 @@ public class Laser : MonoBehaviour
 
     void VisualizeLaser()
     {
+        // Initialize starting position and direction
         currentStartPosition = laserStartPoint.position;
         fireDirection = laserStartPoint.forward;
-        currentLaserLength = 0f;  // Reset length for visualization
-        bouncesLeft = maxBounces; // Reset bounces for visualization
+        currentLaserLength = 0f;  // Reset the laser length for visualization
+        bouncesLeft = maxBounces; // Reset the number of bounces allowed
 
-        lineRenderer.positionCount = 1; // Initialize the line
+        // Initialize the line renderer to start at the laser's start point
+        lineRenderer.positionCount = 1;
         lineRenderer.SetPosition(0, currentStartPosition);
 
-        int positionIndex = 1;  // Index for line renderer positions
+        int positionIndex = 1;  // Index for positions in the line renderer
 
+        // Iterate as long as there are bounces left and the laser hasn't reached its max length
         while (bouncesLeft > 0 && currentLaserLength < maxLaserLength)
         {
-            Ray ray = new Ray(currentStartPosition, fireDirection);
+            Ray ray = new Ray(currentStartPosition, fireDirection);  // Ray from the current start position in the fire direction
             RaycastHit hit;
 
+            // Check for any objects in the path of the laser
             if (Physics.Raycast(ray, out hit, maxLaserLength - currentLaserLength))
             {
+                // Increase the line renderer's position count and set the position at the hit point
                 lineRenderer.positionCount = positionIndex + 1;
                 lineRenderer.SetPosition(positionIndex, hit.point);
                 positionIndex++;
 
+                // If the laser hits a mirror, reflect the direction and continue
                 if (hit.collider.CompareTag("Mirror"))
                 {
-                    fireDirection = Vector3.Reflect(fireDirection, hit.normal);
-                    currentStartPosition = hit.point + fireDirection * 0.01f; // Slightly offset to prevent multiple detections
-                    bouncesLeft--;
+                    fireDirection = Vector3.Reflect(fireDirection, hit.normal);  // Reflect the laser's direction
+                    currentStartPosition = hit.point + fireDirection * 0.01f;    // Slightly offset to avoid re-triggering the same mirror
+                    bouncesLeft--;  // Decrease the number of allowed bounces
                 }
+                // If the laser hits glass, continue through it without altering the direction
                 else if (hit.collider.CompareTag("Glass"))
                 {
-                    // Continue the laser through the glass without altering its path
+                    // Continue the laser slightly past the glass and reset length
                     currentLaserLength += Vector3.Distance(currentStartPosition, hit.point);
-                    currentStartPosition = hit.point + fireDirection * 0.01f; // Move the start point slightly forward
+                    currentStartPosition = hit.point + fireDirection * 0.01f;  // Move the start point slightly past the glass
                 }
                 else
                 {
-                    break;  // Stop if it hits something other than a mirror or glass
+                    // Stop if the laser hits any other object
+                    break;
                 }
             }
             else
             {
+                // If no object is hit, extend the laser to its maximum length
                 lineRenderer.positionCount = positionIndex + 1;
                 lineRenderer.SetPosition(positionIndex, currentStartPosition + fireDirection * (maxLaserLength - currentLaserLength));
                 break;
             }
 
+            // Update the current laser length
             currentLaserLength += Vector3.Distance(lineRenderer.GetPosition(positionIndex - 2), lineRenderer.GetPosition(positionIndex - 1));
         }
     }

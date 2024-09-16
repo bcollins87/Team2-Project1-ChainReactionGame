@@ -2702,6 +2702,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 631212958}
     - target: {fileID: 6051705825341761312, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
+      propertyPath: pickupRange
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6051705825341761312, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
       propertyPath: mirrorPrefab
       value: 
       objectReference: {fileID: 7399476553629557585, guid: f8b926c5547db614c8e13c52e93269c6, type: 3}
@@ -9040,6 +9044,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 603553005}
     m_Modifications:
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: obstacleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_Name
       value: Goon@T-Pose
@@ -20958,6 +20970,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 603553005}
     m_Modifications:
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: obstacleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_Name
       value: Goon@T-Pose (2)
@@ -24238,6 +24258,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 603553005}
     m_Modifications:
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: obstacleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_Name
       value: Goon@T-Pose (1)

@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance;
-
-    // Existing Audio Clips
+    // Audio Clips
     public AudioClip laserShotClip;
     public AudioClip laserBounceClip;
     public AudioClip enemyHitClip;
@@ -19,10 +17,18 @@ public class AudioManager : MonoBehaviour
     public AudioClip elevatorBeep;
 
     // New Audio Clip for Mirror Hover
-    public AudioClip mirrorHoverClip; // Add this for the hover sound
+    public AudioClip mirrorHoverClip;
 
     private AudioSource audioSource;
 
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("No AudioSource found on the AudioManager GameObject.");
+        }
+    }
 
     public void PlaySound(AudioClip clip)
     {

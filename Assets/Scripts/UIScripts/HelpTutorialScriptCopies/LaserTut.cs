@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LaserTut : MonoBehaviour
 {
+    public AudioManager audioManager;  // Direct reference to AudioManager
     public Transform laserStartPoint;  // The start point of the laser
     public LineRenderer lineRenderer;  // LineRenderer to visualize the laser
     public float laserSpeed = 10f;     // Speed at which the laser extends
@@ -29,6 +30,7 @@ public class LaserTut : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         mirrorPlacement = FindObjectOfType<MirrorPlacement>();
+        audioManager = FindObjectOfType<AudioManager>();  // Find AudioManager in the scene
 
         if (gameManager == null)
         {
@@ -37,6 +39,10 @@ public class LaserTut : MonoBehaviour
         if (mirrorPlacement == null)
         {
             Debug.LogError("MirrorPlacement script not found in the scene!");
+        }
+        if (audioManager == null)
+        {
+            Debug.LogError("AudioManager not found in the scene!");
         }
     }
 
@@ -103,9 +109,9 @@ public class LaserTut : MonoBehaviour
         availableShots--; // Decrease the number of available shots
 
         // Play laser firing sound
-        if (AudioManager.Instance != null && AudioManager.Instance.laserShotClip != null)
+        if (audioManager != null && audioManager.laserShotClip != null)
         {
-            AudioManager.Instance.PlaySound(AudioManager.Instance.laserShotClip);
+            audioManager.PlaySound(audioManager.laserShotClip);
         }
     }
 
@@ -165,9 +171,9 @@ public class LaserTut : MonoBehaviour
             lineRenderer.SetPosition(0, currentStartPosition); // Update the line renderer start position
 
             // Play laser bounce sound
-            if (AudioManager.Instance != null && AudioManager.Instance.laserBounceClip != null)
+            if (audioManager != null && audioManager.laserBounceClip != null)
             {
-                AudioManager.Instance.PlaySound(AudioManager.Instance.laserBounceClip);
+                audioManager.PlaySound(audioManager.laserBounceClip);
             }
         }
         else if (hit.collider.CompareTag("Enemy"))
