@@ -131,13 +131,20 @@ public class Laser : MonoBehaviour
             HandleHit(hit);
         }
 
-        lineRenderer.SetPosition(1, newEndPosition);
+        // Ensure the position count is enough to handle the new position before setting it
+        if (lineRenderer.positionCount < 2)
+        {
+            lineRenderer.positionCount = 2;  // Ensure the line renderer has at least 2 positions
+        }
+
+        lineRenderer.SetPosition(1, newEndPosition);  // Set the end position of the laser
 
         if (currentLaserLength >= maxLaserLength)
         {
             StopFiring();
         }
     }
+
 
     void StopFiring()
     {
