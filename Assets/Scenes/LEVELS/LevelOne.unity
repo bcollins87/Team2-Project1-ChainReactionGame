@@ -10168,6 +10168,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2357793570636298538, guid: 8def464f289850e4a904ac828a2bc231, type: 3}
+      propertyPath: allEnemiesDefeatedClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 387229e7f78e00348bff9bb2eae00b00, type: 3}
     - target: {fileID: 3124957032476085204, guid: 8def464f289850e4a904ac828a2bc231, type: 3}
       propertyPath: m_Name
       value: AudioManager

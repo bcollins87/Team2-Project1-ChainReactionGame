@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        //Get active scene
+        // Get active scene
         scene = SceneManager.GetActiveScene();
 
         // Initialize game variables
@@ -83,16 +83,16 @@ public class GameManager : MonoBehaviour
         // Set tutorial controls to inactive
         if (scene.name == "Help Scene")
         {
-            if (mirrorPlacementTut = null)
+            if (mirrorPlacementTut == null)
                 mirrorPlacementTut.SetActive(false);
 
-            if (playerTut = null)
+            if (playerTut == null)
             {
                 playerTut.SetActive(false);
                 Debug.Log("Player Not found");
             }
 
-            if (tutorialBoxes = null)
+            if (tutorialBoxes == null)
                 tutorialBoxes.SetActive(false);
         }
         else
@@ -235,6 +235,16 @@ public class GameManager : MonoBehaviour
                     elevatorAnimator.SetTrigger("levelComplete");
                 if (elevatorCollider != null)
                     elevatorCollider.enabled = true;
+
+                // **Play the "all enemies defeated" sound**
+                if (audioManager != null && audioManager.allEnemiesDefeatedClip != null)
+                {
+                    audioManager.PlaySound(audioManager.allEnemiesDefeatedClip);
+                }
+                else
+                {
+                    Debug.LogError("AudioManager or allEnemiesDefeatedClip is null. Cannot play all enemies defeated sound.");
+                }
             }
         }
         else if (shotsFired >= maxShots && enemiesRemaining > 0)

@@ -19,6 +19,9 @@ public class AudioManager : MonoBehaviour
     // New Audio Clip for Mirror Hover
     public AudioClip mirrorHoverClip;
 
+    // **New Audio Clip for All Enemies Defeated**
+    public AudioClip allEnemiesDefeatedClip; // Add this line
+
     private AudioSource audioSource;
 
     void Start()
