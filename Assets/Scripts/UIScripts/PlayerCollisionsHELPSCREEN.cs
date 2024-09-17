@@ -27,26 +27,41 @@ public class PlayerCollisionsHELPSCREEN : MonoBehaviour
     public bool placeMirror;
     public bool pickUpMirror;
     public bool laserTrace;
+    public bool isTutComplete = false;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
+        
         mirrorMovePanel.SetActive(false);
         mirrorPlacePanel.SetActive(false);
         laserShootPanel.SetActive(false);
         mirrorSetPanel.SetActive(false);
         mirrorPickUpPanel.SetActive(false);
         laserTracePanel.SetActive(false);
-        mirrorActive = false;
-        //mirrorPickUp = false;
-        shootLaser = false;
-        showLaser = false;
-        rotateMirror = false;
-        placeMirror = false;
-        pickUpMirror = false;
-        laserTrace = false;
-        Debug.Log("All Objects Loaded");
+        if (isTutComplete == false)
+        {
+            mirrorActive = false;            
+            shootLaser = false;
+            showLaser = false;
+            rotateMirror = false;
+            placeMirror = false;
+            pickUpMirror = false;
+            laserTrace = false;
+            Debug.Log("All Objects Loaded");
+        }
+        else if (isTutComplete == true)
+        {
+            mirrorActive = true;            
+            shootLaser = true;
+            showLaser = true;
+            rotateMirror = true;
+            placeMirror = true;
+            pickUpMirror = true;
+            laserTrace = true;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -102,6 +117,7 @@ public class PlayerCollisionsHELPSCREEN : MonoBehaviour
             shootLaser = true;
             instructionsText.text = "Press the space bar to shoot the laser";
             laserShootPanel.SetActive(false);
+            isTutComplete = true;
         }
     }
 }

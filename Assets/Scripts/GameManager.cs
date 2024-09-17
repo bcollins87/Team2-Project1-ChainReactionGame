@@ -83,16 +83,16 @@ public class GameManager : MonoBehaviour
         // Set tutorial controls to inactive
         if (scene.name == "Help Scene")
         {
-            if (mirrorPlacementTut != null)
+            if (mirrorPlacementTut = null)
                 mirrorPlacementTut.SetActive(false);
 
-            if (playerTut != null)
+            if (playerTut = null)
             {
                 playerTut.SetActive(false);
                 Debug.Log("Player Not found");
             }
 
-            if (tutorialBoxes != null)
+            if (tutorialBoxes = null)
                 tutorialBoxes.SetActive(false);
         }
         else
