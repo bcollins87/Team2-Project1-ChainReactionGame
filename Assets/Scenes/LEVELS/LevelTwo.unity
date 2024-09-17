@@ -2762,6 +2762,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 836697514}
   m_SourcePrefab: {fileID: 100100000, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
+--- !u!114 &266406464 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5136473725599908846, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
+  m_PrefabInstance: {fileID: 266406463}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836697513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ab567e95ba510a40b9599676280da97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &276789074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6605,16 +6616,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2033676105}
   m_SourcePrefab: {fileID: 100100000, guid: 8b311f747d3dc714ba13fdbe6410ac1d, type: 3}
---- !u!4 &583948313 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1383400489329819570, guid: 8b311f747d3dc714ba13fdbe6410ac1d, type: 3}
-  m_PrefabInstance: {fileID: 583948312}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &583948314 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6295691049792944883, guid: 8b311f747d3dc714ba13fdbe6410ac1d, type: 3}
-  m_PrefabInstance: {fileID: 583948312}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &592132879
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15948,6 +15949,14 @@ PrefabInstance:
       propertyPath: laserStart
       value: 
       objectReference: {fileID: 1607593841}
+    - target: {fileID: 1405613843726968848, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 266406464}
+    - target: {fileID: 1405613843726968848, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
+      propertyPath: elevatorAnimator
+      value: 
+      objectReference: {fileID: 2033676105}
     - target: {fileID: 1490321348508632165, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_Name
       value: Player Stuff
@@ -22205,23 +22214,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c86830a20ae488347943d0faae839236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2033676105
-MonoBehaviour:
+--- !u!95 &2033676105
+Animator:
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 23430031}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6659e24478099a448b3120dfa23537bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftDoor: {fileID: 583948314}
-  rightDoor: {fileID: 583948313}
-  doorOpenDistance: 0.5
-  doorCloseDistance: 1.5
-  doorSpeed: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b1acbcac43d191e419d600b2187e3039, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &2039715928 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5715384973331311576, guid: d8e62113aeeee43d183ac5185ed7cb83, type: 3}
