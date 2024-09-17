@@ -158,6 +158,14 @@ public class MirrorPlacement : MonoBehaviour
                     Vector3 spawnPosition = hit.point + new Vector3(0, mirrorHeightOffset, 0);
 
                     currentMirror = Instantiate(mirrorPrefab, spawnPosition, Quaternion.identity);
+
+                    // Set collider to trigger during placement
+                    Collider mirrorCollider = currentMirror.GetComponent<Collider>();
+                    if (mirrorCollider != null)
+                    {
+                        mirrorCollider.isTrigger = true;
+                    }
+
                     IsPlacingMirror = true;
                 }
                 else
@@ -167,6 +175,7 @@ public class MirrorPlacement : MonoBehaviour
             }
         }
     }
+
 
     void MoveMirrorToMousePosition()
     {
@@ -224,6 +233,13 @@ public class MirrorPlacement : MonoBehaviour
                 playerController.enabled = true;
             }
 
+            // Set collider back to non-trigger when placed
+            Collider mirrorCollider = currentMirror.GetComponent<Collider>();
+            if (mirrorCollider != null)
+            {
+                mirrorCollider.isTrigger = false;
+            }
+
             currentMirror = null;
             mirrorsPlaced++;
             mirrorNumberText.text = "" + (maxMirrors - mirrorsPlaced);
@@ -240,6 +256,7 @@ public class MirrorPlacement : MonoBehaviour
             }
         }
     }
+
 
     void PickupMirror()
     {
