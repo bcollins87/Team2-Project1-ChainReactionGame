@@ -82,13 +82,13 @@ public class GameManager : MonoBehaviour
         // Set tutorial controls to inactive
         if (scene.name == "Help Scene")
         {
-            if (mirrorPlacementTut != null)
+            if (mirrorPlacementTut = null)
                 mirrorPlacementTut.SetActive(false);
 
-            if (playerTut != null)
+            if (playerTut = null)
                 playerTut.SetActive(false);
 
-            if (tutorialBoxes != null)
+            if (tutorialBoxes = null)
                 tutorialBoxes.SetActive(false);
         }
         else
@@ -209,6 +209,10 @@ public class GameManager : MonoBehaviour
             {
                 // Level Three completed
                 Debug.Log("Level Three completed. Elevator unlocked.");
+            }
+            else if (currentSceneName == "Help Scene 2")
+            {
+                winMenu.SetActive(true);
             }
             else
             {

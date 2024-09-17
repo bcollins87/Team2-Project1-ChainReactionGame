@@ -16,6 +16,7 @@ public class MenuLoader : MonoBehaviour
     private Scene scene;
 
     public GameManager gameManager;
+    public GameObject playerMovement;
 
     private bool isMenuActive = false;
     // Start is called before the first frame update
@@ -44,7 +45,7 @@ public class MenuLoader : MonoBehaviour
     public void UpdateSceneMenu()
     {
         scene = SceneManager.GetActiveScene();
-        //Debug.Log("Active Scene is '" + scene.name + "'.");
+        Debug.Log("Active Scene is '" + scene.name + "'.");
 
         if (scene.name == "MainMenu")
         {
@@ -66,13 +67,40 @@ public class MenuLoader : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.M) && !isMenuActive)
             {
+                Debug.Log("Help Menu Displayed");
                 helpMenuUI.gameObject.SetActive(true);
                 isMenuActive = true;
+                gameManager.player.SetActive(false);
+                playerMovement.SetActive(false);
             }
             else if ((Input.GetKeyDown(KeyCode.M) && isMenuActive))
             {
                 helpMenuUI.gameObject.SetActive(false);
                 isMenuActive = false;
+                gameManager.player.SetActive(true);
+                playerMovement.SetActive(true);
+            }
+            mainMenuUI.SetActive(false);
+            optionsMenuUI.SetActive(false);
+            creditsMenuUI.SetActive(false);
+            playerUI.SetActive(true);
+        }
+        else if (scene.name == "Help Scene 2")
+        {
+            if (Input.GetKeyDown(KeyCode.M) && !isMenuActive)
+            {
+                Debug.Log("Help Menu Displayed");
+                helpMenuUI.gameObject.SetActive(true);
+                isMenuActive = true;
+                gameManager.player.SetActive(false);
+                playerMovement.SetActive(false);
+            }
+            else if ((Input.GetKeyDown(KeyCode.M) && isMenuActive))
+            {
+                helpMenuUI.gameObject.SetActive(false);
+                isMenuActive = false;
+                gameManager.player.SetActive(true);
+                playerMovement.SetActive(true);
             }
             mainMenuUI.SetActive(false);
             optionsMenuUI.SetActive(false);

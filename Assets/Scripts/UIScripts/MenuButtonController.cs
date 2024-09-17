@@ -98,7 +98,7 @@ public class MenuButton : MonoBehaviour
         {
             if (scene.name == "Help Scene")
             {
-                UnityEngine.SceneManagement.SceneManager.LoadScene("Quit");
+                Application.Quit();
             }
             else 
             {
@@ -142,12 +142,7 @@ public class MenuButton : MonoBehaviour
         {
             if (scene.name == "MainMenu")
             {
-                UnityEngine.SceneManagement.SceneManager.LoadScene("Credits");
-               // gameManager.tutorialStuff.SetActive(false);
-                Cursor.visible = false;
-                gameManager.mirrorPlacementTut.SetActive(false);
-                gameManager.playerTut.SetActive(false);
-                gameManager.tutorialBoxes.SetActive(false);
+                Application.Quit();
             }
             
             else
