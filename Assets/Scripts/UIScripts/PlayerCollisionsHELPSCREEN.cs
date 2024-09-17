@@ -16,7 +16,7 @@ public class PlayerCollisionsHELPSCREEN : MonoBehaviour
     public GameObject mirrorSetPanel;
     public GameObject mirrorPickUpPanel;
     public GameObject laserTracePanel;
-    //public GameObject winPanel;
+    public GameObject winPanel;
 
     //bools to disable actions
     public bool mirrorActive;
@@ -41,6 +41,7 @@ public class PlayerCollisionsHELPSCREEN : MonoBehaviour
         mirrorSetPanel.SetActive(false);
         mirrorPickUpPanel.SetActive(false);
         laserTracePanel.SetActive(false);
+        winPanel.SetActive(false);
         if (isTutComplete == false)
         {
             mirrorActive = false;            
@@ -118,6 +119,7 @@ public class PlayerCollisionsHELPSCREEN : MonoBehaviour
             instructionsText.text = "Press the space bar to shoot the laser";
             laserShootPanel.SetActive(false);
             isTutComplete = true;
+            winPanel.SetActive(true);
         }
     }
 }

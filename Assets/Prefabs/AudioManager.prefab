@@ -59,6 +59,7 @@ MonoBehaviour:
   enemyDeath: {fileID: 8300000, guid: 6c65bcc0ec4878944ae636167e7ec265, type: 3}
   elevatorBeep: {fileID: 8300000, guid: d37809c7b38e11b4e9cc621fa4a5472d, type: 3}
   mirrorHoverClip: {fileID: 8300000, guid: d6b27734c17ec994bb83e0ccc1b031ef, type: 3}
+  allEnemiesDefeatedClip: {fileID: 0}
 --- !u!82 &5147918716021817094
 AudioSource:
   m_ObjectHideFlags: 0
@@ -68,7 +69,7 @@ AudioSource:
   m_GameObject: {fileID: 3124957032476085204}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: b33766bd43b813f4281070a278f8e983, type: 2}
   m_audioClip: {fileID: 8300000, guid: 1615f22c2f3380043b6596025ac2a698, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.386
@@ -164,6 +165,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 3124957032476085204}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60602e26d7161684a83a8760ff41cbd6, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f36b68fa9c3af1408372ed278874be5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  masterVolume: {fileID: 0}
+  masterVolumeMixer: {fileID: 0}

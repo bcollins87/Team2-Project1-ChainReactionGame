@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+//using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     private Scene scene;
-    public PlayerCollisionsHELPSCREEN playerCollisionsHELPSCREEN;
 
     public void OnClickQuitButton()
     {
@@ -71,10 +71,5 @@ public class UIManager : MonoBehaviour
     {
         scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
-    }
-
-    public void OnClickResumeTut()
-    {
-        
     }
 }

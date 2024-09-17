@@ -3126,6 +3126,7 @@ MonoBehaviour:
   mirrorSetPanel: {fileID: 1922356611}
   mirrorPickUpPanel: {fileID: 1968649512}
   laserTracePanel: {fileID: 1605255859}
+  winPanel: {fileID: 1668436583}
   mirrorActive: 0
   mirrorPickUp: 0
   showLaser: 0
@@ -4595,6 +4596,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fedba246dc2ebf448b5cdecdc7b944a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCollisionsHELPSCREEN: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!82 &473456869
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10678,8 +10681,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Pick Up (F)
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9aca5976adbebd64a830a702fe4c407a, type: 2}
+  m_sharedMaterial: {fileID: 8593442401047910442, guid: 9aca5976adbebd64a830a702fe4c407a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -11552,6 +11555,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fedba246dc2ebf448b5cdecdc7b944a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCollisionsHELPSCREEN: {fileID: 306877212}
+  gameManager: {fileID: 1437774108}
 --- !u!114 &951682723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14133,6 +14138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fedba246dc2ebf448b5cdecdc7b944a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCollisionsHELPSCREEN: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!82 &1208426526
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15041,6 +15048,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fedba246dc2ebf448b5cdecdc7b944a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCollisionsHELPSCREEN: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!114 &1250715798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17846,11 +17855,11 @@ PrefabInstance:
     - target: {fileID: 5136473725599908846, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
       propertyPath: playerAnimator
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 306877214}
     - target: {fileID: 5136473725599908846, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
       propertyPath: mirrorPlacement
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 106254394}
     - target: {fileID: 5136473725599908846, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
       propertyPath: enemiesRemaining
       value: 1
@@ -17989,7 +17998,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 951682722}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnClickLevelOne
+        m_MethodName: OnClickResumeTut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20668,7 +20677,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1668436584
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22213,6 +22222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fedba246dc2ebf448b5cdecdc7b944a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCollisionsHELPSCREEN: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!82 &1855832567
 AudioSource:
   m_ObjectHideFlags: 0
@@ -25635,7 +25646,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: -69.99997}
+  m_AnchoredPosition: {x: 0, y: -70}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2120688727
@@ -25667,6 +25678,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fedba246dc2ebf448b5cdecdc7b944a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCollisionsHELPSCREEN: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!114 &2120688729
 MonoBehaviour:
   m_ObjectHideFlags: 0
