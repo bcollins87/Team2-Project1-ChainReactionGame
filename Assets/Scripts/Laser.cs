@@ -10,7 +10,6 @@ public class Laser : MonoBehaviour
     public float maxLaserLength = 100f; // Maximum length of the laser
     public float cooldownTime = 2.0f;  // Cooldown time before the laser can be fired again
     public int maxBounces = 10;        // Maximum number of bounces
-    public int availableShots = 3;     // Initial number of available shots
 
     public Color laserColorOn = Color.red;    // Laser color when active (red)
     public Color laserColorOff = Color.green; // Laser color when lights are off (green)
@@ -72,7 +71,7 @@ public class Laser : MonoBehaviour
         bool lightsOn = lightManager != null && lightManager.AreLightsOn();
 
         // Check if the player is detected by an enemy
-        bool playerDetected = gameManager != null && gameManager.IsPlayerDetected(); // Implement this method in your GameManager
+        bool playerDetected = gameManager != null && gameManager.IsPlayerDetected();
 
         // Manage laser visibility and color based on the lights and player detection
         if (!lightsOn)
@@ -104,7 +103,7 @@ public class Laser : MonoBehaviour
         }
 
         // Fire the laser
-        if (Input.GetKeyDown(KeyCode.Space) && cooldownRemaining <= 0 && !isFiring && availableShots > 0 && (mirrorPlacement == null || !mirrorPlacement.IsPlacingMirror))
+        if (Input.GetKeyDown(KeyCode.Space) && cooldownRemaining <= 0 && !isFiring && gameManager.shotsRemaining > 0 && (mirrorPlacement == null || !mirrorPlacement.IsPlacingMirror))
         {
             FireLaser();
         }
@@ -133,7 +132,6 @@ public class Laser : MonoBehaviour
         lineRenderer.endColor = laserColorOn;
 
         gameManager.FireLaser(); // Notify GameManager that the laser has been fired
-        availableShots--; // Decrease the number of available shots
 
         // Play laser firing sound
         if (audioManager != null && audioManager.laserShotClip != null)

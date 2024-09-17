@@ -126,6 +126,12 @@ public class GameManager : MonoBehaviour
             Debug.Log("Debug mode: All enemies killed.");
             KillAllEnemiesDebug();
         }
+
+        // Check lose condition
+        if (shotsRemaining <= 0 && enemiesRemaining > 0)
+        {
+            TriggerLoseCondition();
+        }
     }
 
     private void KillAllEnemiesDebug()
@@ -192,6 +198,12 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("AudioManager is null. Cannot play laser shot sound.");
         }
+
+        // Check for lose condition after firing
+        if (shotsRemaining <= 0 && enemiesRemaining > 0)
+        {
+            TriggerLoseCondition();
+        }
     }
 
     public void CheckGameState()
@@ -244,28 +256,24 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        else if (shotsFired >= maxShots && enemiesRemaining > 0)
-        {
-            if (winMenu != null && loseMenu != null)
-            {
-                loseMenu.SetActive(true);
-                winMenu.SetActive(false);
-                restartButton.SetActive(true);
-                Debug.Log("Lose condition met");
+    }
 
-                // Play lose sound
-                if (audioManager != null && audioManager.loseClip != null)
-                {
-                    audioManager.PlaySound(audioManager.loseClip);
-                }
-                else
-                {
-                    Debug.LogError("AudioManager or loseClip is null. Cannot play lose sound.");
-                }
+    private void TriggerLoseCondition()
+    {
+        if (loseMenu != null)
+        {
+            loseMenu.SetActive(true);
+            restartButton.SetActive(true);
+            Debug.Log("Lose condition met - Player has no shots left!");
+
+            // Play lose sound
+            if (audioManager != null && audioManager.loseClip != null)
+            {
+                audioManager.PlaySound(audioManager.loseClip);
             }
             else
             {
-                Debug.LogError("Win or Lose menu references are null.");
+                Debug.LogError("AudioManager or loseClip is null. Cannot play lose sound.");
             }
         }
     }
