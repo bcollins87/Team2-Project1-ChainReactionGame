@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour
 
     public Collider elevatorCollider;
 
+    // Added variable to track if the player is detected by any enemy
+    private bool isPlayerDetected = false;
+
     void Start()
     {
         // Initialize AudioManager reference
@@ -78,19 +81,18 @@ public class GameManager : MonoBehaviour
         }
 
         // Set tutorial controls to inactive
-
         if (scene.name == "Help Scene")
         {
-            if (mirrorPlacementTut = null)
+            if (mirrorPlacementTut != null)
                 mirrorPlacementTut.SetActive(false);
 
-            if (playerTut = null)
+            if (playerTut != null)
             {
                 playerTut.SetActive(false);
-                Debug.Log("PLayer Not found");
+                Debug.Log("Player Not found");
             }
 
-            if (tutorialBoxes = null)
+            if (tutorialBoxes != null)
                 tutorialBoxes.SetActive(false);
         }
         else
@@ -101,7 +103,7 @@ public class GameManager : MonoBehaviour
             if (playerTut != null)
             {
                 playerTut.SetActive(false);
-                Debug.Log("PLayer Not found");
+                Debug.Log("Player Not found");
             }
 
             if (tutorialBoxes != null)
@@ -283,7 +285,8 @@ public class GameManager : MonoBehaviour
             }
 
             Invoke("LoadLevel", 1);
-            transitionAnimator.SetTrigger("End");
+            if (transitionAnimator != null)
+                transitionAnimator.SetTrigger("End");
         }
         else
         {
@@ -305,5 +308,17 @@ public class GameManager : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    // Method to check if the player is detected by any enemy
+    public bool IsPlayerDetected()
+    {
+        return isPlayerDetected;
+    }
+
+    // Method for enemies to set the player's detection status
+    public void SetPlayerDetected(bool detected)
+    {
+        isPlayerDetected = detected;
     }
 }

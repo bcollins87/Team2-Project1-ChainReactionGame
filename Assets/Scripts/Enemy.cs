@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
     private GameManager gameManager;
     public AudioManager audioManager;  // Reference to AudioManager
     public Animator animator;
-    private Collider collider;
+    private Collider enemyCollider;  // Renamed to avoid conflict with inherited 'collider'
 
     // Patrol variables
     public Transform[] waypoints;  // Set waypoints in the Inspector
@@ -19,6 +19,11 @@ public class Enemy : MonoBehaviour
     public LayerMask obstacleLayer;  // Obstacles like walls
 
     private bool playerDetected = false;
+    private bool isDead = false;     // Track if the enemy is dead
+
+    // Spotlight detection
+    public Light playerSpotlight;    // Reference to the player's spotlight (assign in Inspector or find dynamically)
+    public float lightDetectionRadius = 7f;  // Radius in which the enemy can detect the player's light
 
     // Alert system
     public float alertDuration = 3f;   // Time enemy stays alert after detecting player
@@ -26,9 +31,12 @@ public class Enemy : MonoBehaviour
     private float alertTimer = 0f;
     private Vector3 lastKnownPosition; // Where the enemy detected the player
 
+    // Light manager for controlling lights
+    public LightManager lightManager; // Reference to the LightManager to control lights
+
     void Start()
     {
-        collider = GetComponent<Collider>();
+        enemyCollider = GetComponent<Collider>();
         gameManager = FindObjectOfType<GameManager>(); // Find GameManager automatically
         audioManager = FindObjectOfType<AudioManager>(); // Find AudioManager automatically
 
@@ -42,6 +50,17 @@ public class Enemy : MonoBehaviour
             Debug.LogError("AudioManager not found in the scene!");
         }
 
+        if (lightManager == null)
+        {
+            lightManager = FindObjectOfType<LightManager>(); // Automatically find the LightManager if not set
+        }
+
+        // Find the player's spotlight if it's not assigned in the inspector
+        if (playerSpotlight == null)
+        {
+            playerSpotlight = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Light>();
+        }
+
         // Start patrolling
         PatrolToNextWaypoint();
         animator.SetBool("isAlive", true);
@@ -49,6 +68,9 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        // If the enemy is dead, don't allow further detection or alert behavior
+        if (isDead) return;
+
         if (isAlerted)
         {
             AlertMode();
@@ -56,7 +78,7 @@ public class Enemy : MonoBehaviour
         else
         {
             Patrol();
-            DetectPlayer();
+            DetectPlayerSpotlight(); // Detect the player's spotlight
         }
     }
 
@@ -81,38 +103,57 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // Detect the player
-    void DetectPlayer()
+    // Detect the player's spotlight
+    void DetectPlayerSpotlight()
     {
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
+        if (playerSpotlight == null) return;  // Exit if no spotlight is found
 
-        foreach (Collider target in targetsInViewRadius)
+        // Get the position of the spotlight
+        Vector3 spotlightPosition = playerSpotlight.transform.position;
+        Vector3 directionToLight = (spotlightPosition - transform.position).normalized;
+        float distanceToLight = Vector3.Distance(transform.position, spotlightPosition);
+
+        // Check if the spotlight is within the detection radius
+        if (distanceToLight <= lightDetectionRadius)
         {
-            if (target.CompareTag("Player"))
+            float angleToLight = Vector3.Angle(transform.forward, directionToLight);
+
+            // Check if the light is within the enemy's field of view
+            if (angleToLight < fieldOfViewAngle / 2)
             {
-                Vector3 directionToTarget = (target.transform.position - transform.position).normalized;
-                float angleBetweenEnemyAndTarget = Vector3.Angle(transform.forward, directionToTarget);
-
-                if (angleBetweenEnemyAndTarget < fieldOfViewAngle / 2)
+                // Check for obstacles between enemy and the spotlight
+                if (!Physics.Raycast(transform.position, directionToLight, distanceToLight, obstacleLayer))
                 {
-                    if (!Physics.Raycast(transform.position, directionToTarget, Vector3.Distance(transform.position, target.transform.position), obstacleLayer))
-                    {
-                        playerDetected = true;
-                        lastKnownPosition = target.transform.position;
-                        isAlerted = true;
-                        alertTimer = alertDuration;
+                    playerDetected = true;
+                    lastKnownPosition = spotlightPosition;
+                    isAlerted = true;
+                    alertTimer = alertDuration;
 
-                        // Play alert sound
-                        if (audioManager != null && audioManager.enemyAlert != null)
-                        {
-                            audioManager.PlaySound(audioManager.enemyAlert);
-                        }
-                    }
-                    else
+                    Debug.Log("Player's spotlight detected!");
+
+                    // Play alert sound
+                    if (audioManager != null && audioManager.enemyAlert != null)
                     {
-                        playerDetected = false;
+                        audioManager.PlaySound(audioManager.enemyAlert);
+                    }
+
+                    // Turn on lights when the player's spotlight is detected
+                    if (lightManager != null)
+                    {
+                        lightManager.TurnLightsOn();
+                        Debug.Log("Spotlight detected, lights turned on!");
                     }
                 }
+            }
+        }
+
+        // If the spotlight is not detected, turn off the lights
+        if (!playerDetected && isAlerted)
+        {
+            if (lightManager != null)
+            {
+                lightManager.TurnLightsOff();
+                Debug.Log("Spotlight not detected, lights turned off!");
             }
         }
     }
@@ -126,6 +167,13 @@ public class Enemy : MonoBehaviour
         {
             isAlerted = false;
             PatrolToNextWaypoint();
+
+            // Turn off lights if the player's spotlight is no longer detected
+            if (lightManager != null)
+            {
+                lightManager.TurnLightsOff();
+                Debug.Log("Alert over, lights turned off!");
+            }
         }
     }
 
@@ -140,7 +188,8 @@ public class Enemy : MonoBehaviour
     {
         gameManager.EnemyKilled(); // Notify GameManager
         animator.SetBool("isAlive", false);
-        collider.enabled = false;
+        enemyCollider.enabled = false;
+        isDead = true;  // Mark the enemy as dead to prevent further detection
 
         // Play enemy death sound
         if (audioManager != null && audioManager.enemyDeathClip != null)
