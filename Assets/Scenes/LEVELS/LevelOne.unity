@@ -926,6 +926,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3284031049561096174, guid: 436d6c6ad13444243927518c3405f6ea, type: 3}
   m_PrefabInstance: {fileID: 993754996}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &86775926 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8712178465669942700, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
+  m_PrefabInstance: {fileID: 6030328124931961318}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &87058862 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5715384973331311576, guid: d8e62113aeeee43d183ac5185ed7cb83, type: 3}
@@ -11561,7 +11566,7 @@ PrefabInstance:
     - target: {fileID: 5136473725599908846, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
       propertyPath: restartButton
       value: 
-      objectReference: {fileID: 6030328124931961319}
+      objectReference: {fileID: 86775926}
     - target: {fileID: 5136473725599908846, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
       propertyPath: playerAnimator
       value: 
@@ -23394,6 +23399,7 @@ MonoBehaviour:
   leftDoor: {fileID: 3708792463911267425}
   rightDoor: {fileID: 3708792463911267428}
   doorOpenDistance: 2
+  doorCloseDistance: 2
   doorSpeed: 2
 --- !u!1001 &1742083105
 PrefabInstance:
@@ -26872,6 +26878,7 @@ MonoBehaviour:
   playerTut: {fileID: 0}
   mirrorPlacement: {fileID: 0}
   gameManager: {fileID: 170744527}
+  playerMovement: {fileID: 0}
 --- !u!4 &2051831583
 Transform:
   m_ObjectHideFlags: 0
@@ -28772,6 +28779,14 @@ PrefabInstance:
       propertyPath: menuLoader
       value: 
       objectReference: {fileID: 2051831582}
+    - target: {fileID: 1759045309122723013, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980977118160325983, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2491326048889902819, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -28779,6 +28794,10 @@ PrefabInstance:
     - target: {fileID: 2491326048889902819, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3455715103461884392, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 81
       objectReference: {fileID: 0}
     - target: {fileID: 3458941601487466737, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
       propertyPath: menuLoader
@@ -28896,16 +28915,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: PLAYER CANVAS
       objectReference: {fileID: 0}
+    - target: {fileID: 7356769167380751738, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8516950728386105099, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 104.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
---- !u!1 &6030328124931961319 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2824794974148118593, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
-  m_PrefabInstance: {fileID: 6030328124931961318}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &6030328124931961320 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7897734458301788841, guid: 3e9c9abac07c8b943b45ba237e6045b6, type: 3}
