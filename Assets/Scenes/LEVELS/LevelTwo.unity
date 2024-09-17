@@ -2725,6 +2725,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6051705825341761312, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 114093683}
+    - target: {fileID: 6051705825341761312, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
       propertyPath: mirrorPrefab
       value: 
       objectReference: {fileID: 7399476553629557585, guid: f8b926c5547db614c8e13c52e93269c6, type: 3}
@@ -10070,7 +10074,6 @@ MonoBehaviour:
   maxLaserLength: 50
   cooldownTime: 2
   maxBounces: 5
-  availableShots: 3
   laserColorOn: {r: 1, g: 0, b: 0, a: 1}
   laserColorOff: {r: 0, g: 1, b: 0, a: 1}
 --- !u!65 &924018175

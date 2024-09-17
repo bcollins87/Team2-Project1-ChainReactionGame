@@ -201,7 +201,6 @@ public class Laser : MonoBehaviour
         // Check the game state only after the laser stops firing
         gameManager.CheckGameState();
     }
-
     void HandleHit(RaycastHit hit)
     {
         if (hit.collider.CompareTag("Mirror") && bouncesLeft > 0)

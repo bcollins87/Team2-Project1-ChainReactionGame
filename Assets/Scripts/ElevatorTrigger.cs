@@ -21,12 +21,16 @@ public class ElevatorTrigger : MonoBehaviour
             Debug.Log("Player entered the elevator.");
             if (gameManager != null)
             {
-                gameManager.PlayerEnteredElevator();  // Notify GameManager to load the next level
+                gameManager.PlayerEnteredElevator();  // Notify GameManager to load the next level or trigger the win menu
             }
             else
             {
-                Debug.LogError("GameManager reference is null.");
+                Debug.LogError("GameManager reference is null in ElevatorTrigger.");
             }
+        }
+        else
+        {
+            Debug.Log("Another object entered the elevator: " + other.name);
         }
     }
 }

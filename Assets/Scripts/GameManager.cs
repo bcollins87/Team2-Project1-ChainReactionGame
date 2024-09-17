@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     public Animator elevatorAnimator;
     public Animator transitionAnimator;
 
-    // UI Update Vars
+    // UI Update Variables
     public GameObject mirrorPlacement;
     private int mirrorsLeft;
     public MenuLoader menuLoader;
@@ -86,9 +86,7 @@ public class GameManager : MonoBehaviour
                 mirrorPlacementTut.SetActive(false);
 
             if (playerTut != null)
-            {
                 playerTut.SetActive(false);
-            }
 
             if (tutorialBoxes != null)
                 tutorialBoxes.SetActive(false);
@@ -99,9 +97,7 @@ public class GameManager : MonoBehaviour
                 mirrorPlacementTut.SetActive(false);
 
             if (playerTut != null)
-            {
                 playerTut.SetActive(false);
-            }
 
             if (tutorialBoxes != null)
                 tutorialBoxes.SetActive(false);
@@ -127,11 +123,8 @@ public class GameManager : MonoBehaviour
             KillAllEnemiesDebug();
         }
 
-        // Check lose condition
-        if (shotsRemaining <= 0 && enemiesRemaining > 0)
-        {
-            TriggerLoseCondition();
-        }
+        // Remove the immediate lose condition check from here
+        // We'll handle the lose condition in CheckGameState() after firing
     }
 
     private void KillAllEnemiesDebug()
@@ -168,7 +161,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError("AudioManager or enemyDeathClip is null. Cannot play death sound.");
         }
 
-        CheckGameState(); // Check if the game should end
+        // No need to call CheckGameState() here; we'll call it after the laser stops firing
     }
 
     public void FireLaser()
@@ -194,16 +187,6 @@ public class GameManager : MonoBehaviour
         {
             audioManager.PlaySound(audioManager.laserShotClip);
         }
-        else
-        {
-            Debug.LogError("AudioManager is null. Cannot play laser shot sound.");
-        }
-
-        // Check for lose condition after firing
-        if (shotsRemaining <= 0 && enemiesRemaining > 0)
-        {
-            TriggerLoseCondition();
-        }
     }
 
     public void CheckGameState()
@@ -213,48 +196,39 @@ public class GameManager : MonoBehaviour
         // Win condition: No enemies left
         if (enemiesRemaining <= 0)
         {
-            if (SceneManager.GetActiveScene().name == "Level3")
-            {
-                if (winMenu != null && loseMenu != null)
-                {
-                    winMenu.SetActive(true);
-                    loseMenu.SetActive(false);
-                    restartButton.SetActive(true);
-                    Debug.Log("Win condition met - Final Level Completed");
+            // Enable elevator collider for all levels
+            if (elevatorAnimator != null)
+                elevatorAnimator.SetTrigger("levelComplete");
+            if (elevatorCollider != null)
+                elevatorCollider.enabled = true;
 
-                    // Play win sound
-                    if (audioManager != null && audioManager.winClip != null)
-                    {
-                        audioManager.PlaySound(audioManager.winClip);
-                    }
-                    else
-                    {
-                        Debug.LogError("AudioManager or winClip is null. Cannot play win sound.");
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Win or Lose menu references are null.");
-                }
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            Debug.Log("Current Scene Name: " + currentSceneName);
+
+            if (currentSceneName == "LevelThree")
+            {
+                // Level Three completed
+                Debug.Log("Level Three completed. Elevator unlocked.");
             }
             else
             {
                 Debug.Log("Enemies defeated. Unlocking the elevator for the next level.");
-                if (elevatorAnimator != null)
-                    elevatorAnimator.SetTrigger("levelComplete");
-                if (elevatorCollider != null)
-                    elevatorCollider.enabled = true;
-
-                // Play the "all enemies defeated" sound
-                if (audioManager != null && audioManager.allEnemiesDefeatedClip != null)
-                {
-                    audioManager.PlaySound(audioManager.allEnemiesDefeatedClip);
-                }
-                else
-                {
-                    Debug.LogError("AudioManager or allEnemiesDefeatedClip is null. Cannot play all enemies defeated sound.");
-                }
             }
+
+            // Play the "all enemies defeated" sound
+            if (audioManager != null && audioManager.allEnemiesDefeatedClip != null)
+            {
+                audioManager.PlaySound(audioManager.allEnemiesDefeatedClip);
+            }
+            else
+            {
+                Debug.LogError("AudioManager or allEnemiesDefeatedClip is null. Cannot play all enemies defeated sound.");
+            }
+        }
+        else if (shotsRemaining <= 0)
+        {
+            // Lose condition: No shots remaining and enemies still present
+            TriggerLoseCondition();
         }
     }
 
@@ -280,18 +254,50 @@ public class GameManager : MonoBehaviour
 
     public void PlayerEnteredElevator()
     {
+        Debug.Log("PlayerEnteredElevator() called.");
         if (enemiesRemaining <= 0)
         {
+            Debug.Log("Enemies remaining is zero or less.");
             string currentLevel = SceneManager.GetActiveScene().name;
+            Debug.Log("Current Level: " + currentLevel);
             nextLevelName = "";
 
             if (currentLevel == "LevelOne")
             {
                 nextLevelName = "LevelTwo";
+                Debug.Log("Next Level is LevelTwo.");
             }
             else if (currentLevel == "LevelTwo")
             {
                 nextLevelName = "LevelThree";
+                Debug.Log("Next Level is LevelThree.");
+            }
+            else if (currentLevel == "LevelThree")
+            {
+                Debug.Log("Final level completed. Activating win menu.");
+                // Activate win menu
+                if (winMenu != null && loseMenu != null)
+                {
+                    winMenu.SetActive(true);
+                    loseMenu.SetActive(false);
+                    restartButton.SetActive(true);
+                    Debug.Log("Win condition met - Final Level Completed");
+
+                    // Play win sound
+                    if (audioManager != null && audioManager.winClip != null)
+                    {
+                        audioManager.PlaySound(audioManager.winClip);
+                    }
+                    else
+                    {
+                        Debug.LogError("AudioManager or winClip is null. Cannot play win sound.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Win or Lose menu references are null.");
+                }
+                return; // Exit the method as there's no next level
             }
             else
             {
