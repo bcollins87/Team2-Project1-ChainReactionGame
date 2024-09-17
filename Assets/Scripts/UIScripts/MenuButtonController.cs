@@ -82,7 +82,7 @@ public class MenuButton : MonoBehaviour
                 gameManager.mirrorPlacementTut.SetActive(false);
                 gameManager.playerTut.SetActive(false);
                 gameManager.tutorialBoxes.SetActive(false);
-                Cursor.visible = false;
+                //Cursor.visible = false;
             }
             else
             {
@@ -91,7 +91,7 @@ public class MenuButton : MonoBehaviour
                 gameManager.mirrorPlacementTut.SetActive(false);
                 gameManager.playerTut.SetActive(false);
                 gameManager.tutorialBoxes.SetActive(false);
-                Cursor.visible = false;
+                //Cursor.visible = false;
             }
         }
         else if (indexHere == 2)
@@ -156,7 +156,7 @@ public class MenuButton : MonoBehaviour
             {
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Credits");
                 //gameManager.tutorialStuff.SetActive(false);
-                Cursor.visible = false;
+                //Cursor.visible = false;
                 gameManager.mirrorPlacementTut.SetActive(false);
                 gameManager.playerTut.SetActive(false);
                 gameManager.tutorialBoxes.SetActive(false);
@@ -165,7 +165,7 @@ public class MenuButton : MonoBehaviour
             {
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
                 //gameManager.tutorialStuff.SetActive(false);
-                Cursor.visible = false;
+                //Cursor.visible = false;
                 gameManager.mirrorPlacementTut.SetActive(false);
                 gameManager.playerTut.SetActive(false);
                 gameManager.tutorialBoxes.SetActive(false);
