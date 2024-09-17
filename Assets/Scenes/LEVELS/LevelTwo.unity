@@ -2695,7 +2695,7 @@ PrefabInstance:
     - target: {fileID: 5136473725599908846, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
       propertyPath: elevatorAnimator
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2033676105}
     - target: {fileID: 5136473725599908846, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
       propertyPath: elevatorCollider
       value: 
