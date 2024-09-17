@@ -31,8 +31,6 @@ public class GameManager : MonoBehaviour
     public Animator elevatorAnimator;
     public Animator transitionAnimator;
 
-    public GameObject activePlayer;
-
     // UI Update Vars
     public GameObject mirrorPlacement;
     private int mirrorsLeft;
@@ -54,6 +52,9 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("AudioManager not found in the scene!");
             }
         }
+
+        //Get active scene
+        scene = SceneManager.GetActiveScene();
 
         // Initialize game variables
         enemiesRemaining = totalEnemies;
@@ -77,14 +78,35 @@ public class GameManager : MonoBehaviour
         }
 
         // Set tutorial controls to inactive
-        if (mirrorPlacementTut != null)
-            mirrorPlacementTut.SetActive(false);
 
-        if (playerTut != null)
-            playerTut.SetActive(false);
+        if (scene.name == "Help Scene")
+        {
+            if (mirrorPlacementTut = null)
+                mirrorPlacementTut.SetActive(false);
 
-        if (tutorialBoxes != null)
-            tutorialBoxes.SetActive(false);
+            if (playerTut = null)
+            {
+                playerTut.SetActive(false);
+                Debug.Log("PLayer Not found");
+            }
+
+            if (tutorialBoxes = null)
+                tutorialBoxes.SetActive(false);
+        }
+        else
+        {
+            if (mirrorPlacementTut != null)
+                mirrorPlacementTut.SetActive(false);
+
+            if (playerTut != null)
+            {
+                playerTut.SetActive(false);
+                Debug.Log("PLayer Not found");
+            }
+
+            if (tutorialBoxes != null)
+                tutorialBoxes.SetActive(false);
+        }
 
         // Ensure win and lose menus are hidden at start
         if (winMenu != null)

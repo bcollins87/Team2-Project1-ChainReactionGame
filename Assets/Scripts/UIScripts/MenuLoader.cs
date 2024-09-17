@@ -11,6 +11,8 @@ public class MenuLoader : MonoBehaviour
     public GameObject creditsMenuUI;
     public GameObject helpMenuUI;
     public GameObject playerUI;
+    public GameObject playerTut;
+    public GameObject mirrorPlacement;
     private Scene scene;
 
     public GameManager gameManager;
