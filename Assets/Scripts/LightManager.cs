@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,40 +5,41 @@ public class LightManager : MonoBehaviour
 {
     public List<Light> lights;  // List of all lights in the scene
 
+    private bool lightsOn = false; // Track the current state of the lights
+
     void Start()
     {
-        // Turn off all lights at the start of the game
-        TurnLightsOff();
+        // Initialize lights based on the starting state
+        UpdateLights();
     }
 
     public void TurnLightsOn()
     {
-        foreach (Light light in lights)
-        {
-            light.enabled = true;
-        }
+        lightsOn = true;
+        UpdateLights();
         Debug.Log("Lights turned on!");
     }
 
     public void TurnLightsOff()
     {
-        foreach (Light light in lights)
-        {
-            light.enabled = false;
-        }
+        lightsOn = false;
+        UpdateLights();
         Debug.Log("Lights turned off!");
     }
 
-    // This is the method you need
     public bool AreLightsOn()
+    {
+        return lightsOn;
+    }
+
+    private void UpdateLights()
     {
         foreach (Light light in lights)
         {
-            if (light.enabled)
+            if (light != null)
             {
-                return true; // If any light is on, return true
+                light.enabled = lightsOn;
             }
         }
-        return false; // All lights are off
     }
 }

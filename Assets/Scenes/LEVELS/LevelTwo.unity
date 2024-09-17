@@ -1137,6 +1137,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2357793570636298538, guid: 8def464f289850e4a904ac828a2bc231, type: 3}
+      propertyPath: allEnemiesDefeatedClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 387229e7f78e00348bff9bb2eae00b00, type: 3}
     - target: {fileID: 3124957032476085204, guid: 8def464f289850e4a904ac828a2bc231, type: 3}
       propertyPath: m_Name
       value: AudioManager
@@ -9072,6 +9076,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 603553005}
     m_Modifications:
     - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 114093683}
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: lightManager
       value: 
       objectReference: {fileID: 836697514}
@@ -16016,6 +16024,18 @@ PrefabInstance:
       propertyPath: m_BackGroundColor.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8481082314995898130, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
+      propertyPath: m_Color.b
+      value: 0.025639346
+      objectReference: {fileID: 0}
+    - target: {fileID: 8481082314995898130, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5943396
+      objectReference: {fileID: 0}
+    - target: {fileID: 8481082314995898130, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5552070749337025684, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
@@ -20446,6 +20466,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 603553005}
     m_Modifications:
     - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 114093683}
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: lightManager
       value: 
       objectReference: {fileID: 836697514}
@@ -23745,6 +23769,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 603553005}
     m_Modifications:
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 114093683}
     - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: lightManager
       value: 

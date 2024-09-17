@@ -1387,6 +1387,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1570512536}
     m_Modifications:
     - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 368971200}
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: lightManager
       value: 
       objectReference: {fileID: 1007963075}
@@ -1397,6 +1401,14 @@ PrefabInstance:
     - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: fieldOfViewAngle
       value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: obstacleLayer.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_Name
@@ -10755,6 +10767,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1570512536}
     m_Modifications:
     - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 368971200}
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: lightManager
       value: 
       objectReference: {fileID: 1007963075}
@@ -10768,11 +10784,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: playerLayer.m_Bits
-      value: 0
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: obstacleLayer.m_Bits
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_Name
@@ -30371,6 +30387,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1570512536}
     m_Modifications:
     - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 368971200}
+    - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: lightManager
       value: 
       objectReference: {fileID: 1007963075}
@@ -30384,11 +30404,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: playerLayer.m_Bits
-      value: 0
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 1944551895424982710, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: obstacleLayer.m_Bits
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8076608814861033416, guid: 263cdc5918f98a742928e2c5107a5a46, type: 3}
       propertyPath: m_Name

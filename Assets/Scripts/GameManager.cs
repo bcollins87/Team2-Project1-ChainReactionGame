@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -41,8 +40,8 @@ public class GameManager : MonoBehaviour
 
     public Collider elevatorCollider;
 
-    // Added variable to track if the player is detected by any enemy
-    private bool isPlayerDetected = false;
+    // Detection tracking variables
+    private int detectionCount = 0; // Tracks the number of enemies detecting the player
 
     void Start()
     {
@@ -83,16 +82,15 @@ public class GameManager : MonoBehaviour
         // Set tutorial controls to inactive
         if (scene.name == "Help Scene")
         {
-            if (mirrorPlacementTut == null)
+            if (mirrorPlacementTut != null)
                 mirrorPlacementTut.SetActive(false);
 
-            if (playerTut == null)
+            if (playerTut != null)
             {
                 playerTut.SetActive(false);
-                Debug.Log("Player Not found");
             }
 
-            if (tutorialBoxes == null)
+            if (tutorialBoxes != null)
                 tutorialBoxes.SetActive(false);
         }
         else
@@ -103,7 +101,6 @@ public class GameManager : MonoBehaviour
             if (playerTut != null)
             {
                 playerTut.SetActive(false);
-                Debug.Log("Player Not found");
             }
 
             if (tutorialBoxes != null)
@@ -236,7 +233,7 @@ public class GameManager : MonoBehaviour
                 if (elevatorCollider != null)
                     elevatorCollider.enabled = true;
 
-                // **Play the "all enemies defeated" sound**
+                // Play the "all enemies defeated" sound
                 if (audioManager != null && audioManager.allEnemiesDefeatedClip != null)
                 {
                     audioManager.PlaySound(audioManager.allEnemiesDefeatedClip);
@@ -323,12 +320,21 @@ public class GameManager : MonoBehaviour
     // Method to check if the player is detected by any enemy
     public bool IsPlayerDetected()
     {
-        return isPlayerDetected;
+        return detectionCount > 0;
     }
 
     // Method for enemies to set the player's detection status
     public void SetPlayerDetected(bool detected)
     {
-        isPlayerDetected = detected;
+        if (detected)
+        {
+            detectionCount++;
+            Debug.Log("Player detected by an enemy. Detection count: " + detectionCount);
+        }
+        else
+        {
+            detectionCount = Mathf.Max(0, detectionCount - 1);
+            Debug.Log("Player lost by an enemy. Detection count: " + detectionCount);
+        }
     }
 }
