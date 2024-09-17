@@ -6850,6 +6850,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3165934654137674518, guid: 88b4c6a656a61473e927d368466869f0, type: 3}
   m_PrefabInstance: {fileID: 602948589}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &521351982 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1383400489329819570, guid: 8b311f747d3dc714ba13fdbe6410ac1d, type: 3}
+  m_PrefabInstance: {fileID: 938096750}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &522807721
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14242,7 +14247,7 @@ PrefabInstance:
     - target: {fileID: 5136473725599908846, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
       propertyPath: elevatorAnimator
       value: 
-      objectReference: {fileID: 1549137089}
+      objectReference: {fileID: 0}
     - target: {fileID: 5136473725599908846, guid: 19c7f71a0da93bd4cac017f27bfc66eb, type: 3}
       propertyPath: elevatorCollider
       value: 
@@ -14931,7 +14936,7 @@ PrefabInstance:
     - target: {fileID: 1405613843726968848, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: elevatorAnimator
       value: 
-      objectReference: {fileID: 1549137089}
+      objectReference: {fileID: 0}
     - target: {fileID: 1490321348508632165, guid: f248742bd85e0ee49a9572bee94a5042, type: 3}
       propertyPath: m_Name
       value: Player Stuff
@@ -22139,6 +22144,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3b86514cf746a5544b418a79aaf2968d, type: 3}
   m_PrefabInstance: {fileID: 1497872829}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1504560921 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6295691049792944883, guid: 8b311f747d3dc714ba13fdbe6410ac1d, type: 3}
+  m_PrefabInstance: {fileID: 938096750}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1508400299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22531,27 +22541,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c86830a20ae488347943d0faae839236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &1549137089
-Animator:
-  serializedVersion: 5
+--- !u!114 &1549137089
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1549137087}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b1acbcac43d191e419d600b2187e3039, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6659e24478099a448b3120dfa23537bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftDoor: {fileID: 1504560921}
+  rightDoor: {fileID: 521351982}
+  doorOpenDistance: 0.5
+  doorCloseDistance: 1.5
+  doorSpeed: 1
 --- !u!1 &1549951031
 GameObject:
   m_ObjectHideFlags: 0
